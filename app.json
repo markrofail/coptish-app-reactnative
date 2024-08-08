@@ -1,27 +1,37 @@
 {
-  "expo": {
-    "name": "coptish-app-reactnative",
-    "slug": "coptish-app-reactnative",
-    "version": "1.0.0",
-    "orientation": "portrait",
-    "icon": "./assets/icon.png",
-    "userInterfaceStyle": "light",
-    "splash": {
-      "image": "./assets/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
-    },
-    "ios": {
-      "supportsTablet": true
-    },
-    "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
-      }
-    },
-    "web": {
-      "favicon": "./assets/favicon.png"
+    "expo": {
+        "name": "Coptish",
+        "slug": "coptish-app-reactnative",
+        "version": "1.0.0",
+        "orientation": "default",
+        "icon": "./assets/images/icon.png",
+        "userInterfaceStyle": "light",
+        "splash": {
+            "image": "./assets/images/splash.png",
+            "resizeMode": "contain",
+            "backgroundColor": "#FFFFFF"
+        },
+        "ios": {
+            "supportsTablet": true,
+            "bundleIdentifier": "com.coptish.coptish"
+        },
+        "android": {
+            "adaptiveIcon": {
+                "foregroundImage": "./assets/images/adaptive-icon.png",
+                "backgroundColor": "#FFFFFF"
+            },
+            "package": "com.coptish.coptish"
+        },
+        "plugins": [
+            ["expo-asset", { "assets": ["./assets/coptish-datastore"] }],
+            ["expo-screen-orientation", { "initialOrientation": "DEFAULT" }],
+            "expo-font",
+            ["@sentry/react-native/expo", { "organization": "coptish", "project": "coptish-app" }]
+        ],
+        "extra": {
+            "eas": {
+                "projectId": "3ce3ddf8-890b-4c2b-a8e7-7dfefccc3f27"
+            }
+        }
     }
-  }
 }
