@@ -57,6 +57,7 @@ const isOccasion = (occasion: Types.Occasion) => (prayerOrSection: Types.Prayer 
     !prayerOrSection?.occasion || prayerOrSection?.occasion === occasion
 
 const filename = (path?: string) => path?.split('/').pop()
+const dirname = (path: string) => path.split('/').slice(0, -1).join('/')
 
 export const loadLiturgy = async (occasion: Types.Occasion): Promise<Types.Liturgy> => {
     const subDirs = await loadDirectory('coptish-datastore/liturgy-st-basil')
@@ -112,29 +113,21 @@ const makeDirectoryRecursive = async (path: string) => {
     })
 }
 
-export const initCoptishDatastore = async () => {
-    let i = 0
+export const initCoptishDatastore = async (callback?: (currentAsset: string) => void) => {
     for (const { path, module } of assets) {
         const targetPath = getAssetPath(path)
 
-        DEBUG && console.log(`[copying ${i + 1}/${assets.length}] ${JSON.stringify({ path, targetPath, isExist: await isExist(targetPath) }, null, 2)}`)
+        DEBUG && console.log(`[copying ${path}`)
+        callback?.(path)
 
-        const asset = Asset.fromModule(module)
-        await asset.downloadAsync()
-        const sourcePath = asset.localUri
-        if (!sourcePath) return
+        const [{ localUri: sourcePath }] = await Asset.loadAsync(module)
+        if (!sourcePath) continue
 
         try {
-            if (await isExist(targetPath)) {
-                const sourceContent = await FileSystem.readAsStringAsync(sourcePath, { encoding: 'utf8' })
-                const sourceChecksum = await Crypto.digestStringAsync(Crypto.CryptoDigestAlgorithm.SHA256, sourceContent)
+            const sourceInfo = await FileSystem.getInfoAsync(sourcePath, { md5: true })
+            const targetInfo = await FileSystem.getInfoAsync(targetPath, { md5: true })
 
-                const targetContent = await FileSystem.readAsStringAsync(targetPath, { encoding: 'utf8' })
-                const targetChecksum = await Crypto.digestStringAsync(Crypto.CryptoDigestAlgorithm.SHA256, targetContent)
-
-                if (sourceChecksum === targetChecksum) return
-                else await FileSystem.deleteAsync(targetPath)
-            }
+            if (targetInfo.exists && sourceInfo.exists && targetInfo.md5 === sourceInfo.md5) continue
         } catch (error) {
             console.error(error)
         }
@@ -149,20 +142,14 @@ export const initCoptishDatastore = async () => {
 
         try {
             await FileSystem.copyAsync({ from: sourcePath, to: targetPath })
+            const content = await FileSystem.readAsStringAsync(sourcePath, { encoding: 'utf8' })
+            await FileSystem.writeAsStringAsync(targetPath, content, { encoding: 'utf8' })
         } catch (error) {
             console.error(error)
         }
         DEBUG && console.log(`[checking file] ${targetPath} isExist:${await isExist(targetPath)}`)
         DEBUG && console.log(`[checking directory] ${dirPath} isExist:${await isExist(dirPath)}`)
-
-        i += 1
     }
-}
-
-const dirname = (path: string) => {
-    const parts = path.split('/')
-    parts.pop()
-    return parts.join('/')
 }
 
 export const clearAssets = async () => {
@@ -172,15 +159,18 @@ export const clearAssets = async () => {
     DEBUG && console.log(`[clear] ${ASSET_DIRECTORY}`)
 }
 
-export const initAssets = async () => {
-    await initCoptishDatastore()
+export const initAssets = async (callback?: (currentAsset: string) => void) => {
+    await initCoptishDatastore(callback)
 }
 
 export const treeAssets = async (path = 'coptish-datastore', indent = 0) => {
-    console.log('\t'.repeat(indent) + '- ' + filename(path))
+    let string = ''
+    string += '\t'.repeat(indent) + filename(path) + '\n'
     const files = (await FileSystem.readDirectoryAsync(getAssetPath(path))).sort()
     for (const file of files) {
-        if (await isDirectory(getAssetPath(`${path}/${file}`))) await treeAssets(`${path}/${file}`, indent + 2)
-        else console.log('\t'.repeat(indent + 2) + '- ' + `${path}/${file}`.split('/').slice(-2).join('/'))
+        const filepath = `${path}/${file}`
+        if (await isDirectory(getAssetPath(filepath))) string += await treeAssets(filepath, indent + 1)
+        else string += '\t'.repeat(indent + 2) + '- ' + filename(filepath) + '\n'
     }
+    return string
 }

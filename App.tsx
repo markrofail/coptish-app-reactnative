@@ -1,7 +1,7 @@
 import 'react-native-gesture-handler'
 
 import React, { useEffect, useState } from 'react'
-import { PaperProvider } from 'react-native-paper'
+import { PaperProvider, Snackbar } from 'react-native-paper'
 import { NavigationContainer, DefaultTheme } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { StatusBar } from 'expo-status-bar'
@@ -10,6 +10,7 @@ import { useFonts } from 'expo-font'
 import { NotoSerif_400Regular, NotoSerif_700Bold } from '@expo-google-fonts/noto-serif'
 import { NotoNaskhArabic_400Regular, NotoNaskhArabic_700Bold } from '@expo-google-fonts/noto-naskh-arabic'
 import { HomeScreen } from './src/screens/HomeScreen'
+import { DebugScreen } from './src/screens/DebugScreen'
 import { SplashScreen } from './src/screens/SplashScreen'
 import { PrayerScreen } from './src/screens/PrayerScreen'
 import { clearAssets, initAssets, treeAssets } from './src/utils/assets'
@@ -30,6 +31,7 @@ const MyTheme = {
 export type RootStackParamList = {
     Home: undefined
     Prayer: { path: string }
+    Debug: undefined
 }
 
 const Stack = createNativeStackNavigator<RootStackParamList>()
@@ -45,11 +47,14 @@ function App() {
     })
 
     const [assetsLoaded, setAssetsLoaded] = useState(false)
+    const [currentAsset, setCurrentAsset] = useState('')
+
     useEffect(() => {
         const init = async () => {
             // await clearAssets()
-            await initAssets()
+            await initAssets(setCurrentAsset)
             // await treeAssets()
+
             setAssetsLoaded(true)
         }
 
@@ -63,11 +68,15 @@ function App() {
                     <Stack.Navigator screenOptions={{ headerShown: false }}>
                         <Stack.Screen name="Home" component={HomeScreen} />
                         <Stack.Screen name="Prayer" component={PrayerScreen} />
+                        <Stack.Screen name="Debug" component={DebugScreen} options={{ headerShown: true }} />
                     </Stack.Navigator>
                 ) : (
                     <SplashScreen />
                 )}
                 <StatusBar hidden />
+                <Snackbar visible={!!currentAsset} onDismiss={() => setCurrentAsset('')}>
+                    {currentAsset}
+                </Snackbar>
             </NavigationContainer>
         </PaperProvider>
     )

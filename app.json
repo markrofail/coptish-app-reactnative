@@ -23,7 +23,7 @@
             "package": "com.coptish.coptish"
         },
         "plugins": [
-            ["expo-asset", { "assets": ["./assets/coptish-datastore"] }],
+            "expo-asset",
             ["expo-screen-orientation", { "initialOrientation": "DEFAULT" }],
             "expo-font",
             ["@sentry/react-native/expo", { "organization": "coptish", "project": "coptish-app" }]

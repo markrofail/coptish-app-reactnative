@@ -3,7 +3,7 @@ import { StyleSheet, Text as TextBase, View } from 'react-native'
 import { ZoomMultiplier } from '../utils/settings'
 import { useSettings } from '../hooks/useSettings'
 
-type Variant = 'title' | 'heading1' | 'heading2' | 'heading3' | 'heading4' | 'heading5' | 'heading6' | 'body' | 'menu' | 'pageHeader'
+type Variant = 'title' | 'heading1' | 'heading2' | 'heading3' | 'heading4' | 'heading5' | 'heading6' | 'body'
 export type Language = 'english' | 'coptic' | 'coptic_english' | 'arabic'
 
 export interface TextProps {

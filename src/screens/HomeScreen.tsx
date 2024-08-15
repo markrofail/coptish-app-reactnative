@@ -41,7 +41,7 @@ export const HomeScreen = () => {
                             <Text>{title}</Text>
                         </Button>
                     ))}
-                    <Button
+                    {/* <Button
                         mode="contained"
                         buttonColor="white"
                         textColor="black"
@@ -49,7 +49,7 @@ export const HomeScreen = () => {
                         onPress={() => navigation.navigate('Debug')}
                     >
                         <Text>Debug</Text>
-                    </Button>
+                    </Button> */}
                 </ScrollView>
             </View>
         </View>
