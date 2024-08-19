@@ -114,11 +114,14 @@ const makeDirectoryRecursive = async (path: string) => {
 }
 
 export const initCoptishDatastore = async (callback?: (currentAsset: string) => void) => {
+    let i = 0
     for (const { path, module } of assets) {
+        if (path.includes('readings/')) continue // TODO: remove
         const targetPath = getAssetPath(path)
 
-        DEBUG && console.log(`[copying ${path}`)
-        callback?.(path)
+        DEBUG && console.log(`[copying ${i + 1}/${assets.length}] ${path}`)
+        callback?.(`[copying ${i + 1}/${assets.length}] ${path}`)
+        i += 1
 
         const [{ localUri: sourcePath }] = await Asset.loadAsync(module)
         if (!sourcePath) continue
