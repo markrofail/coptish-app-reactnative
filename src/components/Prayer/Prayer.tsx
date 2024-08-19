@@ -13,7 +13,7 @@ interface PrayerProps {
 
 export const Prayer = ({ prayer: { title, sections, hidden } }: PrayerProps) => {
     return (
-        <Stack spaceAbove="s" spaceBelow="xl">
+        <Stack>
             {/* Prayer Title */}
             {hidden !== false && (
                 <Stack spaceBelow="l">
@@ -21,15 +21,17 @@ export const Prayer = ({ prayer: { title, sections, hidden } }: PrayerProps) => 
                 </Stack>
             )}
 
-            {/* Prayer Body */}
-            {sections?.map(({ type, ...section }, i) => (
-                <Stack spaceBelow="m" key={i}>
-                    {type === 'info' && <InfoSection section={section as Types.InfoSection} />}
-                    {type === 'compound-prayer' && <CompoundPrayersSection section={section as Types.CompoundPrayerSection} />}
-                    {type === 'reading' && <ReadingSection section={section as Types.ReadingSection} />}
-                    {(!type || type === 'verses') && <VersesSection section={section as Types.VersesSection} />}
-                </Stack>
-            ))}
+            <Stack gap="m">
+                {/* Prayer Body */}
+                {sections?.map(({ type, ...section }, i) => (
+                    <Stack key={i}>
+                        {type === 'info' && <InfoSection section={section as Types.InfoSection} />}
+                        {type === 'compound-prayer' && <CompoundPrayersSection section={section as Types.CompoundPrayerSection} />}
+                        {type === 'reading' && <ReadingSection section={section as Types.ReadingSection} />}
+                        {(!type || type === 'verses') && <VersesSection section={section as Types.VersesSection} />}
+                    </Stack>
+                ))}
+            </Stack>
         </Stack>
     )
 }

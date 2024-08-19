@@ -25,10 +25,10 @@ export const HomeScreen = () => {
                 <Image source={require('../../assets/images/icon-white.png')} style={{ width: '25%', height: undefined, aspectRatio: 1 }} />
             </View>
             <View style={{ flex: 1 }}>
-                <Text variant="headlineSmall" style={{ color: 'white' }}>
+                <Text variant="headlineSmall" style={{ color: 'white', marginBottom: 25 }}>
                     Table of Content
                 </Text>
-                <ScrollView>
+                <ScrollView contentContainerStyle={{ paddingLeft: 25 }}>
                     {TABLE_OF_CONTENTS.map(({ title, path }) => (
                         <Button
                             key={title}
