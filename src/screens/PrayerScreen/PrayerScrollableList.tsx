@@ -9,8 +9,6 @@ import { ListItem } from './PrayerScreen'
 import { FlatList } from 'react-native-gesture-handler'
 import { ListRenderItem } from '@shopify/flash-list'
 
-const SCREEN_HEIGHT = Dimensions.get('window').height
-
 interface PrayerScrollableListProps {
     listItems: ListItem[]
     activeItem?: ListItem
@@ -21,10 +19,9 @@ export const PrayerScrollableList = ({ listItems, activeItem, onActiveItemChange
     const ref = useRef<FlatList>(null)
     const [visibleItem, setVisibleItem] = useState<ListItem>()
 
-    const activeIndex = listItems.findIndex((item) => item === activeItem)
     useEffect(() => {
         if (!activeItem || activeItem === visibleItem) return
-        ref.current?.scrollToIndex({ index: activeIndex, animated: false })
+        ref.current?.scrollToItem({ item: activeItem, animated: false })
     }, [activeItem])
 
     const renderItem = useCallback(
@@ -36,7 +33,7 @@ export const PrayerScrollableList = ({ listItems, activeItem, onActiveItemChange
                     <Prayer prayer={item as Types.Prayer} />
                 </Stack>
             ) : null,
-        []
+        [],
     )
 
     const onViewableItemsChanged = useCallback(
@@ -47,34 +44,30 @@ export const PrayerScrollableList = ({ listItems, activeItem, onActiveItemChange
             setVisibleItem(firstVisibleItem)
             onActiveItemChange(firstVisibleItem)
         },
-        [setVisibleItem, onActiveItemChange]
+        [setVisibleItem, onActiveItemChange],
     )
 
     return (
-        <>
-            <View style={{ flex: 1, backgroundColor: 'black' }}>
-                {!!listItems && (
-                    <FlatList //
-                        ref={ref}
-                        initialScrollIndex={activeIndex}
-                        initialNumToRender={2}
-                        windowSize={2}
-                        maxToRenderPerBatch={2}
-                        data={listItems}
-                        renderItem={renderItem}
-                        extraData={activeItem?.type === 'prayer' && activeItem?.id}
-                        onViewableItemsChanged={onViewableItemsChanged}
-                        onScrollToIndexFailed={(error) => {
-                            ref?.current?.scrollToOffset({ offset: error.averageItemLength * error.index, animated: false })
-                            setTimeout(() => {
-                                if (listItems.length !== 0) {
-                                    ref?.current?.scrollToIndex({ index: error.index, animated: false })
-                                }
-                            }, 100)
-                        }}
-                    />
-                )}
-            </View>
-        </>
+        <View style={{ flex: 1, backgroundColor: 'black' }}>
+            {!!listItems && (
+                <FlatList //
+                    ref={ref}
+                    initialNumToRender={2}
+                    windowSize={3}
+                    data={listItems}
+                    renderItem={renderItem}
+                    extraData={activeItem?.type === 'prayer' && activeItem?.id}
+                    onViewableItemsChanged={onViewableItemsChanged}
+                    onScrollToIndexFailed={(error) => {
+                        ref?.current?.scrollToOffset({ offset: error.averageItemLength * error.index, animated: false })
+                        setTimeout(() => {
+                            if (listItems.length !== 0) {
+                                ref?.current?.scrollToIndex({ index: error.index, animated: false })
+                            }
+                        }, 100)
+                    }}
+                />
+            )}
+        </View>
     )
 }

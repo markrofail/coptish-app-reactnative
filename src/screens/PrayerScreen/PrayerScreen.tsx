@@ -9,7 +9,6 @@ import { loadLiturgy } from '../../utils/assets'
 import { Types } from '../../types'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { RootStackParamList } from '../../../App'
-import { PrayerScrollableList } from './PrayerScrollableList'
 
 const Drawer = createDrawerNavigator()
 
@@ -75,13 +74,8 @@ export const PrayerScreen = () => {
             >
                 <Drawer.Screen name="Home">
                     {() => (
-                        // <PrayerScrollableList //
-                        //     listItems={listItems}
-                        //     activeItem={activeItem}
-                        //     onActiveItemChange={onActiveItemChange}
-                        // />
                         <PrayerPaginationList //
-                            listItems={listItems}
+                            listItems={listItems.filter(({ type }) => type == 'prayer')}
                             activeItem={activeItem}
                             onActiveItemChange={onActiveItemChange}
                         />
