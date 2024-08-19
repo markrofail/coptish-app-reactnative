@@ -1,11 +1,10 @@
 import React, { useCallback, useEffect, useRef } from 'react'
 import { View } from 'react-native'
-import { Button, Icon, IconButton, MD3Colors, Text } from 'react-native-paper'
+import { Button, Icon, IconButton, MD3Colors, Text, TouchableRipple } from 'react-native-paper'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { FlashList, ListRenderItemInfo } from '@shopify/flash-list'
 import { DrawerActions } from '@react-navigation/routers'
 import { useNavigation } from '@react-navigation/core'
-import { Types } from '../../types'
 import { getCopticDate } from '../../utils/date'
 import { Stack } from '../../components/Stack'
 import { CurrentDate } from '../../utils/settings'
@@ -45,7 +44,7 @@ export const PrayerDrawer = ({ listItems, activeItem, onActiveItemChange }: Pray
                 }}
             />
         ),
-        [activeItem]
+        [activeItem],
     )
 
     const insets = useSafeAreaInsets()
@@ -111,19 +110,43 @@ interface DrawerItemProps {
 }
 
 const DrawerItem = ({ item, active, index, onPress }: DrawerItemProps) => {
+    const backgroundColor = active ? 'white' : 'black'
+    const textColor = active ? 'black' : 'white'
+
     return item?.type === 'title' ? (
         <View style={{ marginBottom: 10, marginTop: index === 0 ? 0 : 20 }}>
             {item?.title?.english && <Text style={{ textAlign: 'left', color: 'white' }}>{item?.title?.english}</Text>}
         </View>
     ) : item?.hidden !== false ? (
-        <Button mode="contained" onPress={onPress} style={{ width: '100%', backgroundColor: active ? 'white' : 'black', alignItems: 'flex-start' }}>
-            <View>
-                <Text style={{ fontSize: 20, textAlign: 'left', color: active ? 'black' : 'white' }}>{index}</Text>
+        <TouchableRipple onPress={onPress}>
+            <View
+                style={{
+                    width: '100%',
+                    padding: 10,
+                    borderRadius: 32,
+                    backgroundColor,
+                    justifyContent: 'flex-start',
+                    alignItems: 'center',
+                    flexDirection: 'row',
+                    overflow: 'visible',
+                }}
+            >
+                <View style={{ paddingLeft: 10 }}>
+                    <Text style={{ fontSize: 20, textAlign: 'left', color: textColor }}>{index}</Text>
+                </View>
+                <View style={{ paddingLeft: 10, flexDirection: 'column', overflow: 'visible' }}>
+                    {item?.title?.english && (
+                        <Text style={{ textAlign: 'left', color: textColor }} numberOfLines={1} ellipsizeMode="clip">
+                            {item?.title?.english}
+                        </Text>
+                    )}
+                    {item?.title?.arabic && (
+                        <Text style={{ textAlign: 'left', color: textColor }} numberOfLines={1} ellipsizeMode="clip">
+                            {item?.title?.arabic}
+                        </Text>
+                    )}
+                </View>
             </View>
-            <View style={{ paddingLeft: 10, flexDirection: 'column' }}>
-                {item?.title?.english && <Text style={{ textAlign: 'left', color: active ? 'black' : 'white' }}>{item?.title?.english}</Text>}
-                {item?.title?.arabic && <Text style={{ textAlign: 'left', color: active ? 'black' : 'white' }}>{item?.title?.arabic}</Text>}
-            </View>
-        </Button>
+        </TouchableRipple>
     ) : null
 }
