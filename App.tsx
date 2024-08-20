@@ -15,6 +15,7 @@ import { SplashScreen } from './src/screens/SplashScreen'
 import { PrayerScreen } from './src/screens/PrayerScreen'
 import { clearAssets, initAssets, treeAssets } from './src/utils/assets'
 import * as Sentry from '@sentry/react-native'
+import Constants from 'expo-constants'
 
 registerTranslation('en', en)
 
@@ -82,4 +83,5 @@ function App() {
     )
 }
 
-export default Sentry.wrap(App)
+const isStorybookEnabled = Constants?.expoConfig?.extra?.storybookEnabled === 'true'
+export default isStorybookEnabled ? require('./.storybook').default : Sentry.wrap(App)
