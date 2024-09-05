@@ -9,6 +9,8 @@ import { useToggle } from '../../hooks/useToggle'
 import { SettingsModal } from '../SettingsModal'
 import { useSettings } from '../../hooks/useSettings'
 import { ListItem } from '../PrayerScreen/PrayerScreen'
+import { DrawerHeader } from './DrawerHeader'
+import { DrawerListItem } from './DrawerListItem'
 
 interface PrayerDrawerProps {
     listItems: ListItem[]
@@ -31,7 +33,7 @@ export const PrayerDrawer = ({ listItems, activeItem, onActiveItemChange }: Pray
 
     const renderItem = useCallback(
         ({ item, index }: ListRenderItemInfo<ListItem>) => (
-            <DrawerItem
+            <DrawerListItem
                 index={index}
                 active={item === activeItem}
                 item={item}

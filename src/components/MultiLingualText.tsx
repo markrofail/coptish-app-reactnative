@@ -10,9 +10,15 @@ interface MultiLingualTextProps extends Pick<TextProps, 'variant' | 'color' | 'i
 export const MultiLingualText = ({ text, gap, direction, centered, variant, color, inverse }: MultiLingualTextProps) => {
     const stackProps = { gap, centered, direction: direction ?? 'row' }
     const textProps = { variant, color, inverse }
+
+    const orderedText = {
+        english: text.english,
+        coptic: text.coptic,
+        arabic: text.arabic,
+    }
     return (
         <Stack {...stackProps}>
-            {Object.entries(text).map(([key, value]) => (
+            {Object.entries(orderedText).map(([key, value]) => (
                 <Text {...textProps} key={key} language={key as Language} text={value} fill />
             ))}
         </Stack>

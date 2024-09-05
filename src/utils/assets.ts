@@ -5,7 +5,7 @@ import yaml from 'js-yaml'
 import { DEBUG } from '../config'
 import assets from '../data/assets'
 import { Types } from '../types'
-import { getIsoCopticDate, getIsoGeorgianDate } from './date'
+import { getCopticDate, getGeorgianDate } from './date'
 
 const ASSET_DIRECTORY = FileSystem.documentDirectory + 'assets'
 
@@ -59,8 +59,8 @@ const isOccasion = (occasion: Types.Occasion) => (prayerOrSection: Types.Prayer 
 const filename = (path?: string) => path?.split('/').pop()
 const dirname = (path: string) => path.split('/').slice(0, -1).join('/')
 
-export const loadLiturgy = async (occasion: Types.Occasion): Promise<Types.Liturgy> => {
-    const subDirs = await loadDirectory('coptish-datastore/liturgy-st-basil')
+export const loadLiturgy = async (occasion: Types.Occasion): Promise<Types.PrayerGroup[]> => {
+    const subDirs = await loadDirectory('coptish-datastore/output/liturgy-st-basil')
     return subDirs.map(({ content, ...rest }) => ({
         ...rest,
         prayers: content
@@ -72,13 +72,13 @@ export const loadLiturgy = async (occasion: Types.Occasion): Promise<Types.Litur
 }
 
 export const loadCompoundPrayer = async (path: string): Promise<Types.Prayer[]> => {
-    const prayers = await loadDirectory(`coptish-datastore/${path}`)
+    const prayers = await loadDirectory(`coptish-datastore/output/${path}`)
     return prayers?.map(({ content }: { path: string; content: any; metadata?: undefined }) => content)
 }
 
 export const loadReading = async (date: Date, type: Types.ReadingType): Promise<Types.Reading | Types.Synaxarium> => {
-    const filename = type === 'synaxarium' ? getIsoCopticDate(date) : getIsoGeorgianDate(date)
-    return await loadFile(`coptish-datastore/readings/${type}/${filename}.yml`)
+    const filename = type === 'synaxarium' ? getCopticDate(date, 'iso') : getGeorgianDate(date, 'iso')
+    return await loadFile(`coptish-datastore/output/readings/${type}/${filename}.yml`)
 }
 
 const isExist = async (path: string) => {

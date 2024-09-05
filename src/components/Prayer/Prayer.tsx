@@ -11,11 +11,11 @@ interface PrayerProps {
     prayer: Types.Prayer
 }
 
-export const Prayer = ({ prayer: { title, sections, hidden } }: PrayerProps) => {
+export const Prayer = ({ prayer: { title, sections } }: PrayerProps) => {
     return (
         <Stack>
             {/* Prayer Title */}
-            {hidden !== false && (
+            {!!title && (
                 <Stack spaceBelow="l">
                     <MultiLingualText variant="heading2" text={{ english: title.english, arabic: title.arabic }} centered />
                 </Stack>
