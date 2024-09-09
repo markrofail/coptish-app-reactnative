@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react'
 import { View } from 'react-native'
 import { Button, Modal, Portal, Text } from 'react-native-paper'
-import { FontSizeField } from './fields/FontSize'
+import { FontSizeField } from './fields/FontSizeField'
+import { CurrentDateField } from './fields/CurrentDateField'
 import { CurrentDate, FontSize } from '../../utils/settings'
-import { CurrentDateField } from './fields/CurrentDate'
 
 interface SettingsModalProps {
     visible: boolean
