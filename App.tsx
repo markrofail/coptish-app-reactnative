@@ -3,19 +3,18 @@ import 'react-native-gesture-handler'
 import React, { useEffect, useState } from 'react'
 import { PaperProvider, Snackbar } from 'react-native-paper'
 import { NavigationContainer, DefaultTheme } from '@react-navigation/native'
-import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { StatusBar } from 'expo-status-bar'
 import { en, registerTranslation } from 'react-native-paper-dates'
 import { useFonts } from 'expo-font'
 import { NotoSerif_400Regular, NotoSerif_700Bold } from '@expo-google-fonts/noto-serif'
 import { NotoNaskhArabic_400Regular, NotoNaskhArabic_700Bold } from '@expo-google-fonts/noto-naskh-arabic'
-import { HomeScreen } from './src/screens/HomeScreen'
-import { DebugScreen } from './src/screens/DebugScreen'
-import { SplashScreen } from './src/screens/SplashScreen'
-import { PrayerScreen } from './src/screens/PrayerScreen'
 import { clearAssets, initAssets, treeAssets } from './src/utils/assets'
 import * as Sentry from '@sentry/react-native'
 import Constants from 'expo-constants'
+import { Routes } from './src/routes'
+import { ThemeContext } from './src/context/themeContext'
+import { DarkTheme, LightTheme, NavigationDarkTheme, NavigationLightTheme } from './src/config'
+import * as SplashScreen from 'expo-splash-screen'
 
 registerTranslation('en', en)
 
@@ -23,19 +22,6 @@ Sentry.init({
     dsn: 'https://7d1ae3fa0da23305fc1a19051c48d0f3@o4507701629485056.ingest.de.sentry.io/4507701634793552',
     debug: true, // If `true`, Sentry will try to print out useful debugging information if something goes wrong with sending the event. Set it to `false` in production
 })
-
-const MyTheme = {
-    ...DefaultTheme,
-    colors: { ...DefaultTheme.colors, background: 'black' },
-}
-
-export type RootStackParamList = {
-    Home: undefined
-    Prayer: { path: string }
-    Debug: undefined
-}
-
-const Stack = createNativeStackNavigator<RootStackParamList>()
 
 function App() {
     const [fontsLoaded, error] = useFonts({
@@ -49,6 +35,8 @@ function App() {
 
     const [assetsLoaded, setAssetsLoaded] = useState(false)
     const [currentAsset, setCurrentAsset] = useState('')
+    const [theme, setTheme] = useState(LightTheme)
+    const toggleTheme = () => setTheme((prev) => (prev === LightTheme ? DarkTheme : LightTheme))
 
     useEffect(() => {
         const init = async () => {
@@ -59,27 +47,26 @@ function App() {
             setAssetsLoaded(true)
         }
 
+        SplashScreen.preventAutoHideAsync()
         init()
     }, [])
 
+    useEffect(() => {
+        if (assetsLoaded && fontsLoaded) SplashScreen.hideAsync()
+    }, [assetsLoaded, fontsLoaded])
+
     return (
-        <PaperProvider>
-            <NavigationContainer theme={MyTheme}>
-                {fontsLoaded && assetsLoaded ? (
-                    <Stack.Navigator screenOptions={{ headerShown: false }}>
-                        <Stack.Screen name="Home" component={HomeScreen} />
-                        <Stack.Screen name="Prayer" component={PrayerScreen} />
-                        <Stack.Screen name="Debug" component={DebugScreen} options={{ headerShown: true }} />
-                    </Stack.Navigator>
-                ) : (
-                    <SplashScreen />
-                )}
-                <StatusBar hidden />
-                <Snackbar visible={!!currentAsset} onDismiss={() => setCurrentAsset('')}>
-                    {currentAsset}
-                </Snackbar>
-            </NavigationContainer>
-        </PaperProvider>
+        <ThemeContext.Provider value={{ theme, toggleTheme }}>
+            <PaperProvider theme={theme}>
+                <NavigationContainer theme={theme === LightTheme ? NavigationLightTheme : NavigationDarkTheme}>
+                    <Routes />
+                    <StatusBar hidden />
+                    <Snackbar visible={!!currentAsset} onDismiss={() => setCurrentAsset('')}>
+                        {currentAsset}
+                    </Snackbar>
+                </NavigationContainer>
+            </PaperProvider>
+        </ThemeContext.Provider>
     )
 }
 
