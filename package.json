@@ -9,6 +9,7 @@
         "web": "expo start --web",
         "storybook": "STORYBOOK_ENABLED='true' expo start",
         "storybook-generate": "sb-rn-get-stories",
+        "typescript:validate": "tsc --noEmit",
         "generate:types": "json2ts --input assets/coptish-datastore/schemas/json-schema.json --output src/types.ts",
         "generate:asset-registry": "ts-node scripts/generate-list-of-assets.ts"
     },
@@ -38,12 +39,14 @@
         "promise": "^8.3.0",
         "react": "18.2.0",
         "react-native": "0.74.5",
+        "react-native-calendars": "^1.1306.0",
         "react-native-dynamic-skeletons": "^0.7.0",
         "react-native-gesture-handler": "~2.16.1",
         "react-native-paper-dates": "^0.22.19",
         "react-native-reanimated": "~3.10.1",
         "react-native-safe-area-context": "4.10.5",
-        "react-native-screens": "3.31.1"
+        "react-native-screens": "3.31.1",
+        "react-native-size-matters": "^0.4.2"
     },
     "devDependencies": {
         "@babel/core": "^7.20.0",
@@ -56,6 +59,7 @@
         "@types/js-yaml": "^4.0.9",
         "@types/react": "~18.2.45",
         "babel-loader": "^8.3.0",
+        "babel-plugin-module-resolver": "^5.0.2",
         "js-yaml": "^4.1.0",
         "json-schema-to-typescript": "^15.0.2",
         "react-dom": "^18.2.0",
