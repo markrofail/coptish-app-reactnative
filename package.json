@@ -8,7 +8,9 @@
         "ios": "expo run:ios",
         "web": "expo start --web",
         "storybook": "STORYBOOK_ENABLED='true' expo start",
-        "storybook-generate": "sb-rn-get-stories"
+        "storybook-generate": "sb-rn-get-stories",
+        "generate:types": "json2ts --input assets/coptish-datastore/schemas/json-schema.json --output src/types.ts",
+        "generate:asset-registry": "ts-node scripts/generate-list-of-assets.ts"
     },
     "dependencies": {
         "@expo-google-fonts/noto-naskh-arabic": "^0.2.3",
@@ -55,6 +57,7 @@
         "@types/react": "~18.2.45",
         "babel-loader": "^8.3.0",
         "js-yaml": "^4.1.0",
+        "json-schema-to-typescript": "^15.0.2",
         "react-dom": "^18.2.0",
         "react-native-paper": "^5.12.3",
         "react-native-vector-icons": "^10.1.0",

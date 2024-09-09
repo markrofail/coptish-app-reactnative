@@ -4,7 +4,7 @@ import { Asset } from 'expo-asset'
 import yaml from 'js-yaml'
 import { DEBUG } from '../config'
 import assets from '../data/assets'
-import { Types } from '../types'
+import * as Types from '../types'
 import { getCopticDate, getGeorgianDate } from './date'
 
 const ASSET_DIRECTORY = FileSystem.documentDirectory + 'assets'
@@ -53,13 +53,19 @@ const loadDirectoryOrFile = async (path: string) => {
     }
 }
 
-const isOccasion = (occasion: Types.Occasion) => (prayerOrSection: Types.Prayer | Types.Section) =>
+type Section = NonNullable<Types.Prayer['sections']>[number]
+const isOccasion = (occasion: Types.Occasion) => (prayerOrSection: Types.Prayer | Section) =>
     !prayerOrSection?.occasion || prayerOrSection?.occasion === occasion
 
 const filename = (path?: string) => path?.split('/').pop()
 const dirname = (path: string) => path.split('/').slice(0, -1).join('/')
 
-export const loadLiturgy = async (occasion: Types.Occasion): Promise<Types.PrayerGroup[]> => {
+export type PrayerWithId = Types.Prayer & { id: string }
+export type PrayerGroup = {
+    metadata?: { title?: Types.MultiLingualText }
+    prayers: PrayerWithId[]
+}
+export const loadLiturgy = async (occasion: Types.Occasion): Promise<PrayerGroup[]> => {
     const subDirs = await loadDirectory('coptish-datastore/output/liturgy-st-basil')
     return subDirs.map(({ content, ...rest }) => ({
         ...rest,
@@ -76,7 +82,8 @@ export const loadCompoundPrayer = async (path: string): Promise<Types.Prayer[]> 
     return prayers?.map(({ content }: { path: string; content: any; metadata?: undefined }) => content)
 }
 
-export const loadReading = async (date: Date, type: Types.ReadingType): Promise<Types.Reading | Types.Synaxarium> => {
+type ReadingType = Types.ReadingSection['readingType']
+export const loadReading = async (date: Date, type: ReadingType): Promise<Types.Reading | Types.Synaxarium> => {
     const filename = type === 'synaxarium' ? getCopticDate(date, 'iso') : getGeorgianDate(date, 'iso')
     return await loadFile(`coptish-datastore/output/readings/${type}/${filename}.yml`)
 }

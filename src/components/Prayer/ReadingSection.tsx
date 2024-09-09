@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react'
 import { MultiLingualText } from '../MultiLingualText'
 import { useMemoAsync } from '../../hooks/useMemoAsync'
-import { Types } from '../../types'
+import * as Types from '../../types'
 import { loadReading } from '../../utils/assets'
 import { Stack } from '../Stack'
 import { useSettings } from '../../hooks/useSettings'

@@ -4,7 +4,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { FlashList, ListRenderItemInfo } from '@shopify/flash-list'
 import { Prayer } from '../../components/Prayer'
 import { Stack } from '../../components/Stack'
-import { Types } from '../../types'
+import * as Types from '../../types'
 import { MultiLingualText } from '../../components/MultiLingualText'
 import { ListItem } from './PrayerScreen'
 import { LongTextList } from '../../components/LongTextList'
@@ -23,7 +23,7 @@ export const PrayerLongList = ({ listItems, activeItem, onActiveItemChange }: Pr
     const renderItem = useCallback(
         ({ type, ...props }: ListItem) =>
             type === 'title' ? (
-                <MultiLingualText variant="heading1" text={{ english: props?.title?.english }} />
+                props?.title?.english && <MultiLingualText variant="heading1" text={{ english: props.title.english }} />
             ) : (
                 <Stack spaceBelow="m">
                     <Prayer prayer={props as Types.Prayer} />
@@ -44,7 +44,7 @@ export const PrayerLongList = ({ listItems, activeItem, onActiveItemChange }: Pr
         <View style={{ flex: 1, backgroundColor: 'black' }}>
             <LongTextList
                 data={listItems} //
-                initialId={activeItem?.id}
+                initialId={(activeItem?.type === 'prayer' && activeItem?.id) || ''}
                 renderItem={renderItem}
                 onActiveItemChange={onViewableItemsChanged}
             />

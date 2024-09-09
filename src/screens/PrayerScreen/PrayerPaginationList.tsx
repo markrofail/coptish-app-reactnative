@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react'
 import { Pressable, ScrollView, View } from 'react-native'
 import { Prayer } from '../../components/Prayer'
-import { Types } from '../../types'
+import * as Types from '../../types'
 import { MultiLingualText } from '../../components/MultiLingualText'
 import { ListItem } from './PrayerScreen'
 import { Button, IconButton } from 'react-native-paper'
@@ -38,7 +38,7 @@ export const PrayerPaginationList = ({ listItems, activeItem, onActiveItemChange
             {!!listItems && !!activeItem && (
                 <ScrollView ref={ref}>
                     {activeItem.type === 'title' ? (
-                        <MultiLingualText variant="heading1" text={{ english: activeItem?.title?.english }} />
+                        activeItem?.title?.english && <MultiLingualText variant="heading1" text={{ english: activeItem.title.english }} />
                     ) : (
                         <Prayer prayer={activeItem as Types.Prayer} />
                     )}

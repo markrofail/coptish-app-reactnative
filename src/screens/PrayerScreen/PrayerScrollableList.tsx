@@ -3,7 +3,7 @@ import { Dimensions, ListRenderItemInfo, Pressable, ScrollView, View, ViewToken 
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { Prayer } from '../../components/Prayer'
 import { Stack } from '../../components/Stack'
-import { Types } from '../../types'
+import * as Types from '../../types'
 import { MultiLingualText } from '../../components/MultiLingualText'
 import { ListItem } from './PrayerScreen'
 import { FlatList } from 'react-native-gesture-handler'
@@ -27,7 +27,7 @@ export const PrayerScrollableList = ({ listItems, activeItem, onActiveItemChange
     const renderItem = useCallback(
         ({ item }: ListRenderItemInfo<ListItem>) =>
             item.type === 'title' ? (
-                <MultiLingualText variant="heading1" text={{ english: item?.title?.english }} />
+                item?.title?.english && <MultiLingualText variant="heading1" text={{ english: item.title.english }} />
             ) : item.type === 'prayer' ? (
                 <Stack spaceBelow="m">
                     <Prayer prayer={item as Types.Prayer} />

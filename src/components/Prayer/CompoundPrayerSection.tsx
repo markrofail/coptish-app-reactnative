@@ -1,5 +1,5 @@
 import React from 'react'
-import { Types } from '../../types'
+import * as Types from '../../types'
 import { useMemoAsync } from '../../hooks/useMemoAsync'
 import { loadCompoundPrayer } from '../../utils/assets'
 import { Prayer } from './Prayer'

@@ -1,29 +1,29 @@
 import React from 'react'
-import { Types } from '../../types'
+import * as Types from '../../types'
 import { Stack } from '../Stack'
 import { Text } from '../Text'
 import { MultiLingualText } from '../MultiLingualText'
 
-const SPEAKER_LABEL_MAP: Record<Types.Speaker, Types.MultiLingualText & { color: string }> = {
+type Speaker = NonNullable<Types.VersesSection['speaker']>
+const SPEAKER_LABEL_MAP: Record<Speaker, Types.MultiLingualText & { color: string }> = {
     priest: { english: 'Priest', arabic: 'الكاهن', coptic: 'Ⲡⲓⲟⲩⲏⲃ', color: '#ff4000' },
     deacon: { english: 'Deacon', arabic: 'الشماس', coptic: 'Ⲡⲓⲇⲓⲁⲕⲱⲛ', color: 'yellow' },
     reader: { english: 'Reader', arabic: 'القارئ', coptic: 'ⲁⲛⲁⲅⲛⲱⲥⲧⲏⲥ', color: 'yellow' },
     people: { english: 'People', arabic: 'الشعب', coptic: 'Ⲡⲓⲗⲁⲟⲥ', color: 'orange' },
+    '': { english: '', arabic: '', coptic: '', color: '' },
 }
 
 interface SpeakerLabelProps {
-    speaker: Types.Speaker
+    speaker: Speaker
 }
 const SpeakerLabel = ({ speaker }: SpeakerLabelProps) => {
-    if (!speaker) return
-    if (!Object.keys(SPEAKER_LABEL_MAP).includes(speaker)) console.log(`Unrecognized speaker ${speaker}`)
-    const { english, arabic, color } = SPEAKER_LABEL_MAP[speaker]
+    const { english, arabic, color } = SPEAKER_LABEL_MAP[speaker || '']
 
-    return (
+    return !!speaker ? (
         <Stack spaceBelow="s">
             <MultiLingualText variant="body" color={color} text={{ english, arabic }} />
         </Stack>
-    )
+    ) : null
 }
 
 interface VersesSectionProps {

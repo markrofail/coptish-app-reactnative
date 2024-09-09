@@ -62,7 +62,7 @@ export const PrayerDrawer = ({ listItems, activeItem, onActiveItemChange }: Pray
                 <View style={{ height: 25 }} />
                 <FlashList
                     ref={ref}
-                    keyExtractor={({ id }, index) => `${index}-${id}`}
+                    keyExtractor={(item, index) => `${index}-${item.title?.english.toLocaleLowerCase()}`}
                     data={listItems}
                     estimatedItemSize={50}
                     showsVerticalScrollIndicator={false}

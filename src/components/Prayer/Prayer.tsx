@@ -3,7 +3,7 @@ import { Stack } from '../Stack'
 import { MultiLingualText } from '../MultiLingualText'
 import { VersesSection } from './VersesSection'
 import { ReadingSection } from './ReadingSection'
-import { Types } from '../../types'
+import * as Types from '../../types'
 import { CompoundPrayersSection } from './CompoundPrayerSection'
 import { InfoSection } from './InfoSection'
 

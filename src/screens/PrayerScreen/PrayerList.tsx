@@ -4,7 +4,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { FlashList, ListRenderItemInfo } from '@shopify/flash-list'
 import { Prayer } from '../../components/Prayer'
 import { Stack } from '../../components/Stack'
-import { Types } from '../../types'
+import * as Types from '../../types'
 import { MultiLingualText } from '../../components/MultiLingualText'
 import { ListItem } from './PrayerScreen'
 
@@ -28,13 +28,13 @@ export const PrayerList = ({ listItems, activeItem, onActiveItemChange }: Prayer
     const renderItem = useCallback(
         ({ item: { type, ...props } }: ListRenderItemInfo<ListItem>) =>
             type === 'title' ? (
-                <MultiLingualText variant="heading1" text={{ english: props?.title?.english }} />
+                props?.title?.english && <MultiLingualText variant="heading1" text={{ english: props.title.english }} />
             ) : (
                 <Stack spaceBelow="m">
                     <Prayer prayer={props as Types.Prayer} />
                 </Stack>
             ),
-        []
+        [],
     )
 
     const onViewableItemsChanged = useCallback(
@@ -45,7 +45,7 @@ export const PrayerList = ({ listItems, activeItem, onActiveItemChange }: Prayer
             setVisibleItem(firstVisibleItem)
             onActiveItemChange(firstVisibleItem)
         },
-        [setVisibleItem, onActiveItemChange]
+        [setVisibleItem, onActiveItemChange],
     )
 
     const insets = useSafeAreaInsets()
@@ -61,7 +61,7 @@ export const PrayerList = ({ listItems, activeItem, onActiveItemChange }: Prayer
             <FlashList
                 ref={ref}
                 data={listItems}
-                keyExtractor={({ id }, index) => `${index}-${id}`}
+                keyExtractor={(item, index) => `${index}-${item.title?.english.toLocaleLowerCase()}`}
                 onViewableItemsChanged={onViewableItemsChanged}
                 renderItem={renderItem}
                 estimatedItemSize={SCREEN_HEIGHT * 0.5}

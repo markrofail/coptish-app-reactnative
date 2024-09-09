@@ -5,24 +5,22 @@ import { createDrawerNavigator } from '@react-navigation/drawer'
 import { PrayerPaginationList } from './PrayerPaginationList'
 import { PrayerDrawer } from '../PrayerDrawer'
 import { useMemoAsync } from '../../hooks/useMemoAsync'
-import { loadLiturgy } from '../../utils/assets'
-import { Types } from '../../types'
+import { loadLiturgy, PrayerGroup, PrayerWithId } from '../../utils/assets'
+import * as Types from '../../types'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
-import { RootStackParamList } from '../../../App'
+import { RootStackParamList } from '@/src/routes'
+import { PrayerScrollableList } from './PrayerScrollableList'
 
 const Drawer = createDrawerNavigator()
 
 type TitleListItem = { type: 'title'; title?: Types.MultiLingualText }
-interface PrayerListItem extends Types.Prayer {
-    type: 'prayer'
-}
-
+type PrayerListItem = { type: 'prayer' } & PrayerWithId
 export type ListItem = TitleListItem | PrayerListItem
 
-const preprocessLiturgy = (liturgy: Types.Liturgy): ListItem[] => {
+const preprocessLiturgy = (prayerGroups: PrayerGroup[]): ListItem[] => {
     const items: ListItem[] = []
 
-    for (const { metadata, prayers } of liturgy) {
+    for (const { metadata, prayers } of prayerGroups) {
         items.push({ type: 'title' as const, ...metadata })
         items.push(...prayers.map((prayer) => ({ type: 'prayer' as const, ...prayer })))
     }
@@ -74,7 +72,7 @@ export const PrayerScreen = () => {
             >
                 <Drawer.Screen name="Home">
                     {() => (
-                        <PrayerPaginationList //
+                        <PrayerScrollableList //
                             listItems={listItems.filter(({ type }) => type == 'prayer')}
                             activeItem={activeItem}
                             onActiveItemChange={onActiveItemChange}
