@@ -9,8 +9,7 @@ interface DrawerHeaderProps {
     onSettingsPress: () => void
 }
 export const DrawerHeader = ({ date, onBackPress, onSettingsPress }: DrawerHeaderProps) => {
-    const { day, month, year } = getCopticDate(date)
-    const copticDateStr = `${day} ${month} ${year}`
+    const copticDate = getCopticDate(date, 'dd-mm')
 
     return (
         <Stack direction="row" gap="m" centered>
@@ -20,7 +19,7 @@ export const DrawerHeader = ({ date, onBackPress, onSettingsPress }: DrawerHeade
             {/* Coptic Date */}
             <Stack direction="row" gap="s" centered>
                 <Icon source={'calendar'} color="white" size={20} />
-                <Text style={{ color: 'white' }}>{copticDateStr}</Text>
+                <Text style={{ color: 'white' }}>{copticDate}</Text>
             </Stack>
 
             {/* Settings */}

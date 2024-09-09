@@ -1,20 +1,26 @@
-const COPTIC_DATE_FORMATTER = new Intl.DateTimeFormat('en-u-ca-coptic', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-})
+type Mode = 'dd-mm' | 'dd-mm-yy' | 'iso'
 
-export const getCopticDate = (date: Date): Record<'year' | 'month' | 'day', string> => {
-    const dateParts = COPTIC_DATE_FORMATTER.formatToParts(date)
-        .filter(({ type }) => type !== 'literal' && type !== 'era')
-        .map(({ type, value }) => [type, value])
+export const getCopticDate = (date: Date | undefined, mode: Mode) => {
+    if (!date || isNaN(date.getTime())) date = new Date()
 
-    return Object.fromEntries(dateParts)
+    const { day, month } = Object.fromEntries(
+        new Intl.DateTimeFormat('en-u-ca-coptic', { day: 'numeric', month: 'long' })
+            .formatToParts(date)
+            .filter(({ type }) => type !== 'literal' && type !== 'era')
+            .map(({ type, value }) => [type, value]),
+    )
+
+    if (mode === 'iso') return `${month}-${day}`.toLowerCase()
+    if (mode === 'dd-mm') return `${day} ${month}`
+    if (mode === 'dd-mm-yy') return new Intl.DateTimeFormat('en-u-ca-coptic', { day: 'numeric', month: 'long', year: 'numeric' }).format(date)
+    return ''
 }
 
-export const getIsoCopticDate = (date: Date) => {
-    const { month, day } = getCopticDate(date)
-    return `${month}-${day}`.toLowerCase()
-}
+export const getGeorgianDate = (date: Date | undefined, mode: Mode) => {
+    if (!date || isNaN(date.getTime())) date = new Date()
 
-export const getIsoGeorgianDate = (date: Date) => date.toISOString().substring(0, 10)
+    if (mode === 'iso') date.toISOString().split('T').at(0)
+    if (mode === 'dd-mm') return new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'long' }).format(date)
+    if (mode === 'dd-mm-yy') return new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }).format(date)
+    return ''
+}

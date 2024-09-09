@@ -10,15 +10,22 @@ interface DrawerListItemProps {
     active?: boolean
 }
 
-export const DrawerListItem = ({ item, active, index, onPress }: DrawerListItemProps) => {
+export const DrawerListItem = (props: DrawerListItemProps) => {
+    if (!props.item.title) return <></>
+    return props.item?.type === 'title' ? <TitleDrawerItem {...props} /> : <PrayerDrawerItem {...props} />
+}
+
+const TitleDrawerItem = ({ item, index }: DrawerListItemProps) => (
+    <View style={{ marginBottom: 10, marginTop: index === 0 ? 0 : 20 }}>
+        {item?.title?.english && <Text style={{ textAlign: 'left', color: 'white' }}>{item?.title?.english}</Text>}
+    </View>
+)
+
+const PrayerDrawerItem = ({ item, active, index, onPress }: DrawerListItemProps) => {
     const backgroundColor = active ? 'white' : 'black'
     const textColor = active ? 'black' : 'white'
 
-    return item?.type === 'title' ? (
-        <View style={{ marginBottom: 10, marginTop: index === 0 ? 0 : 20 }}>
-            {item?.title?.english && <Text style={{ textAlign: 'left', color: 'white' }}>{item?.title?.english}</Text>}
-        </View>
-    ) : item?.hidden !== false ? (
+    return (
         <TouchableRipple onPress={onPress}>
             <View
                 style={{
@@ -49,5 +56,5 @@ export const DrawerListItem = ({ item, active, index, onPress }: DrawerListItemP
                 </View>
             </View>
         </TouchableRipple>
-    ) : null
+    )
 }
