@@ -2,6 +2,7 @@ import React from 'react'
 import { View } from 'react-native'
 import { Text, TouchableRipple } from 'react-native-paper'
 import { ListItem } from '../PrayerScreen'
+import { scale, verticalScale } from 'react-native-size-matters'
 
 interface DrawerListItemProps {
     item: ListItem
@@ -30,8 +31,9 @@ const PrayerDrawerItem = ({ item, active, index, onPress }: DrawerListItemProps)
             <View
                 style={{
                     width: '100%',
-                    padding: 10,
-                    borderRadius: 32,
+                    paddingTop: verticalScale(8),
+                    paddingBottom: verticalScale(8),
+                    borderRadius: scale(32),
                     backgroundColor,
                     justifyContent: 'flex-start',
                     alignItems: 'center',
@@ -39,10 +41,10 @@ const PrayerDrawerItem = ({ item, active, index, onPress }: DrawerListItemProps)
                     overflow: 'visible',
                 }}
             >
-                <View style={{ paddingLeft: 10 }}>
+                <View style={{ paddingLeft: verticalScale(8) }}>
                     <Text style={{ fontSize: 20, textAlign: 'left', color: textColor }}>{index}</Text>
                 </View>
-                <View style={{ paddingLeft: 10, flexDirection: 'column', overflow: 'visible' }}>
+                <View style={{ paddingLeft: verticalScale(8), flexDirection: 'column', overflow: 'visible' }}>
                     {item?.title?.english && (
                         <Text style={{ textAlign: 'left', color: textColor }} numberOfLines={1} ellipsizeMode="clip">
                             {item?.title?.english}

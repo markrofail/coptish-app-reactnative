@@ -35,20 +35,7 @@ export const VersesSection = ({ section: { speaker, verses } }: VersesSectionPro
             {!!speaker && <SpeakerLabel speaker={speaker} />}
 
             <Stack direction="column" gap="l">
-                {!!verses &&
-                    verses.map(({ coptic_english, coptic_arabic, ...rest }, i) => (
-                        <Stack key={i} direction="column" gap="s">
-                            {/* English / Coptic / Arabic */}
-                            <MultiLingualText variant="body" gap="m" text={rest} />
-
-                            {/* Franco-Coptic */}
-                            {!!coptic_english ? (
-                                <Text variant="body" color="#b1dffc" language="english" text={coptic_english} center />
-                            ) : (
-                                <Text variant="body" color="#b1dffc" language="arabic" text={coptic_arabic} center />
-                            )}
-                        </Stack>
-                    ))}
+                {!!verses && verses.map((verse, i) => <MultiLingualText key={i} variant="body" gap="m" text={verse} />)}
             </Stack>
         </>
     )

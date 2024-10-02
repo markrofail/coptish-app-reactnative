@@ -11,6 +11,7 @@ import { useSettings } from '../../hooks/useSettings'
 import { ListItem } from '../PrayerScreen/PrayerScreen'
 import { DrawerHeader } from './DrawerHeader'
 import { DrawerListItem } from './DrawerListItem'
+import { verticalScale } from 'react-native-size-matters'
 
 interface PrayerDrawerProps {
     listItems: ListItem[]
@@ -50,16 +51,15 @@ export const PrayerDrawer = ({ listItems, activeItem, onActiveItemChange }: Pray
     const padding = {
         paddingTop: insets.top,
         paddingBottom: insets.bottom,
-        paddingLeft: insets.left + 12,
-        paddingRight: insets.right + 12,
+        paddingLeft: insets.left,
     }
 
     return (
         <>
             <View style={{ flex: 1, backgroundColor: 'black', ...padding }}>
-                <View style={{ height: 25 }} />
-                <DrawerHeader date={date} onBackPress={onBackPress} onSettingsPress={toggleSettingsModalVisible} />
-                <View style={{ height: 25 }} />
+                <View style={{ marginBottom: verticalScale(24) }}>
+                    <DrawerHeader date={date} onBackPress={onBackPress} onSettingsPress={toggleSettingsModalVisible} />
+                </View>
                 <FlashList
                     ref={ref}
                     keyExtractor={(item, index) => `${index}-${item.title?.english.toLocaleLowerCase()}`}

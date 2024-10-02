@@ -9,7 +9,6 @@ import { loadLiturgy, PrayerGroup, PrayerWithId } from '../../utils/assets'
 import * as Types from '../../types'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { RootStackParamList } from '@/src/routes'
-import { PrayerScrollableList } from './PrayerScrollableList'
 
 const Drawer = createDrawerNavigator()
 
@@ -35,15 +34,14 @@ export const PrayerScreen = () => {
     const path = params?.path
 
     const liturgy = useMemoAsync(() => loadLiturgy('annual'), [])
-    const listItems = useMemo(() => liturgy && preprocessLiturgy(liturgy), [!!liturgy])
-
+    const listItems = useMemo(() => (!!liturgy ? preprocessLiturgy(liturgy) : []), [liturgy?.length])
     const [activeItem, setActiveItem] = useState<ListItem>()
     const [header, setHeader] = useState('')
 
     useEffect(() => {
         const firstPrayer = listItems && listItems.find((item) => item?.type === 'prayer')
         if (firstPrayer) onActiveItemChange(firstPrayer)
-    }, [!!listItems])
+    }, [listItems?.length])
 
     const onActiveItemChange = (item: ListItem) => {
         if (item?.type === 'prayer') {
@@ -72,7 +70,7 @@ export const PrayerScreen = () => {
             >
                 <Drawer.Screen name="Home">
                     {() => (
-                        <PrayerScrollableList //
+                        <PrayerPaginationList //
                             listItems={listItems.filter(({ type }) => type == 'prayer')}
                             activeItem={activeItem}
                             onActiveItemChange={onActiveItemChange}
