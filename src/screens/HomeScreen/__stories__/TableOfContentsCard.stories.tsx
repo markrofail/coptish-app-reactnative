@@ -1,12 +1,12 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import { View } from 'react-native'
-import { HomeScreenCard } from '../HomeScreenCard'
+import { TableOfContentsCard } from '../TableOfContentsCard'
 import { ThemeDecorator } from '@/.storybook/decorators/ThemeDecorator'
 import { useThemeContext } from '@/src/context/themeContext'
 
 type Story = StoryObj<typeof meta>
-const meta: Meta<typeof HomeScreenCard> = {
-    component: HomeScreenCard,
+const meta: Meta<typeof TableOfContentsCard> = {
+    component: TableOfContentsCard,
     title: 'HomeScreen/Card',
     decorators: [ThemeDecorator],
     render: (props: any) => {
@@ -14,7 +14,7 @@ const meta: Meta<typeof HomeScreenCard> = {
 
         return (
             <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: theme.colors.background }}>
-                <HomeScreenCard {...props} />
+                <TableOfContentsCard {...props} />
             </View>
         )
     },

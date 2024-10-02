@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { ScrollView, Text, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { treeAssets } from '../utils/assets'
@@ -11,10 +11,10 @@ export const DebugScreen = () => {
 
     const insets = useSafeAreaInsets()
     const padding = {
-        paddingTop: insets.top + 12,
-        paddingBottom: insets.bottom + 12,
-        paddingLeft: insets.left + 12,
-        paddingRight: insets.right + 12,
+        paddingTop: insets.top,
+        paddingBottom: insets.bottom,
+        paddingLeft: insets.left,
+        paddingRight: insets.right,
     }
 
     return (
@@ -40,7 +40,7 @@ export const DebugScreen = () => {
             </View>
 
             {/* Assets Debug */}
-            <View>
+            <View style={{ flex: 1 }}>
                 <Text style={{ color: 'white', marginBottom: 10, fontSize: 24, fontWeight: 'bold' }}>All Assets</Text>
                 {assets ? (
                     <ScrollView>
