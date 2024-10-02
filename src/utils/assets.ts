@@ -24,7 +24,8 @@ export const loadFile = async (filepath: string) => {
     }
 }
 
-export const loadDirectory = async (directory: string) => {
+type LoadDirectoryResult = { path: string; content: Types.JsonSchema | LoadDirectoryResult; metadata?: { title: Types.MultiLingualText } }[]
+export const loadDirectory = async (directory: string): Promise<LoadDirectoryResult> => {
     const fullPath = getAssetPath(directory)
     DEBUG && console.log(`[loading] directory ${fullPath}`)
 
@@ -33,23 +34,24 @@ export const loadDirectory = async (directory: string) => {
 
         const output = []
         for (const file of files) {
-            output.push(await loadDirectoryOrFile(`${directory}/${file}`))
+            const filepath = `${directory}/${file}`
+            if (await isDirectory(getAssetPath(filepath))) {
+                output.push({
+                    path: filepath,
+                    content: await loadDirectory(filepath),
+                    metadata: await loadFile(`${filepath}/index.yml`), //
+                })
+            } else if (filepath.endsWith('.yml')) {
+                output.push({
+                    path: filepath,
+                    content: await loadFile(filepath), //
+                })
+            }
         }
         return output
     } catch (error) {
         console.error(error)
         return []
-    }
-}
-
-const loadDirectoryOrFile = async (path: string) => {
-    if (await isDirectory(getAssetPath(path))) {
-        const content: any[] = await loadDirectory(path)
-        const metadata = await loadFile(`${path}/index.yml`)
-        return { path, content, metadata }
-    } else {
-        const content: any = await loadFile(path)
-        return { path, content }
     }
 }
 
@@ -69,17 +71,17 @@ export const loadLiturgy = async (occasion: Types.Occasion): Promise<PrayerGroup
     const subDirs = await loadDirectory('coptish-datastore/output/liturgy-st-basil')
     return subDirs.map(({ content, ...rest }) => ({
         ...rest,
-        prayers: content
+        prayers: (content as LoadDirectoryResult)
             ?.filter(({ path }: { path: string }) => filename(path)?.match(/\d{2}-/))
-            ?.map(({ path, content }: { path: string; content: Types.Prayer }) => ({ ...content, id: filename(path)?.replace('.yml', '') }))
+            ?.map(({ path, content }) => ({ ...content, id: filename(path)?.replace('.yml', '') }) as PrayerWithId)
             ?.filter(isOccasion(occasion))
-            ?.map((prayer: Types.Prayer) => ({ ...prayer, sections: prayer?.sections?.filter(isOccasion(occasion)) })),
+            ?.map((prayer) => ({ ...prayer, sections: prayer?.sections?.filter(isOccasion(occasion)) })),
     }))
 }
 
 export const loadCompoundPrayer = async (path: string): Promise<Types.Prayer[]> => {
     const prayers = await loadDirectory(`coptish-datastore/output/${path}`)
-    return prayers?.map(({ content }: { path: string; content: any; metadata?: undefined }) => content)
+    return prayers?.map(({ content }) => content as Types.Prayer)
 }
 
 type ReadingType = Types.ReadingSection['readingType']
