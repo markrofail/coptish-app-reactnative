@@ -4,9 +4,9 @@ import { Prayer } from '../../components/Prayer'
 import { MultiLingualText } from '../../components/MultiLingualText'
 import { ListItem } from './PrayerScreen'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
-import { scale } from 'react-native-size-matters'
 import { verticalScale } from 'react-native-size-matters'
 import { DEBUG } from '@/src/config'
+import { SkeletonPrayer } from '@/src/components/SkeletonPrayer'
 
 interface PrayerPaginationListProps {
     listItems: ListItem[]
@@ -62,7 +62,7 @@ export const PrayerPaginationList = ({ listItems, activeItem, onActiveItemChange
     return (
         <>
             <View style={{ ...styles.container, ...padding }}>
-                {!!listItems && !!activeItem && (
+                {listItems.length > 0 && activeItem ? (
                     <ScrollView
                         ref={ref}
                         onContentSizeChange={(_, h) => {
@@ -85,8 +85,11 @@ export const PrayerPaginationList = ({ listItems, activeItem, onActiveItemChange
                             <Prayer prayer={activeItem} />
                         )}
                     </ScrollView>
+                ) : (
+                    <SkeletonPrayer />
                 )}
             </View>
+
             <Pressable style={styles.leftButton} onPress={onPrevPage} />
             <Pressable style={styles.rightButton} onPress={onNextPage} />
         </>

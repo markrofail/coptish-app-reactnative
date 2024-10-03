@@ -51,33 +51,31 @@ export const PrayerScreen = () => {
     }
 
     return (
-        listItems && (
-            <Drawer.Navigator
-                screenOptions={({ navigation }) => ({
-                    headerTitle: header,
-                    headerStyle: { backgroundColor: 'black' },
-                    headerTitleStyle: { color: 'white' },
-                    headerShadowVisible: false,
-                    headerLeft: () => <IconButton icon="menu" iconColor={MD3Colors.neutral100} size={20} onPress={navigation.toggleDrawer} />,
-                })}
-                drawerContent={() => (
-                    <PrayerDrawer //
-                        listItems={listItems}
+        <Drawer.Navigator
+            screenOptions={({ navigation }) => ({
+                headerTitle: header,
+                headerStyle: { backgroundColor: 'black' },
+                headerTitleStyle: { color: 'white' },
+                headerShadowVisible: false,
+                headerLeft: () => <IconButton icon="menu" iconColor={MD3Colors.neutral100} size={20} onPress={navigation.toggleDrawer} />,
+            })}
+            drawerContent={() => (
+                <PrayerDrawer //
+                    listItems={listItems}
+                    activeItem={activeItem}
+                    onActiveItemChange={onActiveItemChange}
+                />
+            )}
+        >
+            <Drawer.Screen name="Home">
+                {() => (
+                    <PrayerPaginationList //
+                        listItems={listItems.filter(({ type }) => type == 'prayer')}
                         activeItem={activeItem}
                         onActiveItemChange={onActiveItemChange}
                     />
                 )}
-            >
-                <Drawer.Screen name="Home">
-                    {() => (
-                        <PrayerPaginationList //
-                            listItems={listItems.filter(({ type }) => type == 'prayer')}
-                            activeItem={activeItem}
-                            onActiveItemChange={onActiveItemChange}
-                        />
-                    )}
-                </Drawer.Screen>
-            </Drawer.Navigator>
-        )
+            </Drawer.Screen>
+        </Drawer.Navigator>
     )
 }

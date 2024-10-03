@@ -12,6 +12,7 @@ import { ListItem } from '../PrayerScreen/PrayerScreen'
 import { DrawerHeader } from './DrawerHeader'
 import { DrawerListItem } from './DrawerListItem'
 import { verticalScale } from 'react-native-size-matters'
+import { DrawerListSkeleton } from './DrawerListSkeleton'
 
 interface PrayerDrawerProps {
     listItems: ListItem[]
@@ -51,6 +52,7 @@ export const PrayerDrawer = ({ listItems, activeItem, onActiveItemChange }: Pray
     const padding = {
         paddingTop: insets.top,
         paddingBottom: insets.bottom,
+        paddingRight: insets.right,
         paddingLeft: insets.left,
     }
 
@@ -60,15 +62,19 @@ export const PrayerDrawer = ({ listItems, activeItem, onActiveItemChange }: Pray
                 <View style={{ marginBottom: verticalScale(6) }}>
                     <DrawerHeader date={date} onBackPress={onBackPress} onSettingsPress={toggleSettingsModalVisible} />
                 </View>
-                <FlashList
-                    ref={ref}
-                    keyExtractor={(item, index) => `${index}-${item.title?.english.toLocaleLowerCase()}`}
-                    data={listItems}
-                    estimatedItemSize={50}
-                    showsVerticalScrollIndicator={false}
-                    renderItem={renderItem}
-                    extraData={activeItem}
-                />
+                {listItems.length > 0 ? (
+                    <FlashList
+                        ref={ref}
+                        keyExtractor={(item, index) => `${index}-${item.title?.english.toLocaleLowerCase()}`}
+                        data={listItems}
+                        estimatedItemSize={50}
+                        showsVerticalScrollIndicator={false}
+                        renderItem={renderItem}
+                        extraData={activeItem}
+                    />
+                ) : (
+                    <DrawerListSkeleton />
+                )}
             </View>
             <SettingsModal visible={isSettingsModalVisible} onDismiss={toggleSettingsModalVisible} />
         </>
