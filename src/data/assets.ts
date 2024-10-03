@@ -380,6 +380,182 @@ export default [
         module: require('../../assets/coptish-datastore/output/liturgy-st-basil/04-the-distribution-of-the-holy-mysteries/index.yml')
     },
     { 
+        path: 'coptish-datastore/output/liturgy-st-basil/index.yml',
+        module: require('../../assets/coptish-datastore/output/liturgy-st-basil/index.yml')
+    },
+    { 
+        path: 'coptish-datastore/output/psalmody/00-ten-thino.yml',
+        module: require('../../assets/coptish-datastore/output/psalmody/00-ten-thino.yml')
+    },
+    { 
+        path: 'coptish-datastore/output/psalmody/01-resurrection-tennav.yml',
+        module: require('../../assets/coptish-datastore/output/psalmody/01-resurrection-tennav.yml')
+    },
+    { 
+        path: 'coptish-datastore/output/psalmody/02-first-hoos.yml',
+        module: require('../../assets/coptish-datastore/output/psalmody/02-first-hoos.yml')
+    },
+    { 
+        path: 'coptish-datastore/output/psalmody/03-lobsh-of-first-hoos.yml',
+        module: require('../../assets/coptish-datastore/output/psalmody/03-lobsh-of-first-hoos.yml')
+    },
+    { 
+        path: 'coptish-datastore/output/psalmody/04-second-hoos.yml',
+        module: require('../../assets/coptish-datastore/output/psalmody/04-second-hoos.yml')
+    },
+    { 
+        path: 'coptish-datastore/output/psalmody/05-second-lobsh.yml',
+        module: require('../../assets/coptish-datastore/output/psalmody/05-second-lobsh.yml')
+    },
+    { 
+        path: 'coptish-datastore/output/psalmody/06-third-hoos.yml',
+        module: require('../../assets/coptish-datastore/output/psalmody/06-third-hoos.yml')
+    },
+    { 
+        path: 'coptish-datastore/output/psalmody/07-arepsalin.yml',
+        module: require('../../assets/coptish-datastore/output/psalmody/07-arepsalin.yml')
+    },
+    { 
+        path: 'coptish-datastore/output/psalmody/08-ten-oweeh-enthok.yml',
+        module: require('../../assets/coptish-datastore/output/psalmody/08-ten-oweeh-enthok.yml')
+    },
+    { 
+        path: 'coptish-datastore/output/psalmody/09-comemoration.yml',
+        module: require('../../assets/coptish-datastore/output/psalmody/09-comemoration.yml')
+    },
+    { 
+        path: 'coptish-datastore/output/psalmody/10-doxology-st-mary.yml',
+        module: require('../../assets/coptish-datastore/output/psalmody/10-doxology-st-mary.yml')
+    },
+    { 
+        path: 'coptish-datastore/output/psalmody/11-doxology-archangel-michael.yml',
+        module: require('../../assets/coptish-datastore/output/psalmody/11-doxology-archangel-michael.yml')
+    },
+    { 
+        path: 'coptish-datastore/output/psalmody/12-doxology-st-anthony.yml',
+        module: require('../../assets/coptish-datastore/output/psalmody/12-doxology-st-anthony.yml')
+    },
+    { 
+        path: 'coptish-datastore/output/psalmody/13-conclusion-of-doxologies.yml',
+        module: require('../../assets/coptish-datastore/output/psalmody/13-conclusion-of-doxologies.yml')
+    },
+    { 
+        path: 'coptish-datastore/output/psalmody/14-fourth-hoos.yml',
+        module: require('../../assets/coptish-datastore/output/psalmody/14-fourth-hoos.yml')
+    },
+    { 
+        path: 'coptish-datastore/output/psalmody/15-aynahti.yml',
+        module: require('../../assets/coptish-datastore/output/psalmody/15-aynahti.yml')
+    },
+    { 
+        path: 'coptish-datastore/output/psalmody/16-aykoti.yml',
+        module: require('../../assets/coptish-datastore/output/psalmody/16-aykoti.yml')
+    },
+    { 
+        path: 'coptish-datastore/output/psalmody/17-theotoky-adam-intro.yml',
+        module: require('../../assets/coptish-datastore/output/psalmody/17-theotoky-adam-intro.yml')
+    },
+    { 
+        path: 'coptish-datastore/output/psalmody/18-theotoky-watos-intro.yml',
+        module: require('../../assets/coptish-datastore/output/psalmody/18-theotoky-watos-intro.yml')
+    },
+    { 
+        path: 'coptish-datastore/output/psalmody/19-theotoky-part-1.yml',
+        module: require('../../assets/coptish-datastore/output/psalmody/19-theotoky-part-1.yml')
+    },
+    { 
+        path: 'coptish-datastore/output/psalmody/20-theotoky-part-2.yml',
+        module: require('../../assets/coptish-datastore/output/psalmody/20-theotoky-part-2.yml')
+    },
+    { 
+        path: 'coptish-datastore/output/psalmody/21-theotoky-part-3.yml',
+        module: require('../../assets/coptish-datastore/output/psalmody/21-theotoky-part-3.yml')
+    },
+    { 
+        path: 'coptish-datastore/output/psalmody/22-theotoky-part-4.yml',
+        module: require('../../assets/coptish-datastore/output/psalmody/22-theotoky-part-4.yml')
+    },
+    { 
+        path: 'coptish-datastore/output/psalmody/23-theotoky-part-5.yml',
+        module: require('../../assets/coptish-datastore/output/psalmody/23-theotoky-part-5.yml')
+    },
+    { 
+        path: 'coptish-datastore/output/psalmody/24-theotoky-part-6.yml',
+        module: require('../../assets/coptish-datastore/output/psalmody/24-theotoky-part-6.yml')
+    },
+    { 
+        path: 'coptish-datastore/output/psalmody/25-gospel.yml',
+        module: require('../../assets/coptish-datastore/output/psalmody/25-gospel.yml')
+    },
+    { 
+        path: 'coptish-datastore/output/psalmody/26-shere-ne-maria.yml',
+        module: require('../../assets/coptish-datastore/output/psalmody/26-shere-ne-maria.yml')
+    },
+    { 
+        path: 'coptish-datastore/output/psalmody/27-semouti.yml',
+        module: require('../../assets/coptish-datastore/output/psalmody/27-semouti.yml')
+    },
+    { 
+        path: 'coptish-datastore/output/psalmody/28-seven-times.yml',
+        module: require('../../assets/coptish-datastore/output/psalmody/28-seven-times.yml')
+    },
+    { 
+        path: 'coptish-datastore/output/psalmody/29-theotoky-part-10.yml',
+        module: require('../../assets/coptish-datastore/output/psalmody/29-theotoky-part-10.yml')
+    },
+    { 
+        path: 'coptish-datastore/output/psalmody/30-theotoky-part-11.yml',
+        module: require('../../assets/coptish-datastore/output/psalmody/30-theotoky-part-11.yml')
+    },
+    { 
+        path: 'coptish-datastore/output/psalmody/31-theotoky-part-12.yml',
+        module: require('../../assets/coptish-datastore/output/psalmody/31-theotoky-part-12.yml')
+    },
+    { 
+        path: 'coptish-datastore/output/psalmody/32-theotoky-part-13.yml',
+        module: require('../../assets/coptish-datastore/output/psalmody/32-theotoky-part-13.yml')
+    },
+    { 
+        path: 'coptish-datastore/output/psalmody/33-theotoky-part-14.yml',
+        module: require('../../assets/coptish-datastore/output/psalmody/33-theotoky-part-14.yml')
+    },
+    { 
+        path: 'coptish-datastore/output/psalmody/34-theotoky-part-15.yml',
+        module: require('../../assets/coptish-datastore/output/psalmody/34-theotoky-part-15.yml')
+    },
+    { 
+        path: 'coptish-datastore/output/psalmody/35-theotoky-part-16.yml',
+        module: require('../../assets/coptish-datastore/output/psalmody/35-theotoky-part-16.yml')
+    },
+    { 
+        path: 'coptish-datastore/output/psalmody/36-theotoky-part-17.yml',
+        module: require('../../assets/coptish-datastore/output/psalmody/36-theotoky-part-17.yml')
+    },
+    { 
+        path: 'coptish-datastore/output/psalmody/37-theotoky-part-18.yml',
+        module: require('../../assets/coptish-datastore/output/psalmody/37-theotoky-part-18.yml')
+    },
+    { 
+        path: 'coptish-datastore/output/psalmody/38-your-mercies.yml',
+        module: require('../../assets/coptish-datastore/output/psalmody/38-your-mercies.yml')
+    },
+    { 
+        path: 'coptish-datastore/output/psalmody/39-creed-intro.yml',
+        module: require('../../assets/coptish-datastore/output/psalmody/39-creed-intro.yml')
+    },
+    { 
+        path: 'coptish-datastore/output/psalmody/40-creed.yml',
+        module: require('../../assets/coptish-datastore/output/psalmody/40-creed.yml')
+    },
+    { 
+        path: 'coptish-datastore/output/psalmody/41-amen-keryalison.yml',
+        module: require('../../assets/coptish-datastore/output/psalmody/41-amen-keryalison.yml')
+    },
+    { 
+        path: 'coptish-datastore/output/psalmody/index.yml',
+        module: require('../../assets/coptish-datastore/output/psalmody/index.yml')
+    },
+    { 
         path: 'coptish-datastore/output/readings/acts-of-the-apostles/2023-12-01.yml',
         module: require('../../assets/coptish-datastore/output/readings/acts-of-the-apostles/2023-12-01.yml')
     },

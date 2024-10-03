@@ -24,34 +24,39 @@ export const loadFile = async (filepath: string) => {
     }
 }
 
-type LoadDirectoryResult = { path: string; content: Types.JsonSchema | LoadDirectoryResult; metadata?: { title: Types.MultiLingualText } }[]
-export const loadDirectory = async (directory: string): Promise<LoadDirectoryResult> => {
+type LoadFileResult = { path: string; content: Types.JsonSchema; metadata: undefined }
+type LoadDirectoryResult = { path: string; content: (LoadFileResult | LoadDirectoryResult)[]; metadata?: { title: Types.MultiLingualText } }
+const isLoadDirectoryResultT = (result: LoadFileResult | LoadDirectoryResult): result is LoadDirectoryResult => !result.path.endsWith('.yml')
+
+export const loadDirectory = async (directory: string): Promise<LoadDirectoryResult | undefined> => {
     const fullPath = getAssetPath(directory)
     DEBUG && console.log(`[loading] directory ${fullPath}`)
 
     try {
         const files = await (await FileSystem.readDirectoryAsync(fullPath)).sort()
 
-        const output = []
+        const output: (LoadFileResult | LoadDirectoryResult)[] = []
         for (const file of files) {
             const filepath = `${directory}/${file}`
             if (await isDirectory(getAssetPath(filepath))) {
-                output.push({
-                    path: filepath,
-                    content: await loadDirectory(filepath),
-                    metadata: await loadFile(`${filepath}/index.yml`), //
-                })
-            } else if (filepath.endsWith('.yml')) {
+                const subDir = await loadDirectory(filepath)
+                if (subDir) output.push(subDir)
+            } else if (filepath.match(/\d{2}\-.+\.yml/)) {
                 output.push({
                     path: filepath,
                     content: await loadFile(filepath), //
                 })
             }
         }
-        return output
+
+        return {
+            path: directory,
+            content: output,
+            metadata: await loadFile(`${directory}/index.yml`), //
+        }
     } catch (error) {
         console.error(error)
-        return []
+        return
     }
 }
 
@@ -67,21 +72,37 @@ export type PrayerGroup = {
     metadata?: { title?: Types.MultiLingualText }
     prayers: PrayerWithId[]
 }
-export const loadLiturgy = async (occasion: Types.Occasion): Promise<PrayerGroup[]> => {
-    const subDirs = await loadDirectory('coptish-datastore/output/liturgy-st-basil')
-    return subDirs.map(({ content, ...rest }) => ({
+
+const parsePrayerGroup = (result: LoadDirectoryResult, occasion: Types.Occasion) => {
+    const { content, ...rest } = result
+
+    return {
         ...rest,
-        prayers: (content as LoadDirectoryResult)
+        prayers: content
             ?.filter(({ path }: { path: string }) => filename(path)?.match(/\d{2}-/))
             ?.map(({ path, content }) => ({ ...content, id: filename(path)?.replace('.yml', '') }) as PrayerWithId)
             ?.filter(isOccasion(occasion))
             ?.map((prayer) => ({ ...prayer, sections: prayer?.sections?.filter(isOccasion(occasion)) })),
-    }))
+    }
 }
 
-export const loadCompoundPrayer = async (path: string): Promise<Types.Prayer[]> => {
-    const prayers = await loadDirectory(`coptish-datastore/output/${path}`)
-    return prayers?.map(({ content }) => content as Types.Prayer)
+const convertFilesToPrayers = (filesOrDirectories: (LoadDirectoryResult | LoadFileResult)[]) => {
+    return filesOrDirectories.map(({ content, metadata }) => {
+        if (!metadata) {
+            // is prayer
+        }
+    })
+}
+
+export const loadPrayer = async (path: string, occasion: Types.Occasion): Promise<PrayerGroup[]> => {
+    const result = await loadDirectory(`coptish-datastore/output/${path}`)
+    if (!result) return []
+
+    if (isLoadDirectoryResultT(result.content[0])) {
+        return result.content.map((r) => parsePrayerGroup(r as LoadDirectoryResult, occasion))
+    } else {
+        return [parsePrayerGroup(result, occasion)]
+    }
 }
 
 type ReadingType = Types.ReadingSection['readingType']

@@ -19,8 +19,16 @@ const TABLE_OF_CONTENTS = [
         title: 'Liturgy St Basil',
         path: 'liturgy-st-basil',
         icon: {
-            dark: require('@/assets/images/LiturgyIcon-white.png'),
-            light: require('@/assets/images/LiturgyIcon.png'),
+            dark: require('@/assets/images/liturgy-white.png'),
+            light: require('@/assets/images/liturgy-black.png'),
+        },
+    },
+    {
+        title: 'Psalmody',
+        path: 'psalmody',
+        icon: {
+            dark: require('@/assets/images/psalmody-white.png'),
+            light: require('@/assets/images/psalmody-black.png'),
         },
     },
 ]
@@ -89,8 +97,8 @@ const styles = StyleSheet.create({
     },
     debugButton: {
         position: 'absolute',
-        bottom: 0,
-        left: 0,
+        bottom: verticalScale(24),
+        left: scale(12),
         display: DEBUG ? 'flex' : 'none',
         alignSelf: 'flex-start',
     },

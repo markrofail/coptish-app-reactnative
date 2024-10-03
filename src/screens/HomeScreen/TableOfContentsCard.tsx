@@ -1,6 +1,6 @@
 import React from 'react'
 import { Image, ImageSourcePropType, StyleSheet, TouchableOpacity, View } from 'react-native'
-import { Button } from 'react-native-paper'
+import { Button, Text } from 'react-native-paper'
 import { scale } from 'react-native-size-matters'
 import { useThemeContext } from '@/src/context/themeContext'
 
@@ -16,7 +16,7 @@ export const TableOfContentsCard = ({ title, icon, onPress }: TableOfContentsCar
     return (
         <TouchableOpacity onPress={onPress} style={{ ...styles.container, backgroundColor: theme.colors.elevation.level2 }}>
             <Image source={theme.dark ? icon?.dark : icon?.light} resizeMode="cover" style={styles.icon} />
-            <Button textColor={theme.colors.primary}>{title}</Button>
+            <Text style={{ ...styles.text, color: theme.colors.primary }}>{title}</Text>
         </TouchableOpacity>
     )
 }
@@ -26,6 +26,9 @@ const styles = StyleSheet.create({
         padding: scale(12),
         alignItems: 'center',
         borderRadius: scale(16),
+        width: scale(120),
+        height: scale(120),
     },
-    icon: { width: scale(75), height: scale(75) },
+    icon: { width: scale(80), height: scale(80) },
+    text: { flexShrink: 1, flexWrap: 'wrap' },
 })

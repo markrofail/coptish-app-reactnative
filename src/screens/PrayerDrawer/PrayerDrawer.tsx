@@ -57,7 +57,7 @@ export const PrayerDrawer = ({ listItems, activeItem, onActiveItemChange }: Pray
     return (
         <>
             <View style={{ flex: 1, backgroundColor: 'black', ...padding }}>
-                <View style={{ marginBottom: verticalScale(24) }}>
+                <View style={{ marginBottom: verticalScale(6) }}>
                     <DrawerHeader date={date} onBackPress={onBackPress} onSettingsPress={toggleSettingsModalVisible} />
                 </View>
                 <FlashList

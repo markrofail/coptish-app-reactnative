@@ -5,7 +5,7 @@ import { createDrawerNavigator } from '@react-navigation/drawer'
 import { PrayerPaginationList } from './PrayerPaginationList'
 import { PrayerDrawer } from '../PrayerDrawer'
 import { useMemoAsync } from '../../hooks/useMemoAsync'
-import { loadLiturgy, PrayerGroup, PrayerWithId } from '../../utils/assets'
+import { loadPrayer, PrayerGroup, PrayerWithId } from '../../utils/assets'
 import * as Types from '../../types'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { RootStackParamList } from '@/src/routes'
@@ -33,8 +33,8 @@ export const PrayerScreen = () => {
     const { params } = useRoute<Props['route']>()
     const path = params?.path
 
-    const liturgy = useMemoAsync(() => loadLiturgy('annual'), [])
-    const listItems = useMemo(() => (!!liturgy ? preprocessLiturgy(liturgy) : []), [liturgy?.length])
+    const prayer = useMemoAsync(() => loadPrayer(path, 'annual'), [])
+    const listItems = useMemo(() => (!!prayer ? preprocessLiturgy(prayer) : []), [prayer?.length])
     const [activeItem, setActiveItem] = useState<ListItem>()
     const [header, setHeader] = useState('')
 

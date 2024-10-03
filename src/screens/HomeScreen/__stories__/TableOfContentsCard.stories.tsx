@@ -23,7 +23,7 @@ const meta: Meta<typeof TableOfContentsCard> = {
 export const Basic: Story = {
     args: {
         title: 'Liturgy St Basil', //
-        icon: require('@/assets/images/LiturgyIcon.png'),
+        icon: require('@/assets/images/liturgy-black.png'),
         onPress: () => {},
     },
 }

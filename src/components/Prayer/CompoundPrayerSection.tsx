@@ -1,7 +1,7 @@
 import React from 'react'
 import * as Types from '../../types'
 import { useMemoAsync } from '../../hooks/useMemoAsync'
-import { loadCompoundPrayer } from '../../utils/assets'
+import { loadPrayer } from '../../utils/assets'
 import { Prayer } from './Prayer'
 import { GradientProps, SkeletonContainer } from 'react-native-dynamic-skeletons'
 import { LinearGradient } from 'expo-linear-gradient'
@@ -16,10 +16,10 @@ const SCREEN_HEIGHT = Dimensions.get('window').height
 const Gradient = (props: GradientProps) => <LinearGradient {...props} />
 
 export const CompoundPrayersSection = ({ section: { path } }: CompoundPrayersSectionProps) => {
-    const prayers = useMemoAsync(() => loadCompoundPrayer(path), [path])
+    const prayers = useMemoAsync(() => loadPrayer(path, 'annual'), [path])
     return !!prayers ? (
         <>
-            {prayers.map((prayer, i) => (
+            {prayers[0].prayers.map((prayer, i) => (
                 <Prayer key={i} prayer={prayer} />
             ))}
         </>
