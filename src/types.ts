@@ -18,6 +18,7 @@ export interface MultiLingualText {
   arabic?: string;
   coptic?: string;
   coptic_english?: string;
+  coptic_arabic?: string;
 }
 export interface InfoSection {
   occasion?: Occasion;
