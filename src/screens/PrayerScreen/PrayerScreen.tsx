@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { IconButton, MD3Colors } from 'react-native-paper'
-import { useRoute } from '@react-navigation/native'
+import { useNavigation, useRoute } from '@react-navigation/native'
 import { createDrawerNavigator } from '@react-navigation/drawer'
 import { PrayerPaginationList } from './PrayerPaginationList'
 import { PrayerDrawer } from '../PrayerDrawer'
@@ -37,6 +37,7 @@ export const PrayerScreen = () => {
     const listItems = useMemo(() => (!!prayer ? preprocessLiturgy(prayer) : []), [prayer?.length])
     const [activeItem, setActiveItem] = useState<ListItem>()
     const [header, setHeader] = useState('')
+    const outerNavigation = useNavigation<PrayerScreenProps['navigation']>()
 
     useEffect(() => {
         const firstPrayer = listItems && listItems.find((item) => item?.type === 'prayer')
@@ -64,6 +65,7 @@ export const PrayerScreen = () => {
                     listItems={listItems}
                     activeItem={activeItem}
                     onActiveItemChange={onActiveItemChange}
+                        onSettingsPress={() => outerNavigation.navigate('Settings')}
                 />
             )}
         >

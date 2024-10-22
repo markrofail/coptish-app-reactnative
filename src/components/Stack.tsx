@@ -1,7 +1,6 @@
 import React, { ReactNode } from 'react'
 import { StyleSheet, View } from 'react-native'
-import { ZoomMultiplier } from '../utils/settings'
-import { useSettings } from '../hooks/useSettings'
+import { useZoomMultiplier } from '../hooks/useSettings'
 
 export type Spacing = 'xs' | 's' | 'm' | 'l' | 'xl'
 export type Direction = 'row' | 'column'
@@ -16,7 +15,8 @@ export interface StackProps {
 }
 
 export const Stack = ({ spaceAbove, spaceBelow, gap, direction, centered, children }: StackProps) => {
-    const zoomMultiplier = useSettings(ZoomMultiplier, 1)
+    const zoomMultiplier = useZoomMultiplier()
+
     const styles = {
         ...spaceAboveStyles(zoomMultiplier)[spaceAbove ?? 'none'],
         ...spaceBelowStyles(zoomMultiplier)[spaceBelow ?? 'none'],

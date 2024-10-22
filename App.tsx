@@ -15,6 +15,7 @@ import { Routes } from './src/routes'
 import { ThemeContext } from './src/context/themeContext'
 import { DarkTheme, LightTheme, NavigationDarkTheme, NavigationLightTheme } from './src/config'
 import * as SplashScreen from 'expo-splash-screen'
+import { SettingsProvider } from './src/hooks/useSettings'
 
 registerTranslation('en', en)
 
@@ -58,13 +59,15 @@ function App() {
     return (
         <ThemeContext.Provider value={{ theme, toggleTheme }}>
             <PaperProvider theme={theme}>
-                <NavigationContainer theme={theme === LightTheme ? NavigationLightTheme : NavigationDarkTheme}>
-                    <Routes />
-                    <StatusBar hidden />
-                    <Snackbar visible={!!currentAsset} onDismiss={() => setCurrentAsset('')}>
-                        {currentAsset}
-                    </Snackbar>
-                </NavigationContainer>
+                <SettingsProvider>
+                    <NavigationContainer theme={theme === LightTheme ? NavigationLightTheme : NavigationDarkTheme}>
+                        <Routes />
+                        <StatusBar hidden />
+                        <Snackbar visible={!!currentAsset} onDismiss={() => setCurrentAsset('')}>
+                            {currentAsset}
+                        </Snackbar>
+                    </NavigationContainer>
+                </SettingsProvider>
             </PaperProvider>
         </ThemeContext.Provider>
     )

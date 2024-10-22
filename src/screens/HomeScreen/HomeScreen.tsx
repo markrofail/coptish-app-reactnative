@@ -9,10 +9,9 @@ import { scale, verticalScale } from 'react-native-size-matters'
 import { TableOfContentsCard } from './TableOfContentsCard'
 import { useThemeContext } from '@/src/context/themeContext'
 import { CalendarWidget } from './CalendarWidget'
-import { useSettings } from '@/src/hooks/useSettings'
-import { CurrentDate } from '@/src/utils/settings'
 import { Toolbar } from './Toolbar'
 import { DEBUG } from '@/src/config'
+import { useCurrentDate } from '@/src/hooks/useSettings'
 
 const TABLE_OF_CONTENTS = [
     {
@@ -37,8 +36,10 @@ type NavigationProps = NativeStackNavigationProp<RootStackParamList, 'Prayer'>
 
 export const HomeScreen = () => {
     const { theme } = useThemeContext()
-    const date = useSettings(CurrentDate, new Date())
+    const date = useCurrentDate()
     const navigation = useNavigation<NavigationProps>()
+
+    const onSettingsPress = () => navigation.navigate('Settings')
 
     const insets = useSafeAreaInsets()
     const padding = {
@@ -50,14 +51,12 @@ export const HomeScreen = () => {
 
     return (
         <View style={{ ...styles.container, ...padding, backgroundColor: theme.colors.background }}>
-            <Toolbar onSettingsPress={() => {}} />
-
             <View style={styles.logoContainer}>
                 <Image source={require('@/assets/images/icon-black.png')} style={{ width: scale(120), height: undefined, aspectRatio: 1 }} />
             </View>
 
             <View style={styles.calendarContainer}>
-                <CalendarWidget date={date} occasion="annual" />
+                <CalendarWidget date={date} occasion="annual" onPress={() => navigation.navigate('Settings')} />
             </View>
 
             <View style={styles.tableOfContentsContainer}>
@@ -68,15 +67,19 @@ export const HomeScreen = () => {
                 </View>
             </View>
 
-            <Button
-                mode="contained"
-                buttonColor={theme.colors.elevation.level2}
-                textColor={theme.colors.primary}
-                style={styles.debugButton}
-                onPress={() => navigation.navigate('Debug')}
-            >
-                Debug
-            </Button>
+            <Toolbar onSettingsPress={onSettingsPress} />
+
+            {DEBUG && (
+                <Button
+                    mode="contained"
+                    buttonColor={theme.colors.elevation.level2}
+                    textColor={theme.colors.primary}
+                    style={styles.debugButton}
+                    onPress={() => navigation.navigate('Debug')}
+                >
+                    Debug
+                </Button>
+            )}
         </View>
     )
 }
@@ -99,7 +102,6 @@ const styles = StyleSheet.create({
         position: 'absolute',
         bottom: verticalScale(24),
         left: scale(12),
-        display: DEBUG ? 'flex' : 'none',
         alignSelf: 'flex-start',
     },
 })

@@ -1,10 +1,10 @@
 import React from 'react'
 import { StyleSheet, Text as TextBase, View } from 'react-native'
-import { ZoomMultiplier } from '../utils/settings'
-import { useSettings } from '../hooks/useSettings'
+import * as Types from '../types'
+import { useZoomMultiplier } from '../hooks/useSettings'
 
 type Variant = 'title' | 'heading1' | 'heading2' | 'heading3' | 'heading4' | 'heading5' | 'heading6' | 'body'
-export type Language = 'english' | 'coptic' | 'coptic_english' | 'arabic'
+export type Language = keyof Types.MultiLingualText
 
 export interface TextProps {
     language?: Language
@@ -17,7 +17,8 @@ export interface TextProps {
 }
 
 export const Text = ({ fill, center, language, variant, color, inverse, text }: TextProps) => {
-    const zoomMultiplier = useSettings(ZoomMultiplier, 1)
+    const zoomMultiplier = useZoomMultiplier()
+
     const styles: Record<string, any> = {
         color: color ?? (inverse ? 'black' : 'white'),
         textAlign: center ? ('center' as const) : undefined,

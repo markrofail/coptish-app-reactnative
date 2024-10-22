@@ -4,15 +4,14 @@ import { useMemoAsync } from '../../hooks/useMemoAsync'
 import * as Types from '../../types'
 import { loadReading } from '../../utils/assets'
 import { Stack } from '../Stack'
-import { useSettings } from '../../hooks/useSettings'
-import { CurrentDate } from '../../utils/settings'
+import { useCurrentDate } from '../../hooks/useSettings'
 
 export interface ReadingSectionProps {
     section: Types.ReadingSection
 }
 
 export const ReadingSection = ({ section: { readingType } }: ReadingSectionProps) => {
-    const date = useSettings(CurrentDate, new Date())
+    const date = useCurrentDate()
     const reading = useMemoAsync(() => loadReading(date, readingType), [])
 
     return reading ? (

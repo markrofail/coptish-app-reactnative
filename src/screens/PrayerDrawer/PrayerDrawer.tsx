@@ -4,10 +4,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { FlashList, ListRenderItemInfo } from '@shopify/flash-list'
 import { DrawerActions } from '@react-navigation/routers'
 import { useNavigation } from '@react-navigation/core'
-import { CurrentDate } from '../../utils/settings'
-import { useToggle } from '../../hooks/useToggle'
-import { SettingsModal } from '../SettingsModal'
-import { useSettings } from '../../hooks/useSettings'
+import { useCurrentDate } from '../../hooks/useSettings'
 import { ListItem } from '../PrayerScreen/PrayerScreen'
 import { DrawerHeader } from './DrawerHeader'
 import { DrawerListItem } from './DrawerListItem'
@@ -18,15 +15,15 @@ interface PrayerDrawerProps {
     listItems: ListItem[]
     activeItem?: ListItem
     onActiveItemChange: (item: ListItem) => void
+    onSettingsPress: () => void
 }
 
-export const PrayerDrawer = ({ listItems, activeItem, onActiveItemChange }: PrayerDrawerProps) => {
-    const ref = useRef<FlashList<ListItem>>(null)
-    const date = useSettings(CurrentDate, new Date())
-    const [isSettingsModalVisible, toggleSettingsModalVisible] = useToggle()
+export const PrayerDrawer = ({ listItems, activeItem, onActiveItemChange, onSettingsPress }: PrayerDrawerProps) => {
+    const scrollRef = useRef<FlashList<ListItem>>(null)
+    const date = useCurrentDate()
 
     useEffect(() => {
-        activeItem && ref.current?.scrollToItem({ item: activeItem, animated: false })
+        activeItem && scrollRef.current?.scrollToItem({ item: activeItem, animated: false })
     }, [activeItem])
 
     const navigation = useNavigation()
@@ -60,11 +57,11 @@ export const PrayerDrawer = ({ listItems, activeItem, onActiveItemChange }: Pray
         <>
             <View style={{ flex: 1, backgroundColor: 'black', ...padding }}>
                 <View style={{ marginBottom: verticalScale(6) }}>
-                    <DrawerHeader date={date} onBackPress={onBackPress} onSettingsPress={toggleSettingsModalVisible} />
+                    <DrawerHeader date={date} onBackPress={onBackPress} onSettingsPress={onSettingsPress} />
                 </View>
                 {listItems.length > 0 ? (
                     <FlashList
-                        ref={ref}
+                        ref={scrollRef}
                         keyExtractor={(item, index) => `${index}-${item.title?.english.toLocaleLowerCase()}`}
                         data={listItems}
                         estimatedItemSize={50}
@@ -76,7 +73,6 @@ export const PrayerDrawer = ({ listItems, activeItem, onActiveItemChange }: Pray
                     <DrawerListSkeleton />
                 )}
             </View>
-            <SettingsModal visible={isSettingsModalVisible} onDismiss={toggleSettingsModalVisible} />
         </>
     )
 }

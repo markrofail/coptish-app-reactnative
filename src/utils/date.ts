@@ -1,7 +1,7 @@
 type Mode = 'dd-mm' | 'dd-mm-yy' | 'iso'
 
 export const getCopticDate = (date: Date | undefined, mode: Mode) => {
-    if (!date || isNaN(date.getTime())) date = new Date()
+    if (!date || isNaN(date?.getTime())) date = new Date()
 
     const { day, month } = Object.fromEntries(
         new Intl.DateTimeFormat('en-u-ca-coptic', { day: 'numeric', month: 'long' })
@@ -17,7 +17,7 @@ export const getCopticDate = (date: Date | undefined, mode: Mode) => {
 }
 
 export const getGeorgianDate = (date: Date | undefined, mode: Mode) => {
-    if (!date || isNaN(date.getTime())) date = new Date()
+    if (!date || isNaN(date?.getTime())) date = new Date()
 
     if (mode === 'iso') date.toISOString().split('T').at(0)
     if (mode === 'dd-mm') return new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'long' }).format(date)
