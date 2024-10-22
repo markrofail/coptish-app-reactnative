@@ -26,9 +26,9 @@ const styles = StyleSheet.create({
         padding: scale(12),
         alignItems: 'center',
         borderRadius: scale(16),
-        width: scale(120),
-        height: scale(120),
+        width: scale(100),
+        height: scale(100),
     },
-    icon: { width: scale(80), height: scale(80) },
+    icon: { width: scale(60), height: scale(60) },
     text: { flexShrink: 1, flexWrap: 'wrap' },
 })
