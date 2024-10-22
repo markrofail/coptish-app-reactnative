@@ -16,7 +16,7 @@ type TitleListItem = { type: 'title'; title?: Types.MultiLingualText }
 type PrayerListItem = { type: 'prayer' } & PrayerWithId
 export type ListItem = TitleListItem | PrayerListItem
 
-const preprocessLiturgy = (prayerGroups: PrayerGroup[]): ListItem[] => {
+const prayerToListItems = (prayerGroups: PrayerGroup[]): ListItem[] => {
     const items: ListItem[] = []
 
     for (const { metadata, prayers } of prayerGroups) {
@@ -27,14 +27,14 @@ const preprocessLiturgy = (prayerGroups: PrayerGroup[]): ListItem[] => {
     return items.filter(Boolean)
 }
 
-type Props = NativeStackScreenProps<RootStackParamList, 'Prayer'>
+type PrayerScreenProps = NativeStackScreenProps<RootStackParamList, 'Prayer'>
 
 export const PrayerScreen = () => {
-    const { params } = useRoute<Props['route']>()
+    const { params } = useRoute<PrayerScreenProps['route']>()
     const path = params?.path
 
     const prayer = useMemoAsync(() => loadPrayer(path, 'annual'), [])
-    const listItems = useMemo(() => (!!prayer ? preprocessLiturgy(prayer) : []), [prayer?.length])
+    const listItems = useMemo(() => (!!prayer ? prayerToListItems(prayer) : []), [prayer?.length])
     const [activeItem, setActiveItem] = useState<ListItem>()
     const [header, setHeader] = useState('')
     const outerNavigation = useNavigation<PrayerScreenProps['navigation']>()
@@ -52,32 +52,34 @@ export const PrayerScreen = () => {
     }
 
     return (
-        <Drawer.Navigator
-            screenOptions={({ navigation }) => ({
-                headerTitle: header,
-                headerStyle: { backgroundColor: 'black' },
-                headerTitleStyle: { color: 'white' },
-                headerShadowVisible: false,
-                headerLeft: () => <IconButton icon="menu" iconColor={MD3Colors.neutral100} size={20} onPress={navigation.toggleDrawer} />,
-            })}
-            drawerContent={() => (
-                <PrayerDrawer //
-                    listItems={listItems}
-                    activeItem={activeItem}
-                    onActiveItemChange={onActiveItemChange}
-                        onSettingsPress={() => outerNavigation.navigate('Settings')}
-                />
-            )}
-        >
-            <Drawer.Screen name="Home">
-                {() => (
-                    <PrayerPaginationList //
-                        listItems={listItems.filter(({ type }) => type == 'prayer')}
+        <>
+            <Drawer.Navigator
+                screenOptions={({ navigation }) => ({
+                    headerTitle: header,
+                    headerStyle: { backgroundColor: 'black' },
+                    headerTitleStyle: { color: 'white' },
+                    headerShadowVisible: false,
+                    headerLeft: () => <IconButton icon="menu" iconColor={MD3Colors.neutral100} size={20} onPress={navigation.toggleDrawer} />,
+                })}
+                drawerContent={() => (
+                    <PrayerDrawer //
+                        listItems={listItems}
                         activeItem={activeItem}
                         onActiveItemChange={onActiveItemChange}
+                        onSettingsPress={() => outerNavigation.navigate('Settings')}
                     />
                 )}
-            </Drawer.Screen>
-        </Drawer.Navigator>
+            >
+                <Drawer.Screen name="Home">
+                    {() => (
+                        <PrayerPaginationList //
+                            listItems={listItems.filter(({ type }) => type == 'prayer')}
+                            activeItem={activeItem}
+                            onActiveItemChange={onActiveItemChange}
+                        />
+                    )}
+                </Drawer.Screen>
+            </Drawer.Navigator>
+        </>
     )
 }

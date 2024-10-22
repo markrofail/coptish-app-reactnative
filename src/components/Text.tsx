@@ -49,6 +49,7 @@ const languageStyles = StyleSheet.create({
     coptic: { fontFamily: 'AvvaShenouda' },
     coptic_english: { fontFamily: 'NotoSerif_400Regular' },
     arabic: { fontFamily: 'NotoNaskhArabic_400Regular', writingDirection: 'rtl' },
+    coptic_arabic: { fontFamily: 'NotoNaskhArabic_400Regular', writingDirection: 'rtl' },
 })
 
 const variantStyles = (zoomMultiplier: number) =>

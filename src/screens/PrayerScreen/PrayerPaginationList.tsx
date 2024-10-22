@@ -77,7 +77,6 @@ export const PrayerPaginationList = ({ listItems, activeItem, onActiveItemChange
                         onScroll={(e) => setYOffset(e.nativeEvent.contentOffset.y)}
                         onMomentumScrollEnd={(e) => setYOffset(e.nativeEvent.contentOffset.y)}
                         maintainVisibleContentPosition={{ minIndexForVisible: 0 }}
-                        pagingEnabled
                     >
                         {activeItem.type === 'title' ? (
                             activeItem?.title?.english && <MultiLingualText variant="heading1" text={{ english: activeItem.title.english }} />
