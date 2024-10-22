@@ -1,9 +1,8 @@
 import React from 'react'
+import { StyleSheet, TouchableOpacity, View } from 'react-native'
 import { Menu, List, Text, Chip } from 'react-native-paper'
-import { useToggle } from '../../hooks/useToggle'
-import { StyleSheet, View } from 'react-native'
 import { verticalScale } from 'react-native-size-matters'
-import { TouchableOpacity } from 'react-native-gesture-handler'
+import { useToggle } from '../../hooks/useToggle'
 
 interface MultiSelectFieldProps<T> {
     value: T[]

@@ -1,7 +1,7 @@
 import React from 'react'
+import { TouchableOpacity } from 'react-native'
 import { Menu, List, Text } from 'react-native-paper'
 import { useToggle } from '../../hooks/useToggle'
-import { TouchableOpacity } from 'react-native-gesture-handler'
 
 interface SelectFieldProps<T> {
     value: T
