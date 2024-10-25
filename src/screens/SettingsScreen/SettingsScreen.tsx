@@ -1,15 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import { Image, ScrollView, StyleSheet, View } from 'react-native'
-import { Button, Divider, List, Switch, Text } from 'react-native-paper'
+import { Button, Divider, Icon, IconButton, List, MD3Colors, Switch, Text } from 'react-native-paper'
+import { useNavigation } from '@react-navigation/native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { scale, verticalScale } from 'react-native-size-matters'
 import { Settings, useSettings } from '@/src/hooks/useSettings'
-import { SelectField } from './SelectField'
-import { RangeField } from './RangeField'
-import { useNavigation } from '@react-navigation/native'
-import { DateField } from './DateField'
-import { MultiSelectField } from './MultiSelectField'
 import { SAINTS } from '@/src/types'
+import { SelectField, MultiSelectField, RangeField, DateField } from './fields'
 
 const UI_LANGUAGE_OPTIONS = [
     { label: 'English', value: 'english' },
@@ -29,31 +26,33 @@ export const SettingsScreen = () => {
     const [storedSettings, saveSettings] = useSettings()
     const [localSettings, setLocalSettings] = useState(storedSettings)
     const { fontSize, currentDate, darkMode, uiLanguage, copticTransliterationLanguage, churchSaints } = localSettings
+    useEffect(() => {
+        setLocalSettings(storedSettings)
+    }, [storedSettings])
 
-    const onDismiss = () => navigation.goBack()
+    const onDismiss = () => {
+        navigation.goBack()
+    }
     const onSave = () => {
-        console.log({ localSettings })
         saveSettings(localSettings)
         onDismiss()
     }
     const onSettingsChange =
         <K extends keyof Settings>(key: K) =>
-        (value: Settings[K]) =>
+        (value: Settings[K]) => {
             setLocalSettings((prev) => ({ ...prev, [key]: value }))
-
-    useEffect(() => {
-        setLocalSettings(storedSettings)
-    }, [storedSettings])
+        }
 
     useEffect(() => {
         navigation.setOptions({
+            headerLeft: () => <IconButton icon="arrow-left" size={20} onPress={onDismiss} />,
             headerRight: () => (
                 <Button onPress={onSave}>
                     <Text>Apply</Text>
                 </Button>
             ),
         })
-    }, [navigation, onSave])
+    }, [navigation, onDismiss, onSave])
 
     const insets = useSafeAreaInsets()
     const padding = {
@@ -65,7 +64,7 @@ export const SettingsScreen = () => {
     return (
         <ScrollView style={{ ...styles.container, ...padding }}>
             <List.Section style={styles.logoContainer}>
-                <Image source={require('@/assets/images/icon-black.png')} style={{ width: scale(120), height: undefined, aspectRatio: 1 }} />
+                <Image source={require('@/assets/images/icon-black.png')} style={styles.logo} />
                 <Text style={styles.versionText}>App Version 2.24 #50491</Text>
             </List.Section>
 
@@ -133,6 +132,11 @@ const styles = StyleSheet.create({
     logoContainer: {
         justifyContent: 'center',
         alignItems: 'center',
+    },
+    logo: {
+        width: scale(120),
+        height: undefined,
+        aspectRatio: 1,
     },
     container: {
         backgroundColor: '#F5F5F5',

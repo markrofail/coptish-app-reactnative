@@ -1,7 +1,7 @@
 import React from 'react'
 import { TouchableOpacity } from 'react-native'
 import { Menu, List, Text } from 'react-native-paper'
-import { useToggle } from '../../hooks/useToggle'
+import { useToggle } from '../../../hooks/useToggle'
 
 interface SelectFieldProps<T> {
     value: T
@@ -37,7 +37,7 @@ const SelectFieldInput = <T,>({ options, onChange }: SelectFieldInputProps<T>) =
 type SelectFieldPreviewProps<T> = Pick<SelectFieldProps<T>, 'value' | 'options'>
 const SelectFieldPreview = <T,>({ value, options }: SelectFieldPreviewProps<T>) => {
     const valueStr = options.find((option) => option.value === value)?.label
-    return <Text>{valueStr}</Text>
+    return <Text variant="bodySmall">{valueStr}</Text>
 }
 
 export const SelectField = { Input: SelectFieldInput, Preview: SelectFieldPreview }

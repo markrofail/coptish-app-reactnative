@@ -1,7 +1,7 @@
 import React from 'react'
 import { View, StyleSheet } from 'react-native'
 import { Chip, Text } from 'react-native-paper'
-import { getCopticDate, getGeorgianDate } from '../../utils/date'
+import { getCopticDate, getGeorgianDate } from '../../../utils/date'
 import DateTimePicker from '@react-native-community/datetimepicker'
 import { verticalScale } from 'react-native-size-matters'
 
@@ -32,7 +32,7 @@ const DateFieldPreview = ({ value, onChange }: DateFieldPreviewProps) => {
     const onClear = () => onChange(undefined)
 
     return !isDifferent ? (
-        <Text>{dateStr}</Text>
+        <Text variant="bodySmall">{dateStr}</Text>
     ) : (
         <View style={styles.dateChip}>
             <Chip onClose={onClear} compact>

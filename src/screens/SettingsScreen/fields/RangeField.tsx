@@ -20,7 +20,7 @@ export const RangeFieldInput = ({ value, onChange, options }: RangeFieldInputPro
 
 type RangeFieldPreviewProps = Pick<RangeFieldProps, 'value'> & { units: string }
 export const RangeFieldPreview = ({ value, units }: RangeFieldPreviewProps) => (
-    <Text>
+    <Text variant="bodySmall">
         {value}
         {units}
     </Text>
