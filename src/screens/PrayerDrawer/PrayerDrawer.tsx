@@ -49,8 +49,6 @@ export const PrayerDrawer = ({ listItems, activeItem, onActiveItemChange, onSett
     const padding = {
         paddingTop: insets.top,
         paddingBottom: insets.bottom,
-        paddingRight: insets.right,
-        paddingLeft: insets.left,
     }
 
     return (
