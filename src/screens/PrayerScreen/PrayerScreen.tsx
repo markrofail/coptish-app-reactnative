@@ -59,7 +59,12 @@ export const PrayerScreen = () => {
                     headerStyle: { backgroundColor: 'black' },
                     headerTitleStyle: { color: 'white' },
                     headerShadowVisible: false,
-                    headerLeft: () => <IconButton icon="menu" iconColor={MD3Colors.neutral100} size={20} onPress={navigation.toggleDrawer} />,
+                    headerLeft: () =>
+                        listItems?.length ? (
+                            <IconButton icon="menu" iconColor={MD3Colors.neutral100} size={20} onPress={navigation.toggleDrawer} />
+                        ) : (
+                            <IconButton icon="arrow-left" iconColor={MD3Colors.neutral100} size={20} onPress={outerNavigation.goBack} />
+                        ),
                 })}
                 drawerContent={() => (
                     <PrayerDrawer //
