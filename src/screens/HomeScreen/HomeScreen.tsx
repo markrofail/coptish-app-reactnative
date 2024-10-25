@@ -52,19 +52,17 @@ export const HomeScreen = () => {
     return (
         <View style={{ ...styles.container, ...padding, backgroundColor: theme.colors.background }}>
             <View style={styles.logoContainer}>
-                <Image source={require('@/assets/images/icon-black.png')} style={{ width: scale(120), height: undefined, aspectRatio: 1 }} />
+                <Image source={require('@/assets/images/icon-black.png')} style={styles.logo} />
             </View>
 
             <View style={styles.calendarContainer}>
-                <CalendarWidget date={date} occasion="annual" onPress={() => navigation.navigate('Settings')} />
+                <CalendarWidget date={date} occasion="annual" onPress={onSettingsPress} />
             </View>
 
-            <View style={styles.tableOfContentsContainer}>
-                <View style={styles.tableOfContents}>
-                    {TABLE_OF_CONTENTS.map(({ title, path, icon }) => (
-                        <TableOfContentsCard key={title} title={title} icon={icon} onPress={() => navigation.navigate('Prayer', { path })} />
-                    ))}
-                </View>
+            <View style={styles.tableOfContents}>
+                {TABLE_OF_CONTENTS.map(({ title, path, icon }) => (
+                    <TableOfContentsCard key={title} title={title} icon={icon} onPress={() => navigation.navigate('Prayer', { path })} />
+                ))}
             </View>
 
             <Toolbar onSettingsPress={onSettingsPress} />
@@ -87,16 +85,16 @@ export const HomeScreen = () => {
 const styles = StyleSheet.create({
     container: { flex: 1 },
     logoContainer: { justifyContent: 'center', alignItems: 'center' },
+    logo: { width: scale(120), height: undefined, aspectRatio: 1 },
     calendarContainer: { justifyContent: 'center', alignItems: 'center' },
-    tableOfContentsContainer: { flex: 1 },
     tableOfContents: {
-        marginTop: scale(16),
-        marginLeft: scale(12),
-        columnGap: scale(16),
-        rowGap: verticalScale(16),
         flex: 1,
         flexDirection: 'row',
         flexWrap: 'wrap',
+        marginVertical: scale(32),
+        marginHorizontal: scale(12),
+        columnGap: scale(8),
+        rowGap: verticalScale(16),
     },
     debugButton: {
         position: 'absolute',
