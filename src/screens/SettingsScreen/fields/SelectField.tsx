@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { ForwardedRef, forwardRef, RefObject, useImperativeHandle } from 'react'
 import { TouchableOpacity } from 'react-native'
 import { Menu, List, Text } from 'react-native-paper'
 import { useToggle } from '../../../hooks/useToggle'
@@ -9,9 +9,18 @@ interface SelectFieldProps<T> {
     options: readonly { label: string; value: T }[]
 }
 
+export interface SelectFieldMethods {
+    openMenu: () => void
+}
+
 type SelectFieldInputProps<T> = Pick<SelectFieldProps<T>, 'onChange' | 'options'>
-const SelectFieldInput = <T,>({ options, onChange }: SelectFieldInputProps<T>) => {
+const SelectFieldInput = forwardRef(<T,>({ options, onChange }: SelectFieldInputProps<T>, ref: ForwardedRef<SelectFieldMethods>) => {
     const [showDropdown, toggleShowDropdown] = useToggle(false)
+
+    useImperativeHandle(ref, () => ({
+        openMenu: toggleShowDropdown,
+    }))
+
     const onOptionPress = (option: T) => () => {
         onChange(option)
         toggleShowDropdown()
@@ -32,7 +41,7 @@ const SelectFieldInput = <T,>({ options, onChange }: SelectFieldInputProps<T>) =
             ))}
         </Menu>
     )
-}
+}) as <T>(props: SelectFieldInputProps<T> & { ref?: ForwardedRef<SelectFieldMethods> }) => JSX.Element
 
 type SelectFieldPreviewProps<T> = Pick<SelectFieldProps<T>, 'value' | 'options'>
 const SelectFieldPreview = <T,>({ value, options }: SelectFieldPreviewProps<T>) => {

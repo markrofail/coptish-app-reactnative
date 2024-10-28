@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { ForwardedRef, forwardRef, useImperativeHandle } from 'react'
 import { StyleSheet, TouchableOpacity, View } from 'react-native'
 import { Menu, List, Text, Chip } from 'react-native-paper'
 import { verticalScale } from 'react-native-size-matters'
 import { useToggle } from '../../../hooks/useToggle'
+import { SelectFieldMethods } from './SelectField'
 
 interface MultiSelectFieldProps<T> {
     value: T[]
@@ -11,8 +12,13 @@ interface MultiSelectFieldProps<T> {
 }
 
 type MultiSelectFieldInputProps<T> = MultiSelectFieldProps<T>
-const MultiSelectFieldInput = <T,>({ value, options, onChange }: MultiSelectFieldInputProps<T>) => {
+const MultiSelectFieldInput = forwardRef(<T,>({ value, options, onChange }: MultiSelectFieldInputProps<T>, ref: ForwardedRef<SelectFieldMethods>) => {
     const [showDropdown, toggleShowDropdown] = useToggle(false)
+
+    useImperativeHandle(ref, () => ({
+        openMenu: toggleShowDropdown,
+    }))
+
     const filteredOptions = options.filter((option) => !value.includes(option.value))
     const onOptionPress = (option: T) => () => {
         onChange([...value, option])
@@ -34,7 +40,7 @@ const MultiSelectFieldInput = <T,>({ value, options, onChange }: MultiSelectFiel
             ))}
         </Menu>
     )
-}
+}) as <T>(props: MultiSelectFieldInputProps<T> & { ref?: ForwardedRef<SelectFieldMethods> }) => JSX.Element
 
 type MultiSelectFieldPreviewProps<T> = MultiSelectFieldProps<T>
 const MultiSelectFieldPreview = <T,>({ value, options, onChange }: MultiSelectFieldPreviewProps<T>) => {
