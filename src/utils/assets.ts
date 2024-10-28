@@ -86,14 +86,6 @@ const parsePrayerGroup = (result: LoadDirectoryResult, occasion: Types.Occasion)
     }
 }
 
-const convertFilesToPrayers = (filesOrDirectories: (LoadDirectoryResult | LoadFileResult)[]) => {
-    return filesOrDirectories.map(({ content, metadata }) => {
-        if (!metadata) {
-            // is prayer
-        }
-    })
-}
-
 export const loadPrayer = async (path: string, occasion: Types.Occasion): Promise<PrayerGroup[]> => {
     const result = await loadDirectory(`coptish-datastore/output/${path}`)
     if (!result) return []
@@ -121,32 +113,10 @@ const isDirectory = async (path: string) => {
     return exists && isDirectory
 }
 
-const makeDirectoryRecursive = async (path: string) => {
-    const pathParts = path.split('/')
-
-    let currentDirectory = '.'
-    pathParts.forEach(async (pathPart, i) => {
-        if (i === 0) return
-
-        currentDirectory += `/${pathPart}`
-        const fullPath = getAssetPath(currentDirectory)
-        if ((await isExist(fullPath)) && !(await isDirectory(fullPath))) {
-            DEBUG && console.log(`[delete] Deleting ${fullPath}`)
-            await FileSystem.deleteAsync(fullPath)
-        }
-        if (!(await isExist(fullPath))) {
-            DEBUG && console.log(`[mkdir] Creating ${fullPath}`)
-            await FileSystem.makeDirectoryAsync(fullPath, { intermediates: true })
-        }
-
-        DEBUG && console.log(`[checking directory] ${fullPath} isExist:${await isExist(fullPath)}`)
-    })
-}
-
 export const initCoptishDatastore = async (callback?: (currentAsset: string) => void) => {
     let i = 0
     for (const { path, module } of assets) {
-        if (path.includes('readings/')) continue // TODO: remove
+        if (__DEV__ && path.includes('readings/')) continue // TODO: remove
         const targetPath = getAssetPath(path)
 
         DEBUG && console.log(`[copying ${i + 1}/${assets.length}] ${path}`)
