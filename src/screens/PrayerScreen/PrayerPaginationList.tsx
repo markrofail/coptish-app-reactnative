@@ -54,6 +54,7 @@ export const PrayerPaginationList = ({ listItems, activeItem, onActiveItemChange
 
     const insets = useSafeAreaInsets()
     const padding = {
+        paddingTop: insets.top,
         paddingBottom: insets.bottom,
         paddingLeft: insets.left,
         paddingRight: insets.right + verticalScale(6),
@@ -77,6 +78,8 @@ export const PrayerPaginationList = ({ listItems, activeItem, onActiveItemChange
                         onScroll={(e) => setYOffset(e.nativeEvent.contentOffset.y)}
                         onMomentumScrollEnd={(e) => setYOffset(e.nativeEvent.contentOffset.y)}
                         maintainVisibleContentPosition={{ minIndexForVisible: 0 }}
+                        scrollEnabled={false}
+                        pagingEnabled={true}
                     >
                         {activeItem.type === 'title' ? (
                             activeItem?.title?.english && <MultiLingualText variant="heading1" text={{ english: activeItem.title.english }} />
@@ -104,7 +107,7 @@ const styles = StyleSheet.create({
         position: 'absolute',
         top: 0,
         right: 0,
-        width: '25%',
+        width: '45%',
         height: '100%',
         backgroundColor: DEBUG ? 'rgba(0, 255, 0, 0.2)' : 'transparent',
     },
@@ -112,7 +115,7 @@ const styles = StyleSheet.create({
         position: 'absolute',
         top: 0,
         left: 0,
-        width: '25%',
+        width: '45%',
         height: '100%',
         backgroundColor: DEBUG ? 'rgba(255, 0, 0, 0.2)' : 'transparent',
     },

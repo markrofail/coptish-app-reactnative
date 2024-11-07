@@ -54,18 +54,7 @@ export const PrayerScreen = () => {
     return (
         <>
             <Drawer.Navigator
-                screenOptions={({ navigation }) => ({
-                    headerTitle: header,
-                    headerStyle: { backgroundColor: 'black' },
-                    headerTitleStyle: { color: 'white' },
-                    headerShadowVisible: false,
-                    headerLeft: () =>
-                        listItems?.length ? (
-                            <IconButton icon="menu" iconColor={MD3Colors.neutral100} size={20} onPress={navigation.toggleDrawer} />
-                        ) : (
-                            <IconButton icon="arrow-left" iconColor={MD3Colors.neutral100} size={20} onPress={outerNavigation.goBack} />
-                        ),
-                })}
+                screenOptions={{ headerShown: false }}
                 drawerContent={() => (
                     <PrayerDrawer //
                         listItems={listItems}
