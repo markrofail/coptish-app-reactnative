@@ -1,6 +1,6 @@
 import * as FileSystem from 'expo-file-system'
-import * as Crypto from 'expo-crypto'
 import { Asset } from 'expo-asset'
+import chunk from 'lodash/chunk'
 import yaml from 'js-yaml'
 import { DEBUG } from '../config'
 import assets from '../data/assets'
@@ -13,7 +13,7 @@ const getAssetPath = (path: string) => `${ASSET_DIRECTORY}/${path}`
 
 export const loadFile = async (filepath: string) => {
     const fullPath = getAssetPath(filepath)
-    DEBUG && console.log(`[loading] file ${fullPath}`)
+    if (DEBUG) console.log(`[loading] file ${fullPath}`)
 
     try {
         const dictString = await FileSystem.readAsStringAsync(fullPath)
@@ -30,10 +30,10 @@ const isLoadDirectoryResultT = (result: LoadFileResult | LoadDirectoryResult): r
 
 export const loadDirectory = async (directory: string): Promise<LoadDirectoryResult | undefined> => {
     const fullPath = getAssetPath(directory)
-    DEBUG && console.log(`[loading] directory ${fullPath}`)
+    if (DEBUG) console.log(`[loading] directory ${fullPath}`)
 
     try {
-        const files = await (await FileSystem.readDirectoryAsync(fullPath)).sort()
+        const files = (await FileSystem.readDirectoryAsync(fullPath)).sort()
 
         const output: (LoadFileResult | LoadDirectoryResult)[] = []
         for (const file of files) {
@@ -44,7 +44,7 @@ export const loadDirectory = async (directory: string): Promise<LoadDirectoryRes
             } else if (filepath.match(/\d{2}\-.+\.yml/)) {
                 output.push({
                     path: filepath,
-                    content: await loadFile(filepath), //
+                    content: await loadFile(filepath),
                 })
             }
         }
@@ -114,52 +114,60 @@ const isDirectory = async (path: string) => {
 }
 
 export const initCoptishDatastore = async (callback?: (currentAsset: string) => void) => {
+    const concurrencyLimit = 5
+    const assetChunks = chunk(assets, concurrencyLimit)
+
     let i = 0
-    for (const { path, module } of assets) {
-        if (__DEV__ && path.includes('readings/')) continue // TODO: remove
-        const targetPath = getAssetPath(path)
+    for (const chunk of assetChunks) {
+        await Promise.all(
+            chunk.map(async ({ path, module }) => {
+                if (__DEV__ && path.includes('readings/')) return // TODO: remove
+                const targetPath = getAssetPath(path)
 
-        DEBUG && console.log(`[copying ${i + 1}/${assets.length}] ${path}`)
-        callback?.(`[copying ${i + 1}/${assets.length}] ${path}`)
-        i += 1
+                if (DEBUG) {
+                    const message = `[copying ${i}/${assets.length}] ${path}`
+                    console.log(message)
+                    callback?.(message)
+                    i += 1
+                }
 
-        const [{ localUri: sourcePath }] = await Asset.loadAsync(module)
-        if (!sourcePath) continue
+                const [{ localUri: sourcePath }] = await Asset.loadAsync(module)
+                if (!sourcePath) return
 
-        try {
-            const sourceInfo = await FileSystem.getInfoAsync(sourcePath, { md5: true })
-            const targetInfo = await FileSystem.getInfoAsync(targetPath, { md5: true })
+                try {
+                    const sourceInfo = await FileSystem.getInfoAsync(sourcePath, { md5: true })
+                    const targetInfo = await FileSystem.getInfoAsync(targetPath, { md5: true })
 
-            if (targetInfo.exists && sourceInfo.exists && targetInfo.md5 === sourceInfo.md5) continue
-        } catch (error) {
-            console.error(error)
-        }
+                    if (targetInfo.exists && sourceInfo.exists && targetInfo.md5 === sourceInfo.md5) return
+                } catch (error) {
+                    console.error(error)
+                }
 
-        const dirPath = dirname(targetPath)
-        try {
-            DEBUG && console.log(`[checking directory] ${dirPath} isExist:${await isExist(dirPath)}`)
-            await FileSystem.makeDirectoryAsync(dirPath, { intermediates: true })
-        } catch (error) {
-            console.error(error)
-        }
+                const dirPath = dirname(targetPath)
+                try {
+                    if (DEBUG) console.log(`[checking directory] ${dirPath} isExist:${await isExist(dirPath)}`)
+                    await FileSystem.makeDirectoryAsync(dirPath, { intermediates: true })
+                } catch (error) {
+                    console.error(error)
+                }
 
-        try {
-            await FileSystem.copyAsync({ from: sourcePath, to: targetPath })
-            const content = await FileSystem.readAsStringAsync(sourcePath, { encoding: 'utf8' })
-            await FileSystem.writeAsStringAsync(targetPath, content, { encoding: 'utf8' })
-        } catch (error) {
-            console.error(error)
-        }
-        DEBUG && console.log(`[checking file] ${targetPath} isExist:${await isExist(targetPath)}`)
-        DEBUG && console.log(`[checking directory] ${dirPath} isExist:${await isExist(dirPath)}`)
+                try {
+                    await FileSystem.copyAsync({ from: sourcePath, to: targetPath })
+                } catch (error) {
+                    console.error(error)
+                }
+                if (DEBUG) console.log(`[checking file] ${targetPath} isExist:${await isExist(targetPath)}`)
+                if (DEBUG) console.log(`[checking directory] ${dirPath} isExist:${await isExist(dirPath)}`)
+            }),
+        )
     }
 }
 
 export const clearAssets = async () => {
-    const files = await await FileSystem.readDirectoryAsync(getAssetPath(''))
+    const files = await FileSystem.readDirectoryAsync(getAssetPath(''))
     await Promise.all(files.map((file) => FileSystem.deleteAsync(getAssetPath(file))))
 
-    DEBUG && console.log(`[clear] ${ASSET_DIRECTORY}`)
+    if (DEBUG) console.log(`[clear] ${ASSET_DIRECTORY}`)
 }
 
 export const initAssets = async (callback?: (currentAsset: string) => void) => {

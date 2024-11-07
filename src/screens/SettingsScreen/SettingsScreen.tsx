@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { Image, ScrollView, StyleSheet, View } from 'react-native'
+import { Image, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native'
 import { Button, Divider, Icon, IconButton, List, MD3Colors, Switch, Text } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
@@ -7,6 +7,8 @@ import { scale, verticalScale } from 'react-native-size-matters'
 import { Settings, useSettings } from '@/src/hooks/useSettings'
 import { SAINTS } from '@/src/types'
 import { SelectField, MultiSelectField, RangeField, DateField, SelectFieldMethods } from './fields'
+import { NativeStackNavigationProp } from '@react-navigation/native-stack'
+import { RootStackParamList } from '@/src/routes'
 
 const UI_LANGUAGE_OPTIONS = [
     { label: 'English', value: 'english' },
@@ -21,10 +23,13 @@ const COPTIC_TRANSLITERATION_LANGUAGE_OPTIONS = [
 
 const SAINTS_OPTIONS = SAINTS.map((saint) => ({ label: saint, value: saint }))
 
+type NavigationProps = NativeStackNavigationProp<RootStackParamList, 'Settings'>
+
 export const SettingsScreen = () => {
-    const navigation = useNavigation()
+    const navigation = useNavigation<NavigationProps>()
     const [storedSettings, saveSettings] = useSettings()
     const [localSettings, setLocalSettings] = useState(storedSettings)
+    const [versionClickCount, setVersionClickCount] = useState(0)
     const uiLanguageRef = useRef<SelectFieldMethods>(null)
     const copticTransliterationLanguageRef = useRef<SelectFieldMethods>(null)
     const churchSaintsRef = useRef<SelectFieldMethods>(null)
@@ -45,6 +50,10 @@ export const SettingsScreen = () => {
         (value: Settings[K]) => {
             setLocalSettings((prev) => ({ ...prev, [key]: value }))
         }
+    const onVersionPress = () => {
+        if (versionClickCount === 10) navigation.navigate('Debug')
+        else setVersionClickCount(versionClickCount + 1)
+    }
 
     useEffect(() => {
         navigation.setOptions({
@@ -68,7 +77,9 @@ export const SettingsScreen = () => {
         <ScrollView style={{ ...styles.container, ...padding }}>
             <List.Section style={styles.logoContainer}>
                 <Image source={require('@/assets/images/icon-black.png')} style={styles.logo} />
-                <Text style={styles.versionText}>App Version 2.24 #50491</Text>
+                <TouchableOpacity onPress={onVersionPress}>
+                    <Text style={styles.versionText}>App Version 2.24 #50491</Text>
+                </TouchableOpacity>
             </List.Section>
 
             <List.Section>

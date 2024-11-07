@@ -4,13 +4,11 @@ import { useNavigation } from '@react-navigation/native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { RootStackParamList } from '@/src/routes'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
-import { Button } from 'react-native-paper'
 import { scale, verticalScale } from 'react-native-size-matters'
 import { TableOfContentsCard } from './TableOfContentsCard'
 import { useThemeContext } from '@/src/context/themeContext'
 import { CalendarWidget } from './CalendarWidget'
 import { Toolbar } from './Toolbar'
-import { DEBUG } from '@/src/config'
 import { useCurrentDate } from '@/src/hooks/useSettings'
 
 const TABLE_OF_CONTENTS = [
@@ -65,19 +63,8 @@ export const HomeScreen = () => {
                 ))}
             </View>
 
+            {/* Needs to here as it overlays the screen */}
             <Toolbar onSettingsPress={onSettingsPress} />
-
-            {DEBUG && (
-                <Button
-                    mode="contained"
-                    buttonColor={theme.colors.elevation.level2}
-                    textColor={theme.colors.primary}
-                    style={styles.debugButton}
-                    onPress={() => navigation.navigate('Debug')}
-                >
-                    Debug
-                </Button>
-            )}
         </View>
     )
 }
