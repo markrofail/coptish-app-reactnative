@@ -32,112 +32,116 @@ export default [
         module: require('../../assets/coptish-datastore/output/fractions/o-master-lord-our-god.yml')
     },
     { 
-        path: 'coptish-datastore/output/liturgy-st-basil/00-matins-raising-of-incense/01-our-father.yml',
-        module: require('../../assets/coptish-datastore/output/liturgy-st-basil/00-matins-raising-of-incense/01-our-father.yml')
+        path: 'coptish-datastore/output/liturgy-st-basil/00-matins-raising-of-incense/01-have-mercy-on-us.yml',
+        module: require('../../assets/coptish-datastore/output/liturgy-st-basil/00-matins-raising-of-incense/01-have-mercy-on-us.yml')
     },
     { 
-        path: 'coptish-datastore/output/liturgy-st-basil/00-matins-raising-of-incense/02-thanksgiving-prayer.yml',
-        module: require('../../assets/coptish-datastore/output/liturgy-st-basil/00-matins-raising-of-incense/02-thanksgiving-prayer.yml')
+        path: 'coptish-datastore/output/liturgy-st-basil/00-matins-raising-of-incense/02-our-father.yml',
+        module: require('../../assets/coptish-datastore/output/liturgy-st-basil/00-matins-raising-of-incense/02-our-father.yml')
     },
     { 
-        path: 'coptish-datastore/output/liturgy-st-basil/00-matins-raising-of-incense/03-verses-of-the-cymbals.yml',
-        module: require('../../assets/coptish-datastore/output/liturgy-st-basil/00-matins-raising-of-incense/03-verses-of-the-cymbals.yml')
+        path: 'coptish-datastore/output/liturgy-st-basil/00-matins-raising-of-incense/03-eshleel.yml',
+        module: require('../../assets/coptish-datastore/output/liturgy-st-basil/00-matins-raising-of-incense/03-eshleel.yml')
     },
     { 
-        path: 'coptish-datastore/output/liturgy-st-basil/00-matins-raising-of-incense/04-eshleel.yml',
-        module: require('../../assets/coptish-datastore/output/liturgy-st-basil/00-matins-raising-of-incense/04-eshleel.yml')
+        path: 'coptish-datastore/output/liturgy-st-basil/00-matins-raising-of-incense/05-verses-of-the-cymbals.yml',
+        module: require('../../assets/coptish-datastore/output/liturgy-st-basil/00-matins-raising-of-incense/05-verses-of-the-cymbals.yml')
     },
     { 
-        path: 'coptish-datastore/output/liturgy-st-basil/00-matins-raising-of-incense/05-litany-of-the-sick.yml',
-        module: require('../../assets/coptish-datastore/output/liturgy-st-basil/00-matins-raising-of-incense/05-litany-of-the-sick.yml')
+        path: 'coptish-datastore/output/liturgy-st-basil/00-matins-raising-of-incense/06-eshleel.yml',
+        module: require('../../assets/coptish-datastore/output/liturgy-st-basil/00-matins-raising-of-incense/06-eshleel.yml')
     },
     { 
-        path: 'coptish-datastore/output/liturgy-st-basil/00-matins-raising-of-incense/06-litany-of-the-obilations.yml',
-        module: require('../../assets/coptish-datastore/output/liturgy-st-basil/00-matins-raising-of-incense/06-litany-of-the-obilations.yml')
+        path: 'coptish-datastore/output/liturgy-st-basil/00-matins-raising-of-incense/07-litany-of-the-sick.yml',
+        module: require('../../assets/coptish-datastore/output/liturgy-st-basil/00-matins-raising-of-incense/07-litany-of-the-sick.yml')
     },
     { 
-        path: 'coptish-datastore/output/liturgy-st-basil/00-matins-raising-of-incense/07-praise-of-the-angels.yml',
-        module: require('../../assets/coptish-datastore/output/liturgy-st-basil/00-matins-raising-of-incense/07-praise-of-the-angels.yml')
+        path: 'coptish-datastore/output/liturgy-st-basil/00-matins-raising-of-incense/08-litany-of-the-obilations.yml',
+        module: require('../../assets/coptish-datastore/output/liturgy-st-basil/00-matins-raising-of-incense/08-litany-of-the-obilations.yml')
     },
     { 
-        path: 'coptish-datastore/output/liturgy-st-basil/00-matins-raising-of-incense/08-the-trisagion.yml',
-        module: require('../../assets/coptish-datastore/output/liturgy-st-basil/00-matins-raising-of-incense/08-the-trisagion.yml')
+        path: 'coptish-datastore/output/liturgy-st-basil/00-matins-raising-of-incense/09-praise-of-the-angels.yml',
+        module: require('../../assets/coptish-datastore/output/liturgy-st-basil/00-matins-raising-of-incense/09-praise-of-the-angels.yml')
     },
     { 
-        path: 'coptish-datastore/output/liturgy-st-basil/00-matins-raising-of-incense/09-our-father.yml',
-        module: require('../../assets/coptish-datastore/output/liturgy-st-basil/00-matins-raising-of-incense/09-our-father.yml')
+        path: 'coptish-datastore/output/liturgy-st-basil/00-matins-raising-of-incense/10-the-trisagion.yml',
+        module: require('../../assets/coptish-datastore/output/liturgy-st-basil/00-matins-raising-of-incense/10-the-trisagion.yml')
     },
     { 
-        path: 'coptish-datastore/output/liturgy-st-basil/00-matins-raising-of-incense/10-doxologies.yml',
-        module: require('../../assets/coptish-datastore/output/liturgy-st-basil/00-matins-raising-of-incense/10-doxologies.yml')
+        path: 'coptish-datastore/output/liturgy-st-basil/00-matins-raising-of-incense/11-our-father.yml',
+        module: require('../../assets/coptish-datastore/output/liturgy-st-basil/00-matins-raising-of-incense/11-our-father.yml')
     },
     { 
-        path: 'coptish-datastore/output/liturgy-st-basil/00-matins-raising-of-incense/11-introduction-to-the-creed.yml',
-        module: require('../../assets/coptish-datastore/output/liturgy-st-basil/00-matins-raising-of-incense/11-introduction-to-the-creed.yml')
+        path: 'coptish-datastore/output/liturgy-st-basil/00-matins-raising-of-incense/12-doxologies.yml',
+        module: require('../../assets/coptish-datastore/output/liturgy-st-basil/00-matins-raising-of-incense/12-doxologies.yml')
     },
     { 
-        path: 'coptish-datastore/output/liturgy-st-basil/00-matins-raising-of-incense/12-the-orthodox-creed.yml',
-        module: require('../../assets/coptish-datastore/output/liturgy-st-basil/00-matins-raising-of-incense/12-the-orthodox-creed.yml')
+        path: 'coptish-datastore/output/liturgy-st-basil/00-matins-raising-of-incense/13-introduction-to-the-creed.yml',
+        module: require('../../assets/coptish-datastore/output/liturgy-st-basil/00-matins-raising-of-incense/13-introduction-to-the-creed.yml')
     },
     { 
-        path: 'coptish-datastore/output/liturgy-st-basil/00-matins-raising-of-incense/13-o-god-have-mercy-upon-us.yml',
-        module: require('../../assets/coptish-datastore/output/liturgy-st-basil/00-matins-raising-of-incense/13-o-god-have-mercy-upon-us.yml')
+        path: 'coptish-datastore/output/liturgy-st-basil/00-matins-raising-of-incense/14-the-orthodox-creed.yml',
+        module: require('../../assets/coptish-datastore/output/liturgy-st-basil/00-matins-raising-of-incense/14-the-orthodox-creed.yml')
     },
     { 
-        path: 'coptish-datastore/output/liturgy-st-basil/00-matins-raising-of-incense/14-litany-of-the-gospel.yml',
-        module: require('../../assets/coptish-datastore/output/liturgy-st-basil/00-matins-raising-of-incense/14-litany-of-the-gospel.yml')
+        path: 'coptish-datastore/output/liturgy-st-basil/00-matins-raising-of-incense/15-o-god-have-mercy-upon-us.yml',
+        module: require('../../assets/coptish-datastore/output/liturgy-st-basil/00-matins-raising-of-incense/15-o-god-have-mercy-upon-us.yml')
     },
     { 
-        path: 'coptish-datastore/output/liturgy-st-basil/00-matins-raising-of-incense/15-the-psalm-and-gospel.yml',
-        module: require('../../assets/coptish-datastore/output/liturgy-st-basil/00-matins-raising-of-incense/15-the-psalm-and-gospel.yml')
+        path: 'coptish-datastore/output/liturgy-st-basil/00-matins-raising-of-incense/16-litany-of-the-gospel.yml',
+        module: require('../../assets/coptish-datastore/output/liturgy-st-basil/00-matins-raising-of-incense/16-litany-of-the-gospel.yml')
     },
     { 
-        path: 'coptish-datastore/output/liturgy-st-basil/00-matins-raising-of-incense/16-the-gospel-response.yml',
-        module: require('../../assets/coptish-datastore/output/liturgy-st-basil/00-matins-raising-of-incense/16-the-gospel-response.yml')
+        path: 'coptish-datastore/output/liturgy-st-basil/00-matins-raising-of-incense/17-the-psalm-and-gospel.yml',
+        module: require('../../assets/coptish-datastore/output/liturgy-st-basil/00-matins-raising-of-incense/17-the-psalm-and-gospel.yml')
     },
     { 
-        path: 'coptish-datastore/output/liturgy-st-basil/00-matins-raising-of-incense/17-the-five-short-litanies.yml',
-        module: require('../../assets/coptish-datastore/output/liturgy-st-basil/00-matins-raising-of-incense/17-the-five-short-litanies.yml')
+        path: 'coptish-datastore/output/liturgy-st-basil/00-matins-raising-of-incense/18-the-gospel-response.yml',
+        module: require('../../assets/coptish-datastore/output/liturgy-st-basil/00-matins-raising-of-incense/18-the-gospel-response.yml')
     },
     { 
-        path: 'coptish-datastore/output/liturgy-st-basil/00-matins-raising-of-incense/18-litany-of-peace.yml',
-        module: require('../../assets/coptish-datastore/output/liturgy-st-basil/00-matins-raising-of-incense/18-litany-of-peace.yml')
+        path: 'coptish-datastore/output/liturgy-st-basil/00-matins-raising-of-incense/19-the-five-short-litanies.yml',
+        module: require('../../assets/coptish-datastore/output/liturgy-st-basil/00-matins-raising-of-incense/19-the-five-short-litanies.yml')
     },
     { 
-        path: 'coptish-datastore/output/liturgy-st-basil/00-matins-raising-of-incense/19-litany-of-the-fathers.yml',
-        module: require('../../assets/coptish-datastore/output/liturgy-st-basil/00-matins-raising-of-incense/19-litany-of-the-fathers.yml')
+        path: 'coptish-datastore/output/liturgy-st-basil/00-matins-raising-of-incense/20-litany-of-peace.yml',
+        module: require('../../assets/coptish-datastore/output/liturgy-st-basil/00-matins-raising-of-incense/20-litany-of-peace.yml')
     },
     { 
-        path: 'coptish-datastore/output/liturgy-st-basil/00-matins-raising-of-incense/20-litany-of-the-place.yml',
-        module: require('../../assets/coptish-datastore/output/liturgy-st-basil/00-matins-raising-of-incense/20-litany-of-the-place.yml')
+        path: 'coptish-datastore/output/liturgy-st-basil/00-matins-raising-of-incense/21-litany-of-the-fathers.yml',
+        module: require('../../assets/coptish-datastore/output/liturgy-st-basil/00-matins-raising-of-incense/21-litany-of-the-fathers.yml')
     },
     { 
-        path: 'coptish-datastore/output/liturgy-st-basil/00-matins-raising-of-incense/21-litany-of-the-seeds-and-herbs.yml',
-        module: require('../../assets/coptish-datastore/output/liturgy-st-basil/00-matins-raising-of-incense/21-litany-of-the-seeds-and-herbs.yml')
+        path: 'coptish-datastore/output/liturgy-st-basil/00-matins-raising-of-incense/22-litany-of-the-place.yml',
+        module: require('../../assets/coptish-datastore/output/liturgy-st-basil/00-matins-raising-of-incense/22-litany-of-the-place.yml')
     },
     { 
-        path: 'coptish-datastore/output/liturgy-st-basil/00-matins-raising-of-incense/22-litany-of-assemblies.yml',
-        module: require('../../assets/coptish-datastore/output/liturgy-st-basil/00-matins-raising-of-incense/22-litany-of-assemblies.yml')
+        path: 'coptish-datastore/output/liturgy-st-basil/00-matins-raising-of-incense/23-litany-of-the-seeds-and-herbs.yml',
+        module: require('../../assets/coptish-datastore/output/liturgy-st-basil/00-matins-raising-of-incense/23-litany-of-the-seeds-and-herbs.yml')
     },
     { 
-        path: 'coptish-datastore/output/liturgy-st-basil/00-matins-raising-of-incense/23-our-father.yml',
-        module: require('../../assets/coptish-datastore/output/liturgy-st-basil/00-matins-raising-of-incense/23-our-father.yml')
+        path: 'coptish-datastore/output/liturgy-st-basil/00-matins-raising-of-incense/24-litany-of-assemblies.yml',
+        module: require('../../assets/coptish-datastore/output/liturgy-st-basil/00-matins-raising-of-incense/24-litany-of-assemblies.yml')
     },
     { 
-        path: 'coptish-datastore/output/liturgy-st-basil/00-matins-raising-of-incense/24-absolution-to-the-son.yml',
-        module: require('../../assets/coptish-datastore/output/liturgy-st-basil/00-matins-raising-of-incense/24-absolution-to-the-son.yml')
+        path: 'coptish-datastore/output/liturgy-st-basil/00-matins-raising-of-incense/25-our-father.yml',
+        module: require('../../assets/coptish-datastore/output/liturgy-st-basil/00-matins-raising-of-incense/25-our-father.yml')
     },
     { 
-        path: 'coptish-datastore/output/liturgy-st-basil/00-matins-raising-of-incense/25-concluding-hymn.yml',
-        module: require('../../assets/coptish-datastore/output/liturgy-st-basil/00-matins-raising-of-incense/25-concluding-hymn.yml')
+        path: 'coptish-datastore/output/liturgy-st-basil/00-matins-raising-of-incense/26-absolution-to-the-son.yml',
+        module: require('../../assets/coptish-datastore/output/liturgy-st-basil/00-matins-raising-of-incense/26-absolution-to-the-son.yml')
     },
     { 
-        path: 'coptish-datastore/output/liturgy-st-basil/00-matins-raising-of-incense/26-the-short-blessing.yml',
-        module: require('../../assets/coptish-datastore/output/liturgy-st-basil/00-matins-raising-of-incense/26-the-short-blessing.yml')
+        path: 'coptish-datastore/output/liturgy-st-basil/00-matins-raising-of-incense/27-concluding-hymn.yml',
+        module: require('../../assets/coptish-datastore/output/liturgy-st-basil/00-matins-raising-of-incense/27-concluding-hymn.yml')
     },
     { 
-        path: 'coptish-datastore/output/liturgy-st-basil/00-matins-raising-of-incense/27-our-father.yml',
-        module: require('../../assets/coptish-datastore/output/liturgy-st-basil/00-matins-raising-of-incense/27-our-father.yml')
+        path: 'coptish-datastore/output/liturgy-st-basil/00-matins-raising-of-incense/28-the-short-blessing.yml',
+        module: require('../../assets/coptish-datastore/output/liturgy-st-basil/00-matins-raising-of-incense/28-the-short-blessing.yml')
+    },
+    { 
+        path: 'coptish-datastore/output/liturgy-st-basil/00-matins-raising-of-incense/29-our-father.yml',
+        module: require('../../assets/coptish-datastore/output/liturgy-st-basil/00-matins-raising-of-incense/29-our-father.yml')
     },
     { 
         path: 'coptish-datastore/output/liturgy-st-basil/00-matins-raising-of-incense/index.yml',
