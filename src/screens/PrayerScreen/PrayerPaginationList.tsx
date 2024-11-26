@@ -4,7 +4,7 @@ import { Prayer } from '../../components/Prayer'
 import { MultiLingualText } from '../../components/MultiLingualText'
 import { ListItem } from './PrayerScreen'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
-import { verticalScale } from 'react-native-size-matters'
+import { scale } from 'react-native-size-matters'
 import { DEBUG } from '@/src/config'
 import { SkeletonPrayer } from '@/src/components/SkeletonPrayer'
 
@@ -22,7 +22,6 @@ export const PrayerPaginationList = ({ listItems, activeItem, onActiveItemChange
     const [moveTo, setMoveTo] = useState<'perv' | 'next'>()
 
     const [pageSize, setPageSize] = useState(0)
-    const safePageSize = Math.ceil(pageSize * 0.95)
 
     const activeIndex = listItems.findIndex((item) => item === activeItem)
     const isFirstPage = yOffset <= 0
@@ -36,7 +35,7 @@ export const PrayerPaginationList = ({ listItems, activeItem, onActiveItemChange
                 onActiveItemChange(nextItem)
             }
         } else {
-            ref.current?.scrollTo({ y: yOffset + safePageSize })
+            ref.current?.scrollTo({ y: yOffset + pageSize })
         }
     }
 
@@ -48,7 +47,7 @@ export const PrayerPaginationList = ({ listItems, activeItem, onActiveItemChange
                 onActiveItemChange(prevItem)
             }
         } else {
-            ref.current?.scrollTo({ y: yOffset - safePageSize })
+            ref.current?.scrollTo({ y: yOffset - pageSize })
         }
     }
 
@@ -56,13 +55,13 @@ export const PrayerPaginationList = ({ listItems, activeItem, onActiveItemChange
     const padding = {
         paddingTop: insets.top,
         paddingBottom: insets.bottom,
-        paddingLeft: insets.left,
-        paddingRight: insets.right + verticalScale(6),
+        paddingLeft: Math.max(insets.left, scale(8)),
+        paddingRight: Math.max(insets.right, scale(8)),
     }
 
     return (
         <>
-            <View style={{ ...styles.container, ...padding }}>
+            <View style={[styles.container, padding]}>
                 {listItems.length > 0 && activeItem ? (
                     <ScrollView
                         ref={ref}

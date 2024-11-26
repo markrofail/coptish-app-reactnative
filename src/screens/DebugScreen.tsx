@@ -13,7 +13,6 @@ export const DebugScreen = () => {
 
     const insets = useSafeAreaInsets()
     const padding = {
-        paddingTop: insets.top,
         paddingBottom: insets.bottom,
         paddingLeft: Math.max(insets.left, scale(8)),
         paddingRight: Math.max(insets.right, scale(8)),

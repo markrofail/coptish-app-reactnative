@@ -1,5 +1,4 @@
 import React, { useEffect, useMemo, useState } from 'react'
-import { IconButton, MD3Colors } from 'react-native-paper'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import { createDrawerNavigator } from '@react-navigation/drawer'
 import { PrayerPaginationList } from './PrayerPaginationList'
@@ -36,7 +35,6 @@ export const PrayerScreen = () => {
     const prayer = useMemoAsync(() => loadPrayer(path, 'annual'), [])
     const listItems = useMemo(() => (!!prayer ? prayerToListItems(prayer) : []), [prayer?.length])
     const [activeItem, setActiveItem] = useState<ListItem>()
-    const [header, setHeader] = useState('')
     const outerNavigation = useNavigation<PrayerScreenProps['navigation']>()
 
     useEffect(() => {
@@ -47,33 +45,30 @@ export const PrayerScreen = () => {
     const onActiveItemChange = (item: ListItem) => {
         if (item?.type === 'prayer') {
             setActiveItem(item)
-            setHeader(item?.title?.english || '')
         }
     }
 
     return (
-        <>
-            <Drawer.Navigator
-                screenOptions={{ headerShown: false }}
-                drawerContent={() => (
-                    <PrayerDrawer //
-                        listItems={listItems}
+        <Drawer.Navigator
+            screenOptions={{ headerShown: false }}
+            drawerContent={() => (
+                <PrayerDrawer
+                    listItems={listItems}
+                    activeItem={activeItem}
+                    onActiveItemChange={onActiveItemChange}
+                    onSettingsPress={() => outerNavigation.navigate('Settings')}
+                />
+            )}
+        >
+            <Drawer.Screen name="Home">
+                {() => (
+                    <PrayerPaginationList
+                        listItems={listItems.filter(({ type }) => type == 'prayer')}
                         activeItem={activeItem}
                         onActiveItemChange={onActiveItemChange}
-                        onSettingsPress={() => outerNavigation.navigate('Settings')}
                     />
                 )}
-            >
-                <Drawer.Screen name="Home">
-                    {() => (
-                        <PrayerPaginationList //
-                            listItems={listItems.filter(({ type }) => type == 'prayer')}
-                            activeItem={activeItem}
-                            onActiveItemChange={onActiveItemChange}
-                        />
-                    )}
-                </Drawer.Screen>
-            </Drawer.Navigator>
-        </>
+            </Drawer.Screen>
+        </Drawer.Navigator>
     )
 }

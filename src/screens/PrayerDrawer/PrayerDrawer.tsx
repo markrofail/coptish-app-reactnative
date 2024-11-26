@@ -52,25 +52,23 @@ export const PrayerDrawer = ({ listItems, activeItem, onActiveItemChange, onSett
     }
 
     return (
-        <>
-            <View style={{ flex: 1, backgroundColor: 'black', ...padding }}>
-                <View style={{ marginBottom: verticalScale(6) }}>
-                    <DrawerHeader date={date} onBackPress={onBackPress} onSettingsPress={onSettingsPress} />
-                </View>
-                {listItems.length > 0 ? (
-                    <FlashList
-                        ref={scrollRef}
-                        keyExtractor={(item, index) => `${index}-${item.title?.english.toLocaleLowerCase()}`}
-                        data={listItems}
-                        estimatedItemSize={50}
-                        showsVerticalScrollIndicator={false}
-                        renderItem={renderItem}
-                        extraData={activeItem}
-                    />
-                ) : (
-                    <DrawerListSkeleton />
-                )}
+        <View style={{ flex: 1, backgroundColor: 'black', ...padding }}>
+            <View style={{ marginBottom: verticalScale(6) }}>
+                <DrawerHeader date={date} onBackPress={onBackPress} onSettingsPress={onSettingsPress} />
             </View>
-        </>
+            {listItems.length > 0 ? (
+                <FlashList
+                    ref={scrollRef}
+                    keyExtractor={(item, index) => `${index}-${item.title?.english.toLocaleLowerCase()}`}
+                    data={listItems}
+                    estimatedItemSize={50}
+                    showsVerticalScrollIndicator={false}
+                    renderItem={renderItem}
+                    extraData={activeItem}
+                />
+            ) : (
+                <DrawerListSkeleton />
+            )}
+        </View>
     )
 }

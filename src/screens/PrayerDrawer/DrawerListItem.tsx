@@ -41,10 +41,10 @@ const PrayerDrawerItem = ({ item, active, index, onPress }: DrawerListItemProps)
                     overflow: 'visible',
                 }}
             >
-                <View style={{ paddingLeft: verticalScale(8) }}>
+                <View style={{ paddingHorizontal: verticalScale(8) }}>
                     <Text style={{ fontSize: 20, textAlign: 'left', color: textColor }}>{index}</Text>
                 </View>
-                <View style={{ paddingLeft: verticalScale(8), flexDirection: 'column', overflow: 'visible' }}>
+                <View style={{ paddingHorizontal: verticalScale(8), flexDirection: 'column', overflow: 'visible' }}>
                     {item?.title?.english && (
                         <Text style={{ textAlign: 'left', color: textColor }} numberOfLines={1} ellipsizeMode="clip">
                             {item?.title?.english}
