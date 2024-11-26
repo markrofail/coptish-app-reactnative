@@ -18,7 +18,7 @@ export const Routes = () => {
     return (
         <Stack.Navigator screenOptions={{ headerShown: false }}>
             <Stack.Screen name="Home" component={HomeScreen} />
-            <Stack.Screen name="Prayer" component={PrayerScreen} />
+            <Stack.Screen name="Prayer" component={PrayerScreen} options={{ gestureEnabled: false }} />
             <Stack.Screen name="Debug" component={DebugScreen} options={{ headerShown: true }} />
             <Stack.Screen name="Settings" component={SettingsScreen} options={{ headerShown: true }} />
         </Stack.Navigator>
