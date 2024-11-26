@@ -10,8 +10,8 @@
         "storybook": "STORYBOOK_ENABLED='true' expo start",
         "storybook-generate": "sb-rn-get-stories",
         "typescript:validate": "tsc --noEmit",
-        "generate:types": "json2ts --input assets/coptish-datastore/schemas/json-schema.json --output src/types.ts",
-        "generate:asset-registry": "ts-node scripts/generate-list-of-assets.ts"
+        "types:generate": "json2ts --input assets/coptish-datastore/schemas/schema.json --output src/types.ts",
+        "asset-registry:generate": "ts-node scripts/generate-list-of-assets.ts"
     },
     "dependencies": {
         "@expo-google-fonts/noto-naskh-arabic": "^0.2.3",

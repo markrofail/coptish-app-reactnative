@@ -5,8 +5,49 @@
  * and run json-schema-to-typescript to regenerate this file.
  */
 
-export type JsonSchema = Prayer | Reading | Synaxarium;
+export type Schema = Prayer | Reading | Synaxarium;
 export type Occasion = "annual" | "great-lent";
+export type Speaker = "" | "deacon" | "people" | "priest" | "reader";
+export type Saint =
+  | "any-martyr-all"
+  | "archangel-gabriel"
+  | "archangel-michael"
+  | "archangel-raphael"
+  | "archangel-suriel"
+  | "pope-kyrillos-vi"
+  | "st-abanoub"
+  | "st-abraam"
+  | "st-antony-the-great"
+  | "st-athanasius-the-apostolic"
+  | "st-bishoy"
+  | "st-demiana"
+  | "st-george"
+  | "st-john-the-baptist"
+  | "st-karas-the-anchorite"
+  | "st-marina-the-martyr"
+  | "st-mark"
+  | "st-mary"
+  | "st-mina"
+  | "st-moses-the-black"
+  | "st-paul-the-1st-hermit"
+  | "st-philopater-mercurius"
+  | "st-reweis-teji"
+  | "st-shenouda-the-archimandrite"
+  | "st-stephen"
+  | "st-thomas-the-hermit"
+  | "sts-maximos-and-dometius"
+  | "sts-sergios-and-bachus";
+export type ReadingType =
+  | "acts-of-the-apostles"
+  | "catholic-epistle"
+  | "liturgy-gospel"
+  | "liturgy-psalm"
+  | "matins-gospel"
+  | "matins-psalm"
+  | "pauline-epistle"
+  | "synaxarium"
+  | "vespers-gospel"
+  | "vespers-psalm";
 
 export interface Prayer {
   title?: MultiLingualText;
@@ -21,36 +62,27 @@ export interface MultiLingualText {
   coptic_arabic?: string;
 }
 export interface InfoSection {
-  occasion?: Occasion;
   type: "info";
   text: MultiLingualText;
+  occasion?: Occasion;
 }
 export interface VersesSection {
-  occasion?: Occasion;
   type: "verses";
-  speaker?: "people" | "priest" | "deacon" | "reader" | "";
+  speaker?: Speaker;
+  saint?: Saint;
   inaudible?: boolean;
   verses: MultiLingualText[];
+  occasion?: Occasion;
 }
 export interface ReadingSection {
-  occasion?: Occasion;
   type: "reading";
-  readingType:
-    | "matins-psalm"
-    | "matins-gospel"
-    | "vespers-psalm"
-    | "vespers-gospel"
-    | "pauline-epistle"
-    | "catholic-epistle"
-    | "acts-of-the-apostles"
-    | "synaxarium"
-    | "liturgy-psalm"
-    | "liturgy-gospel";
+  readingType: ReadingType;
+  occasion?: Occasion;
 }
 export interface CompoundPrayerSection {
-  occasion?: Occasion;
   type: "compound-prayer";
   path: string;
+  occasion?: Occasion;
 }
 export interface Reading {
   title: MultiLingualText;
@@ -63,42 +95,3 @@ export interface Synaxarium {
     text: MultiLingualText;
   }[];
 }
-
-export const SAINTS = [
-    // Apostles
-    'St. Mark',
-    // Intercessors",
-    'Archangel Gabriel',
-    'Archangel Michael',
-    'Archangel Raphael',
-    'Archangel Suriel',
-    'St. John the Baptist',
-    'St. Mary',
-    'The 24 Presbyters (Priests)',
-    'The 4 Incorporeal Creatures',
-    'The Heavenly',
-    // Martyrs",
-    'Any Martyr (All)',
-    'St. Abanoub',
-    'St. Demiana',
-    'St. George',
-    'St. Marina (The Martyr)',
-    'St. Mina',
-    'St. Philopater Mercurius',
-    'St. Stephen',
-    'Sts. Sergios & Bachus',
-    // Saints",
-    'Pope Kyrillos VI',
-    'St. Abraam',
-    'St. Antony the Great',
-    'St. Athanasius the Apostolic',
-    'St. Bishoy',
-    'St. Karas the Anchorite',
-    'St. Moses the Black',
-    'St. Paul The 1st Hermet',
-    'St. Reweis (Teji)',
-    'St. Shenouda the Archimandrite',
-    'St. Thomas the Hermit',
-    'Sts. Maximos & Dometius',
-] as const
-export type Saint = (typeof SAINTS)[number]
