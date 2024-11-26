@@ -15,6 +15,12 @@ module.exports = {
         ios: {
             supportsTablet: true,
             bundleIdentifier: 'com.coptish.coptish',
+            infoPlist: {
+                ITSAppUsesNonExemptEncryption: false,
+            },
+            entitlements: {
+                'aps-environment': 'development',
+            },
         },
         android: {
             adaptiveIcon: {
