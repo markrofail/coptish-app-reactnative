@@ -24,6 +24,7 @@ export const Text = ({ fill, center, language, variant, color, inverse, text }: 
         textAlign: center ? ('center' as const) : undefined,
         ...languageStyles[language ?? 'english'],
         ...variantStyles(zoomMultiplier)[variant],
+        flex: fill ? 1 : undefined,
     }
     if (!!color) styles.color = color
 
@@ -35,21 +36,15 @@ export const Text = ({ fill, center, language, variant, color, inverse, text }: 
     //     styles['fontSize'] = (styles['fontSize'] || 0) + 6
     // }
 
-    return (
-        !!text && (
-            <View style={{ flex: fill ? 1 : undefined }}>
-                <TextBase style={{ ...styles }}>{text}</TextBase>
-            </View>
-        )
-    )
+    return !!text && <TextBase style={{ ...styles }}>{text}</TextBase>
 }
 
 const languageStyles = StyleSheet.create({
     english: { fontFamily: 'NotoSerif_400Regular' },
     coptic: { fontFamily: 'AvvaShenouda' },
     coptic_english: { fontFamily: 'NotoSerif_400Regular' },
-    arabic: { fontFamily: 'NotoNaskhArabic_400Regular', writingDirection: 'rtl' },
-    coptic_arabic: { fontFamily: 'NotoNaskhArabic_400Regular', writingDirection: 'rtl' },
+    arabic: { fontFamily: 'NotoNaskhArabic_400Regular', alignSelf: 'flex-start', writingDirection: 'rtl', textAlign: 'right' },
+    coptic_arabic: { fontFamily: 'NotoNaskhArabic_400Regular', alignSelf: 'flex-start', writingDirection: 'rtl', textAlign: 'right' },
 })
 
 const variantStyles = (zoomMultiplier: number) =>

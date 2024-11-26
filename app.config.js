@@ -2,6 +2,7 @@ module.exports = {
     expo: {
         name: 'Coptish',
         slug: 'coptish-app-reactnative',
+        newArchEnabled: true,
         version: '1.0.0',
         orientation: 'default',
         icon: './assets/images/icon.png',
