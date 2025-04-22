@@ -121,7 +121,7 @@ export const initCoptishDatastore = async (callback?: (currentAsset: string) => 
     for (const chunk of assetChunks) {
         await Promise.all(
             chunk.map(async ({ path, module }) => {
-                if (__DEV__ && path.includes('readings/')) return // TODO: remove
+                if (path.includes('readings/')) return // TODO: remove
                 const targetPath = getAssetPath(path)
 
                 if (DEBUG) {

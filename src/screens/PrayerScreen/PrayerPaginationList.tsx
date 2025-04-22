@@ -1,16 +1,13 @@
 import React, { useRef, useState } from 'react'
-import { Pressable, ScrollView, StyleSheet, View } from 'react-native'
+import { Pressable, ScrollView, StyleSheet } from 'react-native'
 import { Prayer } from '../../components/Prayer'
 import { MultiLingualText } from '../../components/MultiLingualText'
 import { ListItem } from './PrayerScreen'
-import { useSafeAreaInsets } from 'react-native-safe-area-context'
-import { scale } from 'react-native-size-matters'
 import { DEBUG } from '@/src/config'
-import { SkeletonPrayer } from '@/src/components/SkeletonPrayer'
 
 interface PrayerPaginationListProps {
     listItems: ListItem[]
-    activeItem?: ListItem
+    activeItem: ListItem
     onActiveItemChange: (item: ListItem) => void
 }
 
@@ -51,45 +48,31 @@ export const PrayerPaginationList = ({ listItems, activeItem, onActiveItemChange
         }
     }
 
-    const insets = useSafeAreaInsets()
-    const padding = {
-        paddingTop: insets.top,
-        paddingBottom: insets.bottom,
-        paddingLeft: Math.max(insets.left, scale(8)),
-        paddingRight: Math.max(insets.right, scale(8)),
-    }
-
     return (
         <>
-            <View style={[styles.container, padding]}>
-                {listItems.length > 0 && activeItem ? (
-                    <ScrollView
-                        ref={ref}
-                        onContentSizeChange={(_, h) => {
-                            setContentSize(h)
-                            if (moveTo) {
-                                if (moveTo === 'perv') ref.current?.scrollToEnd({ animated: false })
-                                else ref.current?.scrollTo({ y: 0, animated: false })
-                                setMoveTo(undefined)
-                            }
-                        }}
-                        onLayout={(e) => setPageSize(e.nativeEvent.layout.height)}
-                        onScroll={(e) => setYOffset(e.nativeEvent.contentOffset.y)}
-                        onMomentumScrollEnd={(e) => setYOffset(e.nativeEvent.contentOffset.y)}
-                        maintainVisibleContentPosition={{ minIndexForVisible: 0 }}
-                        scrollEnabled={false}
-                        pagingEnabled={true}
-                    >
-                        {activeItem.type === 'title' ? (
-                            activeItem?.title?.english && <MultiLingualText variant="heading1" text={{ english: activeItem.title.english }} />
-                        ) : (
-                            <Prayer prayer={activeItem} />
-                        )}
-                    </ScrollView>
+            <ScrollView
+                ref={ref}
+                onContentSizeChange={(_, h) => {
+                    setContentSize(h)
+                    if (moveTo) {
+                        if (moveTo === 'perv') ref.current?.scrollToEnd({ animated: false })
+                        else ref.current?.scrollTo({ y: 0, animated: false })
+                        setMoveTo(undefined)
+                    }
+                }}
+                onLayout={(e) => setPageSize(e.nativeEvent.layout.height)}
+                onScroll={(e) => setYOffset(e.nativeEvent.contentOffset.y)}
+                onMomentumScrollEnd={(e) => setYOffset(e.nativeEvent.contentOffset.y)}
+                maintainVisibleContentPosition={{ minIndexForVisible: 0 }}
+                scrollEnabled={false}
+                pagingEnabled={true}
+            >
+                {activeItem.type === 'title' ? (
+                    activeItem?.title?.english && <MultiLingualText variant="heading1" text={{ english: activeItem.title.english }} />
                 ) : (
-                    <SkeletonPrayer />
+                    <Prayer prayer={activeItem} />
                 )}
-            </View>
+            </ScrollView>
 
             <Pressable style={styles.leftButton} onPress={onPrevPage} />
             <Pressable style={styles.rightButton} onPress={onNextPage} />
@@ -98,10 +81,6 @@ export const PrayerPaginationList = ({ listItems, activeItem, onActiveItemChange
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: 'black',
-    },
     rightButton: {
         position: 'absolute',
         top: 0,

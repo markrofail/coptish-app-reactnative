@@ -8,6 +8,11 @@ import { loadPrayer, PrayerGroup, PrayerWithId } from '../../utils/assets'
 import * as Types from '../../types'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { RootStackParamList } from '@/src/routes'
+import { StyleSheet, View } from 'react-native'
+import { scale } from 'react-native-size-matters'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import { SkeletonPrayer } from '@/src/components/SkeletonPrayer'
+import { PrayerScrollableList } from './PrayerScrollableList'
 
 const Drawer = createDrawerNavigator()
 
@@ -48,6 +53,14 @@ export const PrayerScreen = () => {
         }
     }
 
+    const insets = useSafeAreaInsets()
+    const padding = {
+        paddingTop: insets.top,
+        paddingBottom: insets.bottom,
+        paddingLeft: Math.max(insets.left, scale(8)),
+        paddingRight: Math.max(insets.right, scale(8)),
+    }
+
     return (
         <Drawer.Navigator
             screenOptions={{ headerShown: false }}
@@ -62,13 +75,26 @@ export const PrayerScreen = () => {
         >
             <Drawer.Screen name="Home">
                 {() => (
-                    <PrayerPaginationList
-                        listItems={listItems.filter(({ type }) => type == 'prayer')}
-                        activeItem={activeItem}
-                        onActiveItemChange={onActiveItemChange}
-                    />
+                    <View style={[styles.container, padding]}>
+                        {listItems.length > 0 && activeItem ? (
+                            <PrayerScrollableList
+                                listItems={listItems.filter(({ type }) => type == 'prayer')}
+                                activeItem={activeItem}
+                                onActiveItemChange={onActiveItemChange}
+                            />
+                        ) : (
+                            <SkeletonPrayer />
+                        )}
+                    </View>
                 )}
             </Drawer.Screen>
         </Drawer.Navigator>
     )
 }
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: 'black',
+    },
+})

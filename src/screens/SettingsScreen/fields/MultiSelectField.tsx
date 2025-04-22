@@ -9,10 +9,11 @@ interface MultiSelectFieldProps<T> {
     value: T[]
     onChange: (value: T[]) => void
     options: readonly { label: string; value: T }[]
+    disabled?: boolean
 }
 
 type MultiSelectFieldInputProps<T> = MultiSelectFieldProps<T>
-const MultiSelectFieldInput = forwardRef(<T,>({ value, options, onChange }: MultiSelectFieldInputProps<T>, ref: ForwardedRef<SelectFieldMethods>) => {
+const MultiSelectFieldInput = forwardRef(<T,>({ value, options, onChange, disabled }: MultiSelectFieldInputProps<T>, ref: ForwardedRef<SelectFieldMethods>) => {
     const [showDropdown, toggleShowDropdown] = useToggle(false)
 
     useImperativeHandle(ref, () => ({
@@ -30,7 +31,7 @@ const MultiSelectFieldInput = forwardRef(<T,>({ value, options, onChange }: Mult
             visible={showDropdown}
             onDismiss={toggleShowDropdown}
             anchor={
-                <TouchableOpacity onPress={toggleShowDropdown}>
+                <TouchableOpacity onPress={toggleShowDropdown} disabled>
                     <List.Icon icon="chevron-right" />
                 </TouchableOpacity>
             }

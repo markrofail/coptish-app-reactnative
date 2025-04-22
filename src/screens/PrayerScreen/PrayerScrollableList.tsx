@@ -1,73 +1,79 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react'
-import { Dimensions, ListRenderItemInfo, Pressable, ScrollView, View, ViewToken } from 'react-native'
-import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import React, { useRef, useState } from 'react'
+import { ScrollView, StyleSheet, Text, TouchableOpacity } from 'react-native'
 import { Prayer } from '../../components/Prayer'
-import { Stack } from '../../components/Stack'
-import * as Types from '../../types'
 import { MultiLingualText } from '../../components/MultiLingualText'
 import { ListItem } from './PrayerScreen'
-import { FlatList } from 'react-native-gesture-handler'
-import { ListRenderItem } from '@shopify/flash-list'
+import { DEBUG } from '@/src/config'
+import { BlurView } from 'expo-blur'
 
 interface PrayerScrollableListProps {
     listItems: ListItem[]
-    activeItem?: ListItem
+    activeItem: ListItem
     onActiveItemChange: (item: ListItem) => void
 }
 
 export const PrayerScrollableList = ({ listItems, activeItem, onActiveItemChange }: PrayerScrollableListProps) => {
-    const ref = useRef<FlatList>(null)
-    const [visibleItem, setVisibleItem] = useState<ListItem>()
+    const ref = useRef<ScrollView>(null)
+    const [moveTo, setMoveTo] = useState<'perv' | 'next'>()
+    const activeIndex = listItems.findIndex((item) => item === activeItem)
 
-    useEffect(() => {
-        if (!activeItem || activeItem === visibleItem) return
-        ref.current?.scrollToItem({ item: activeItem, animated: false })
-    }, [activeItem])
+    const onNextPage = () => {
+        const nextItem = listItems[activeIndex + 1]
+        if (!nextItem) return
 
-    const renderItem = useCallback(
-        ({ item }: ListRenderItemInfo<ListItem>) =>
-            item.type === 'title' ? (
-                item?.title?.english && <MultiLingualText variant="heading1" text={{ english: item.title.english }} />
-            ) : item.type === 'prayer' ? (
-                <Stack spaceBelow="m">
-                    <Prayer prayer={item as Types.Prayer} />
-                </Stack>
-            ) : null,
-        [],
-    )
+        setMoveTo('next')
+        onActiveItemChange(nextItem)
+    }
 
-    const onViewableItemsChanged = useCallback(
-        ({ viewableItems }: { viewableItems: ViewToken<ListItem>[]; changed: ViewToken<ListItem>[] }) => {
-            const firstVisibleItem = viewableItems?.[0]?.item
-            if (!firstVisibleItem) return
+    const onPrevPage = () => {
+        const prevItem = listItems[activeIndex - 1]
+        if (!prevItem) return
 
-            setVisibleItem(firstVisibleItem)
-            onActiveItemChange(firstVisibleItem)
-        },
-        [setVisibleItem, onActiveItemChange],
-    )
+        setMoveTo('perv')
+        onActiveItemChange(prevItem)
+    }
 
     return (
-        <View style={{ flex: 1, backgroundColor: 'black' }}>
-            {!!listItems && (
-                <FlatList //
-                    ref={ref}
-                    initialNumToRender={2}
-                    windowSize={3}
-                    data={listItems}
-                    renderItem={renderItem}
-                    extraData={activeItem?.type === 'prayer' && activeItem?.id}
-                    onViewableItemsChanged={onViewableItemsChanged}
-                    onScrollToIndexFailed={(error) => {
-                        ref?.current?.scrollToOffset({ offset: error.averageItemLength * error.index, animated: false })
-                        setTimeout(() => {
-                            if (listItems.length !== 0) {
-                                ref?.current?.scrollToIndex({ index: error.index, animated: false })
-                            }
-                        }, 100)
-                    }}
-                />
+        <ScrollView
+            ref={ref}
+            onContentSizeChange={() => {
+                if (moveTo) {
+                    if (moveTo === 'perv') ref.current?.scrollToEnd({ animated: false })
+                    else ref.current?.scrollTo({ y: 0, animated: false })
+                    setMoveTo(undefined)
+                }
+            }}
+        >
+            <TouchableOpacity onPress={onPrevPage}>
+                <BlurView intensity={100}>
+                    <Text style={styles.previousButton}>Back</Text>
+                </BlurView>
+            </TouchableOpacity>
+            {activeItem.type === 'title' ? (
+                activeItem?.title?.english && <MultiLingualText variant="heading1" text={{ english: activeItem.title.english }} />
+            ) : (
+                <Prayer prayer={activeItem} />
             )}
-        </View>
+            <BlurView intensity={100}>
+                <TouchableOpacity onPress={onNextPage}>
+                    <Text style={styles.nextButton}>Next</Text>
+                </TouchableOpacity>
+            </BlurView>
+        </ScrollView>
     )
 }
+
+const styles = StyleSheet.create({
+    previousButton: {
+        flex: 1,
+        backgroundColor: 'white',
+        textAlign: 'center',
+        fontSize: 64,
+    },
+    nextButton: {
+        flex: 1,
+        backgroundColor: 'white',
+        textAlign: 'center',
+        fontSize: 64,
+    },
+})

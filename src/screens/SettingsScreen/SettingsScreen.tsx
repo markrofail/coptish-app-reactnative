@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { Image, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native'
-import { Button, Divider, Icon, IconButton, List, MD3Colors, Switch, Text } from 'react-native-paper'
+import { Button, Divider, IconButton, List, Switch, Text } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { scale, verticalScale } from 'react-native-size-matters'
 import { Settings, useSettings } from '@/src/hooks/useSettings'
-import { SAINTS } from '@/src/types'
+import { Saint } from '@/src/types'
 import { SelectField, MultiSelectField, RangeField, DateField, SelectFieldMethods } from './fields'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { RootStackParamList } from '@/src/routes'
@@ -21,7 +21,37 @@ const COPTIC_TRANSLITERATION_LANGUAGE_OPTIONS = [
     { label: 'Arabic', value: 'coptic_arabic' },
 ] as const
 
-const SAINTS_OPTIONS = SAINTS.map((saint) => ({ label: saint, value: saint }))
+const SAINTS_LABELS: Record<Saint, string> = {
+    'any-martyr-all': 'Any Martyr All',
+    'archangel-gabriel': 'Archangel Gabriel',
+    'archangel-michael': 'Archangel Michael',
+    'archangel-raphael': 'Archangel Raphael',
+    'archangel-suriel': 'Archangel Suriel',
+    'pope-kyrillos-vi': 'Pope Kyrillos Vi',
+    'st-abanoub': 'St Abanoub',
+    'st-abraam': 'St Abraam',
+    'st-antony-the-great': 'St Antony The Great',
+    'st-athanasius-the-apostolic': 'St Athanasius The Apostolic',
+    'st-bishoy': 'St Bishoy',
+    'st-demiana': 'St Demiana',
+    'st-george': 'St George',
+    'st-john-the-baptist': 'St John The Baptist',
+    'st-karas-the-anchorite': 'St Karas The Anchorite',
+    'st-marina-the-martyr': 'St Marina The Martyr',
+    'st-mark': 'St Mark',
+    'st-mary': 'St Mary',
+    'st-mina': 'St Mina',
+    'st-moses-the-black': 'St Moses The Black',
+    'st-paul-the-1st-hermit': 'St Paul The 1st Hermit',
+    'st-philopater-mercurius': 'St Philopater Mercurius',
+    'st-reweis-teji': 'St Reweis Teji',
+    'st-shenouda-the-archimandrite': 'St Shenouda The Archimandrite',
+    'st-stephen': 'St Stephen',
+    'st-thomas-the-hermit': 'St Thomas The Hermit',
+    'sts-maximos-and-dometius': 'Sts Maximos And Dometius',
+    'sts-sergios-and-bachus': 'Sts Sergios And Bachus',
+}
+const SAINTS_OPTIONS = Object.entries(SAINTS_LABELS).map(([value, label]) => ({ label, value }))
 
 type NavigationProps = NativeStackNavigationProp<RootStackParamList, 'Settings'>
 
@@ -98,13 +128,13 @@ export const SettingsScreen = () => {
                     <List.Item
                         title="Language"
                         onPress={() => uiLanguageRef.current?.openMenu()}
-                        right={() => <SelectField.Input ref={uiLanguageRef} onChange={onSettingsChange('uiLanguage')} options={UI_LANGUAGE_OPTIONS} />}
+                        right={() => <SelectField.Input ref={uiLanguageRef} onChange={onSettingsChange('uiLanguage')} options={UI_LANGUAGE_OPTIONS} disabled />}
                         description={<SelectField.Preview value={uiLanguage} options={UI_LANGUAGE_OPTIONS} />}
                     />
                     <Divider />
                     <List.Item
                         title="Dark Mode" //
-                        right={() => <Switch value={darkMode} onValueChange={onSettingsChange('darkMode')} />}
+                        right={() => <Switch value={darkMode} onValueChange={onSettingsChange('darkMode')} disabled />}
                     />
                 </View>
             </List.Section>
@@ -132,6 +162,7 @@ export const SettingsScreen = () => {
                                 ref={copticTransliterationLanguageRef}
                                 onChange={onSettingsChange('copticTransliterationLanguage')}
                                 options={COPTIC_TRANSLITERATION_LANGUAGE_OPTIONS}
+                                disabled
                             />
                         )}
                         description={<SelectField.Preview value={copticTransliterationLanguage} options={COPTIC_TRANSLITERATION_LANGUAGE_OPTIONS} />}
@@ -146,6 +177,7 @@ export const SettingsScreen = () => {
                                 value={churchSaints}
                                 options={SAINTS_OPTIONS}
                                 onChange={onSettingsChange('churchSaints')}
+                                disabled
                             />
                         )}
                         description={<MultiSelectField.Preview value={churchSaints} options={SAINTS_OPTIONS} onChange={onSettingsChange('churchSaints')} />}

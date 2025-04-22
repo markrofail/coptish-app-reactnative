@@ -7,14 +7,15 @@ interface SelectFieldProps<T> {
     value: T
     onChange: (value: T) => void
     options: readonly { label: string; value: T }[]
+    disabled?: boolean
 }
 
 export interface SelectFieldMethods {
     openMenu: () => void
 }
 
-type SelectFieldInputProps<T> = Pick<SelectFieldProps<T>, 'onChange' | 'options'>
-const SelectFieldInput = forwardRef(<T,>({ options, onChange }: SelectFieldInputProps<T>, ref: ForwardedRef<SelectFieldMethods>) => {
+type SelectFieldInputProps<T> = Pick<SelectFieldProps<T>, 'onChange' | 'options' | 'disabled'>
+const SelectFieldInput = forwardRef(<T,>({ options, onChange, disabled }: SelectFieldInputProps<T>, ref: ForwardedRef<SelectFieldMethods>) => {
     const [showDropdown, toggleShowDropdown] = useToggle(false)
 
     useImperativeHandle(ref, () => ({
@@ -31,7 +32,7 @@ const SelectFieldInput = forwardRef(<T,>({ options, onChange }: SelectFieldInput
             visible={showDropdown}
             onDismiss={toggleShowDropdown}
             anchor={
-                <TouchableOpacity onPress={toggleShowDropdown}>
+                <TouchableOpacity onPress={toggleShowDropdown} disabled={disabled}>
                     <List.Icon icon="chevron-right" />
                 </TouchableOpacity>
             }
