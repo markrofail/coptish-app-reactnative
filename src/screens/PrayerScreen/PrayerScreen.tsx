@@ -1,7 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import { createDrawerNavigator } from '@react-navigation/drawer'
-import { PrayerPaginationList } from './PrayerPaginationList'
 import { PrayerDrawer } from '../PrayerDrawer'
 import { useMemoAsync } from '../../hooks/useMemoAsync'
 import { loadPrayer, PrayerGroup, PrayerWithId } from '../../utils/assets'
@@ -12,7 +11,8 @@ import { StyleSheet, View } from 'react-native'
 import { scale } from 'react-native-size-matters'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { SkeletonPrayer } from '@/src/components/SkeletonPrayer'
-import { PrayerScrollableList } from './PrayerScrollableList'
+import { PrayerScrollableList } from './PrayerList'
+import { DEBUG } from '@/src/config'
 
 const Drawer = createDrawerNavigator()
 
@@ -41,11 +41,16 @@ export const PrayerScreen = () => {
     const listItems = useMemo(() => (!!prayer ? prayerToListItems(prayer) : []), [prayer?.length])
     const [activeItem, setActiveItem] = useState<ListItem>()
     const outerNavigation = useNavigation<PrayerScreenProps['navigation']>()
+    const activeItemId = activeItem?.type == 'prayer' ? activeItem.id : ''
 
     useEffect(() => {
         const firstPrayer = listItems && listItems.find((item) => item?.type === 'prayer')
         if (firstPrayer) onActiveItemChange(firstPrayer)
     }, [listItems?.length])
+
+    useEffect(() => {
+        if (DEBUG) console.log({ activeItemId })
+    }, [activeItemId])
 
     const onActiveItemChange = (item: ListItem) => {
         if (item?.type === 'prayer') {

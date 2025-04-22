@@ -26,4 +26,4 @@ export const { LightTheme: NavigationLightTheme, DarkTheme: NavigationDarkTheme 
     materialLight: LightTheme,
 })
 
-export const DEBUG = false
+export const DEBUG = true
