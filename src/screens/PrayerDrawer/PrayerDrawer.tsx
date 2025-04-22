@@ -59,12 +59,10 @@ export const PrayerDrawer = ({ listItems, activeItem, onActiveItemChange, onSett
             {listItems.length > 0 ? (
                 <FlashList
                     ref={scrollRef}
-                    keyExtractor={(item, index) => `${index}-${item.title?.english.toLocaleLowerCase()}`}
                     data={listItems}
-                    estimatedItemSize={50}
-                    showsVerticalScrollIndicator={false}
                     renderItem={renderItem}
-                    extraData={activeItem}
+                    keyExtractor={(item, index) => `${index}-${item.title?.english.toLocaleLowerCase()}`}
+                    showsVerticalScrollIndicator={false}
                 />
             ) : (
                 <DrawerListSkeleton />

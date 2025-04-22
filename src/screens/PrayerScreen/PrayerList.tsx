@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { Prayer } from '../../components/Prayer'
 import { MultiLingualText } from '../../components/MultiLingualText'
 import { ListItem } from './PrayerScreen'
@@ -16,23 +16,26 @@ const renderItem = ({ item }: ListRenderItemInfo<ListItem>) => {
     return null
 }
 
-const _onViewableItemsChanged =
-    (activeItem: ListItem, onActiveItemChange: (item: ListItem) => void) =>
-    ({ viewableItems }: { viewableItems?: ViewToken[]; changed: ViewToken[] }) => {
-        const item = viewableItems?.at(0)?.item
-        if (!item) return
-
-        if (item.type === 'prayer' && item !== activeItem) onActiveItemChange(item)
-    }
-
 export const PrayerScrollableList = ({ listItems, activeItem, onActiveItemChange }: PrayerScrollableListProps) => {
     const ref = useRef<FlashList<ListItem>>(null)
+    const [visibleItem, setVisibleItem] = useState(activeItem)
 
     useEffect(() => {
-        ref.current?.scrollToItem({ item: activeItem, animated: false })
-    }, [activeItem])
+        if (visibleItem !== activeItem) ref.current?.scrollToItem({ item: activeItem, animated: false })
+    }, [visibleItem, activeItem, onActiveItemChange, ref])
 
-    const onViewableItemsChanged = useCallback(_onViewableItemsChanged(activeItem, onActiveItemChange), [activeItem, onActiveItemChange])
+    const onViewableItemsChanged = useCallback(
+        ({ viewableItems }: { viewableItems?: ViewToken[]; changed: ViewToken[] }) => {
+            const item = viewableItems?.at(0)?.item
+            if (!item) return
 
-    return <FlashList ref={ref} data={listItems} renderItem={renderItem} onViewableItemsChanged={onViewableItemsChanged} />
+            if (item.type === 'prayer' && item !== activeItem) {
+                setVisibleItem(item)
+                onActiveItemChange(item)
+            }
+        },
+        [activeItem, setVisibleItem, onActiveItemChange],
+    )
+
+    return <FlashList ref={ref} data={listItems} renderItem={renderItem} onViewableItemsChanged={onViewableItemsChanged} showsVerticalScrollIndicator={false} />
 }
