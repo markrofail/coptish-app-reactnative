@@ -29,6 +29,11 @@ module.exports = {
             },
             package: 'com.coptish.coptish',
         },
+        doctor: {
+            reactNativeDirectoryCheck: {
+                listUnknownPackages: false,
+            },
+        },
         plugins: [
             'expo-asset',
             ['expo-screen-orientation', { initialOrientation: 'DEFAULT' }],
