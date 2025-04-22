@@ -4,7 +4,6 @@ import React, { useEffect, useState } from 'react'
 import { PaperProvider, Snackbar } from 'react-native-paper'
 import { NavigationContainer, DefaultTheme } from '@react-navigation/native'
 import { StatusBar } from 'expo-status-bar'
-import { en, registerTranslation } from 'react-native-paper-dates'
 import { useFonts } from 'expo-font'
 import { NotoSerif_400Regular, NotoSerif_700Bold } from '@expo-google-fonts/noto-serif'
 import { NotoNaskhArabic_400Regular, NotoNaskhArabic_700Bold } from '@expo-google-fonts/noto-naskh-arabic'
@@ -16,8 +15,6 @@ import { ThemeContext } from './src/context/themeContext'
 import { DarkTheme, LightTheme, NavigationDarkTheme, NavigationLightTheme } from './src/config'
 import * as SplashScreen from 'expo-splash-screen'
 import { SettingsProvider } from './src/hooks/useSettings'
-
-registerTranslation('en', en)
 
 Sentry.init({
     dsn: 'https://7d1ae3fa0da23305fc1a19051c48d0f3@o4507701629485056.ingest.de.sentry.io/4507701634793552',
