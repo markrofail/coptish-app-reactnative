@@ -11,7 +11,6 @@ import { clearAssets, initAssets, treeAssets } from './src/utils/assets'
 import * as Sentry from '@sentry/react-native'
 import Constants from 'expo-constants'
 import { Routes } from './src/routes'
-import { ThemeContext } from './src/context/themeContext'
 import { DarkTheme, LightTheme, NavigationDarkTheme, NavigationLightTheme } from './src/config'
 import * as SplashScreen from 'expo-splash-screen'
 import { SettingsProvider } from './src/hooks/useSettings'
@@ -33,8 +32,6 @@ function App() {
 
     const [assetsLoaded, setAssetsLoaded] = useState(false)
     const [currentAsset, setCurrentAsset] = useState('')
-    const [theme, setTheme] = useState(LightTheme)
-    const toggleTheme = () => setTheme((prev) => (prev === LightTheme ? DarkTheme : LightTheme))
 
     useEffect(() => {
         const init = async () => {
@@ -54,19 +51,17 @@ function App() {
     }, [assetsLoaded, fontsLoaded])
 
     return (
-        <ThemeContext.Provider value={{ theme, toggleTheme }}>
-            <PaperProvider theme={theme}>
-                <SettingsProvider>
-                    <NavigationContainer theme={theme === LightTheme ? NavigationLightTheme : NavigationDarkTheme}>
-                        <Routes />
-                        <StatusBar hidden />
-                        <Snackbar visible={!!currentAsset} onDismiss={() => setCurrentAsset('')}>
-                            {currentAsset}
-                        </Snackbar>
-                    </NavigationContainer>
-                </SettingsProvider>
-            </PaperProvider>
-        </ThemeContext.Provider>
+        <PaperProvider theme={LightTheme}>
+            <SettingsProvider>
+                <NavigationContainer theme={NavigationLightTheme}>
+                    <Routes />
+                    <StatusBar hidden />
+                    <Snackbar visible={!!currentAsset} onDismiss={() => setCurrentAsset('')}>
+                        {currentAsset}
+                    </Snackbar>
+                </NavigationContainer>
+            </SettingsProvider>
+        </PaperProvider>
     )
 }
 

@@ -1,9 +1,9 @@
-import { useThemeContext } from '@/src/context/themeContext'
 import * as Types from '../../types'
 import { getCopticDate, getGeorgianDate } from '@/src/utils/date'
 import { StyleSheet, TouchableOpacity } from 'react-native'
 import { Icon, Surface, Text } from 'react-native-paper'
 import { scale } from 'react-native-size-matters'
+import { useTheme } from '@/src/hooks/useSettings'
 
 interface CalendarWidgetProps {
     date: Date
@@ -12,7 +12,7 @@ interface CalendarWidgetProps {
 }
 
 export const CalendarWidget = ({ date, occasion, onPress }: CalendarWidgetProps) => {
-    const { theme } = useThemeContext()
+    const theme = useTheme()
     const copticDate = getCopticDate(date, 'dd-mm')
     const georgianDate = getGeorgianDate(date, 'dd-mm')
     const capitalizedOccasion = occasion && occasion.charAt(0).toUpperCase() + occasion.slice(1)

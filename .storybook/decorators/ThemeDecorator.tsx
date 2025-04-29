@@ -1,20 +1,16 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { PaperProvider } from 'react-native-paper'
 import { NavigationContainer } from '@react-navigation/native'
-import { ThemeContext } from '@/src/context/themeContext'
-import { LightTheme } from '@/src/config'
+import { LightTheme, NavigationLightTheme } from '@/src/config'
 
 export const ThemeDecorator = (story: any) => {
-    const [theme, setTheme] = useState(LightTheme)
     const Story = () => story()
 
     return (
-        <ThemeContext.Provider value={{ theme, setTheme }}>
-            <PaperProvider theme={theme}>
-                <NavigationContainer theme={theme}>
-                    <Story />
-                </NavigationContainer>
-            </PaperProvider>
-        </ThemeContext.Provider>
+        <PaperProvider theme={LightTheme}>
+            <NavigationContainer theme={NavigationLightTheme}>
+                <Story />
+            </NavigationContainer>
+        </PaperProvider>
     )
 }

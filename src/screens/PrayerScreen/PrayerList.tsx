@@ -27,12 +27,10 @@ export const PrayerScrollableList = ({ listItems, activeItem, onActiveItemChange
     const onViewableItemsChanged = useCallback(
         ({ viewableItems }: { viewableItems?: ViewToken[]; changed: ViewToken[] }) => {
             const item = viewableItems?.at(0)?.item
-            if (!item) return
+            if (!item || item.type !== 'prayer' || item === activeItem) return
 
-            if (item.type === 'prayer' && item !== activeItem) {
-                setVisibleItem(item)
-                onActiveItemChange(item)
-            }
+            setVisibleItem(item)
+            onActiveItemChange(item)
         },
         [activeItem, setVisibleItem, onActiveItemChange],
     )

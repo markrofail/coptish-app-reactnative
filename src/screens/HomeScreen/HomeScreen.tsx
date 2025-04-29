@@ -6,10 +6,9 @@ import { RootStackParamList } from '@/src/routes'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { scale, verticalScale } from 'react-native-size-matters'
 import { TableOfContentsCard } from './TableOfContentsCard'
-import { useThemeContext } from '@/src/context/themeContext'
 import { CalendarWidget } from './CalendarWidget'
 import { Toolbar } from './Toolbar'
-import { useCurrentDate } from '@/src/hooks/useSettings'
+import { useCurrentDate, useTheme } from '@/src/hooks/useSettings'
 
 const TABLE_OF_CONTENTS = [
     {
@@ -33,7 +32,7 @@ const TABLE_OF_CONTENTS = [
 type NavigationProps = NativeStackNavigationProp<RootStackParamList, 'Prayer'>
 
 export const HomeScreen = () => {
-    const { theme } = useThemeContext()
+    const theme = useTheme()
     const date = useCurrentDate()
     const navigation = useNavigation<NavigationProps>()
 

@@ -1,6 +1,7 @@
 import { createContext, useEffect, useState, ReactNode, useContext } from 'react'
 import * as Types from '../types'
 import { loadSettings, saveSettings } from '../utils/settings'
+import { DarkTheme, LightTheme } from '../config'
 
 export type UIlanguage = keyof Types.MultiLingualText
 export type TransliterationLanguage = keyof Types.MultiLingualText | 'off'
@@ -49,11 +50,16 @@ export const useSettings = () => {
 }
 
 export const useZoomMultiplier = () => {
-    const [settings] = useSettings()
-    return settings.fontSize / 10
+    const [{ fontSize }] = useSettings()
+    return fontSize / 10
 }
 
 export const useCurrentDate = () => {
-    const [settings] = useSettings()
-    return settings.currentDate || new Date()
+    const [{ currentDate }] = useSettings()
+    return currentDate || new Date()
+}
+
+export const useTheme = () => {
+    const [{ darkMode }] = useSettings()
+    return darkMode ? DarkTheme : LightTheme
 }

@@ -2,7 +2,7 @@ import React from 'react'
 import { Image, ImageSourcePropType, StyleSheet, TouchableOpacity, View } from 'react-native'
 import { Text } from 'react-native-paper'
 import { scale, verticalScale } from 'react-native-size-matters'
-import { useThemeContext } from '@/src/context/themeContext'
+import { useTheme } from '@/src/hooks/useSettings'
 
 interface TableOfContentsCardProps {
     title: string
@@ -11,7 +11,7 @@ interface TableOfContentsCardProps {
 }
 
 export const TableOfContentsCard = ({ title, icon, onPress }: TableOfContentsCardProps) => {
-    const { theme } = useThemeContext()
+    const theme = useTheme()
 
     return (
         <TouchableOpacity style={styles.container} onPress={onPress}>
