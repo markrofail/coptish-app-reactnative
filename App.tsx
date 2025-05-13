@@ -14,6 +14,8 @@ import { Routes } from './src/routes'
 import { DarkTheme, LightTheme, NavigationDarkTheme, NavigationLightTheme } from './src/config'
 import * as SplashScreen from 'expo-splash-screen'
 import { SettingsProvider } from './src/hooks/useSettings'
+import { BottomSheetModalProvider } from '@gorhom/bottom-sheet'
+import { GestureHandlerRootView } from 'react-native-gesture-handler'
 
 Sentry.init({
     dsn: 'https://7d1ae3fa0da23305fc1a19051c48d0f3@o4507701629485056.ingest.de.sentry.io/4507701634793552',
@@ -51,17 +53,21 @@ function App() {
     }, [assetsLoaded, fontsLoaded])
 
     return (
-        <PaperProvider theme={LightTheme}>
-            <SettingsProvider>
-                <NavigationContainer theme={NavigationLightTheme}>
-                    <Routes />
-                    <StatusBar hidden />
-                    <Snackbar visible={!!currentAsset} onDismiss={() => setCurrentAsset('')}>
-                        {currentAsset}
-                    </Snackbar>
-                </NavigationContainer>
-            </SettingsProvider>
-        </PaperProvider>
+        <GestureHandlerRootView style={{ flex: 1 }}>
+            <PaperProvider theme={LightTheme}>
+                <BottomSheetModalProvider>
+                    <SettingsProvider>
+                        <NavigationContainer theme={NavigationLightTheme}>
+                            <Routes />
+                            <StatusBar hidden />
+                            <Snackbar visible={!!currentAsset} onDismiss={() => setCurrentAsset('')}>
+                                {currentAsset}
+                            </Snackbar>
+                        </NavigationContainer>
+                    </SettingsProvider>
+                </BottomSheetModalProvider>
+            </PaperProvider>
+        </GestureHandlerRootView>
     )
 }
 

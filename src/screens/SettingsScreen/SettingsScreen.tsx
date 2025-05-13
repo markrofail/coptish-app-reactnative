@@ -128,7 +128,9 @@ export const SettingsScreen = () => {
                     <List.Item
                         title="Language"
                         onPress={() => uiLanguageRef.current?.openMenu()}
-                        right={() => <SelectField.Input ref={uiLanguageRef} onChange={onSettingsChange('uiLanguage')} options={UI_LANGUAGE_OPTIONS} disabled />}
+                        right={() => (
+                            <SelectField.Input value={uiLanguage} ref={uiLanguageRef} onChange={onSettingsChange('uiLanguage')} options={UI_LANGUAGE_OPTIONS} />
+                        )}
                         description={<SelectField.Preview value={uiLanguage} options={UI_LANGUAGE_OPTIONS} />}
                     />
                     <Divider />

@@ -18,6 +18,7 @@
         "@expo-google-fonts/noto-naskh-arabic": "^0.2.3",
         "@expo-google-fonts/noto-serif": "^0.2.3",
         "@expo/metro-config": "~0.19.0",
+        "@gorhom/bottom-sheet": "^5.1.2",
         "@react-native-async-storage/async-storage": "1.23.1",
         "@react-native-community/datetimepicker": "8.2.0",
         "@react-native-community/slider": "4.5.5",
