@@ -87,7 +87,6 @@ export const SettingsScreen = () => {
 
     useEffect(() => {
         navigation.setOptions({
-            headerLeft: () => <IconButton icon="arrow-left" size={20} onPress={onDismiss} />,
             headerRight: () => (
                 <Button onPress={onSave}>
                     <Text>Apply</Text>
@@ -136,7 +135,7 @@ export const SettingsScreen = () => {
                     <Divider />
                     <List.Item
                         title="Dark Mode" //
-                        right={() => <Switch value={darkMode} onValueChange={onSettingsChange('darkMode')} disabled />}
+                        right={() => <Switch value={darkMode} onValueChange={onSettingsChange('darkMode')} />}
                     />
                 </View>
             </List.Section>

@@ -39,6 +39,8 @@ export const SettingsProvider = ({ children }: { children: ReactNode }) => {
     return <SettingsContext.Provider value={{ settings, updateSettings }}>{children}</SettingsContext.Provider>
 }
 
+export const SettingsConsumer = SettingsContext.Consumer
+
 export const useSettings = () => {
     const context = useContext(SettingsContext)
     if (!context) {

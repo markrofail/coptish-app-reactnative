@@ -13,7 +13,7 @@ import Constants from 'expo-constants'
 import { Routes } from './src/routes'
 import { DarkTheme, LightTheme, NavigationDarkTheme, NavigationLightTheme } from './src/config'
 import * as SplashScreen from 'expo-splash-screen'
-import { SettingsProvider } from './src/hooks/useSettings'
+import { SettingsConsumer, SettingsProvider } from './src/hooks/useSettings'
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 
@@ -54,19 +54,23 @@ function App() {
 
     return (
         <GestureHandlerRootView style={{ flex: 1 }}>
-            <PaperProvider theme={LightTheme}>
-                <BottomSheetModalProvider>
-                    <SettingsProvider>
-                        <NavigationContainer theme={NavigationLightTheme}>
-                            <Routes />
-                            <StatusBar hidden />
-                            <Snackbar visible={!!currentAsset} onDismiss={() => setCurrentAsset('')}>
-                                {currentAsset}
-                            </Snackbar>
-                        </NavigationContainer>
-                    </SettingsProvider>
-                </BottomSheetModalProvider>
-            </PaperProvider>
+            <SettingsProvider>
+                <SettingsConsumer>
+                    {({ settings: { darkMode } }) => (
+                        <PaperProvider theme={darkMode ? DarkTheme : LightTheme}>
+                            <BottomSheetModalProvider>
+                                <NavigationContainer theme={darkMode ? NavigationDarkTheme : NavigationLightTheme}>
+                                    <Routes />
+                                    <StatusBar hidden />
+                                    <Snackbar visible={!!currentAsset} onDismiss={() => setCurrentAsset('')}>
+                                        {currentAsset}
+                                    </Snackbar>
+                                </NavigationContainer>
+                            </BottomSheetModalProvider>
+                        </PaperProvider>
+                    )}
+                </SettingsConsumer>
+            </SettingsProvider>
         </GestureHandlerRootView>
     )
 }

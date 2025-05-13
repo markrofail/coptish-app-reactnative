@@ -49,7 +49,7 @@ export const HomeScreen = () => {
     return (
         <View style={{ ...styles.container, ...padding, backgroundColor: theme.colors.background }}>
             <View style={styles.logoContainer}>
-                <Image source={require('@/assets/images/icon-black.png')} style={styles.logo} />
+                <Image source={theme.dark ? require('@/assets/images/icon-white.png') : require('@/assets/images/icon-black.png')} style={styles.logo} />
             </View>
 
             <View style={styles.calendarContainer}>
